@@ -4,14 +4,14 @@
 #include <random>
 namespace ofxPlanet {
 /**
- * Randomは標準APIのラッパーです。
+ * Random is wrapper of standard random library.
  */
 class Random {
        public:
         explicit Random();
 
         /**
-         * 指定の範囲の乱数を生成します。
+         * generate random number in range.
          * @param min
          * @param max
          * @retunr
