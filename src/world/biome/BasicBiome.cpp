@@ -14,7 +14,7 @@ BasicBiome::BasicBiome()
     : random(),
       heightMap(),
       topBlock("GrassDirt"),
-      fillBlock("Stone"),
+      fillBlock("Dirt"),
       fillHardBlock("HardStone"),
       waterBlock("Water") {}
 
