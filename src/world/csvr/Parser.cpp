@@ -5,6 +5,7 @@
 #include <sstream>
 #include <stdexcept>
 
+namespace ofxPlanet {
 namespace csvr {
 Parser::Parser() : tables() {}
 void Parser::parse(const std::string& source) {
@@ -70,3 +71,4 @@ bool Parser::isNullOrEmpty(const std::string& str) {
         return true;
 }
 }  // namespace csvr
+} // namespace ofxPlanet
