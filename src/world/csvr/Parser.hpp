@@ -3,7 +3,7 @@
 #define CSVR_CSVR_HPP
 #include <string>
 #include <vector>
-
+namespace ofxPlanet {
 namespace csvr {
 constexpr char separator = ',';
 constexpr char newline = '\n';
@@ -44,4 +44,5 @@ class Parser {
         std::vector<Table> tables;
 };
 }  // namespace csvr
+} // namespace ofxPlanet
 #endif
