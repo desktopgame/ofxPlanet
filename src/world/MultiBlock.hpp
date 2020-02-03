@@ -1,11 +1,11 @@
 #pragma once
 #ifndef GAME_WORLD_MULTIBLOCK_HPP
 #define GAME_WORLD_MULTIBLOCK_HPP
+#include <glm/glm.hpp>
 #include <string>
 #include <tuple>
 #include <unordered_map>
 #include <vector>
-#include <glm/glm.hpp>
 
 namespace ofxPlanet {
 

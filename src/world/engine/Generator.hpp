@@ -5,8 +5,8 @@
 #include <glm/gtc/quaternion.hpp>
 #include <vector>
 
-#include "PerlinNoise/PerlinNoise.hpp"
 #include "../World.hpp"
+#include "PerlinNoise/PerlinNoise.hpp"
 #include "Terrain.hpp"
 namespace ofxPlanet {
 class Generator {

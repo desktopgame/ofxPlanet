@@ -2,8 +2,8 @@
 #ifndef WORLD_PLANET_HPP
 #define WORLD_PLANET_HPP
 #include <ofShader.h>
-#include <glm/glm.hpp>
 
+#include <glm/glm.hpp>
 #include <memory>
 
 #include "BlockTable.hpp"

@@ -3,8 +3,8 @@
 #include <ofAppRunner.h>
 #include <ofEasyCam.h>
 #include <ofFbo.h>
-#include <ofLight.h>
 #include <ofGraphics.h>
+#include <ofLight.h>
 
 #include <algorithm>
 #include <string>

@@ -1,6 +1,7 @@
 #include "CubeBatch.hpp"
 
 #include <glm/glm.hpp>
+
 #include "Block.hpp"
 namespace ofxPlanet {
 

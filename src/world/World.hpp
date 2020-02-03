@@ -2,9 +2,9 @@
 #ifndef WORLD_WORLD_HPP
 #define WORLD_WORLD_HPP
 #include <ofFbo.h>
-#include <glm/glm.hpp>
 
 #include <array>
+#include <glm/glm.hpp>
 #include <memory>
 
 #include "BlockRenderer.hpp"

@@ -5,8 +5,8 @@
 
 namespace ofxPlanet {
 struct Vec2HashFunc {
-	size_t operator()(const glm::ivec2& k) const;
-	bool operator()(const glm::ivec2& a, const glm::ivec2& b) const;
+        size_t operator()(const glm::ivec2& k) const;
+        bool operator()(const glm::ivec2& a, const glm::ivec2& b) const;
 };
-}
+}  // namespace ofxPlanet
 #endif

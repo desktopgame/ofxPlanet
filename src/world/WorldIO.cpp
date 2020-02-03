@@ -7,12 +7,12 @@
 #include <sstream>
 #include <thread>
 
-#include "picojson/picojson.h"
 #include "Block.hpp"
 #include "BlockPack.hpp"
 #include "Planet.hpp"
 #include "TexturePack.hpp"
 #include "World.hpp"
+#include "picojson/picojson.h"
 
 namespace ofxPlanet {
 // Progress
@@ -223,10 +223,10 @@ void WorldIO::saveObjAsync(std::shared_ptr<Progress> progress,
             .globalTexcoord(glm::vec2(1, 1))
             .globalTexcoord(glm::vec2(0, 1))
 
-			.globalTexcoord(glm::vec2(0, 1))
-			.globalTexcoord(glm::vec2(0, 0))
-			.globalTexcoord(glm::vec2(1, 1))
-			.globalTexcoord(glm::vec2(1, 0))
+            .globalTexcoord(glm::vec2(0, 1))
+            .globalTexcoord(glm::vec2(0, 0))
+            .globalTexcoord(glm::vec2(1, 1))
+            .globalTexcoord(glm::vec2(1, 0))
 
             .globalNormal(glm::vec3(0, 1, 0))
             .globalNormal(glm::vec3(0, 1, 0))

@@ -1,12 +1,12 @@
 #pragma once
 #ifndef WORLD_BIOME_BASICBIOME_HPP
 #define WORLD_BIOME_BASICBIOME_HPP
-#include <unordered_map>
 #include <glm/glm.hpp>
+#include <unordered_map>
 
 #include "../BlockTable.hpp"
-#include "../MultiBlock.hpp"
 #include "../IntVec2Hash.hpp"
+#include "../MultiBlock.hpp"
 #include "Biome.hpp"
 #include "Random.hpp"
 namespace ofxPlanet {
@@ -43,7 +43,7 @@ class BasicBiome : public Biome {
         virtual BlockPrefab createWaterBlock(BlockTable& blockTable, int x,
                                              int y, int z) const;
         Random random;
-        std::unordered_map<glm::ivec2, int, Vec2HashFunc,Vec2HashFunc>
+        std::unordered_map<glm::ivec2, int, Vec2HashFunc, Vec2HashFunc>
             heightMap;
         char topBlock[255];
         char fillBlock[255];
