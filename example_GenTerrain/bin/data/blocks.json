@@ -1,0 +1,98 @@
+{
+  "blocks": [
+    {
+      "reference": "LDoorTop",
+      "texture": "LDoorTopBlock"
+    },
+    {
+      "reference": "LDoorBottom",
+      "texture": "LDoorBottomBlock"
+    },
+    {
+      "reference": "RDoorTop",
+      "texture": "RDoorTopBlock"
+    },
+    {
+      "reference": "RDoorBottom",
+      "texture": "RDoorBottomBlock"
+    },
+    {
+      "reference": "Debug",
+      "texture": "DebugBlock"
+    },
+    {
+      "reference": "Dirt",
+      "texture": "DirtBlock"
+    },
+    {
+      "reference": "Water",
+      "texture": "WaterBlock"
+    },
+    {
+      "reference": "Glass",
+      "texture": "GlassBlock"
+    },
+    {
+      "reference": "Wood",
+      "texture": "WoodBlock"
+    },
+    {
+      "reference": "StoneTopSlab",
+      "texture": "StoneBlock",
+      "shape": "TopSlab"
+    },
+    {
+      "reference": "StoneBottomSlab",
+      "texture": "StoneBlock",
+      "shape": "BottomSlab"
+    },
+    {
+      "reference": "StoneLeftSlab",
+      "texture": "StoneBlock",
+      "shape": "LeftSlab"
+    },
+    {
+      "reference": "StoneRightSlab",
+      "texture": "StoneBlock",
+      "shape": "RightSlab"
+    },
+    {
+      "reference": "StoneFrontSlab",
+      "texture": "StoneBlock",
+      "shape": "FrontSlab"
+    },
+    {
+      "reference": "StoneBackSlab",
+      "texture": "StoneBlock",
+      "shape": "BackSlab"
+    },
+    {
+      "reference": "SmoothWood",
+      "texture": "SmoothWoodBlock"
+    },
+    {
+      "reference": "Leaf",
+      "texture": "LeafBlock"
+    },
+    {
+      "reference": "MoonStone",
+      "texture": "MoonStoneBlock"
+    },
+    {
+      "reference": "GrassDirt",
+      "texture": "GrassDirtBlock"
+    },
+    {
+      "reference": "Sand",
+      "texture": "SandBlock"
+    },
+    {
+      "reference": "Stone",
+      "texture": "StoneBlock"
+    },
+    {
+      "reference": "HardStone",
+      "texture": "HardStoneBlock"
+    }
+  ]
+}
