@@ -14,7 +14,7 @@ BasicBiome::BasicBiome()
     : random(),
       heightMap(),
       topBlock("GrassDirt"),
-      fillBlock("Stone"),
+      fillBlock("Dirt"),
       fillHardBlock("HardStone"),
       waterBlock("Water"),
       multiBlockMap(),
@@ -107,11 +107,6 @@ void BasicBiome::onGenerateCave(BlockTable& blockTable, int x, int y, int z,
                 blockTable.set(x, y, z, pref);
         }
 }
-
-void BasicBiome::generateStructure(BlockTable& blockTable, MultiBlock mb,
-                                   glm::ivec3 intervalMin,
-                                   glm::ivec3 intervalMax, int testCount,
-                                   int genLimit) {}
 
 void BasicBiome::registerStruct(const std::string& name, const MultiBlock& mb) {
         this->multiBlockMap->insert_or_assign(name, mb);

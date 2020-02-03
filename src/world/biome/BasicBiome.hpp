@@ -49,10 +49,6 @@ class BasicBiome : public Biome {
         virtual void onGenerateStructures(BlockTable& blockTable);
         virtual void onGenerateCave(BlockTable& blockTable, int x, int y, int z,
                                     float noise);
-        virtual void generateStructure(BlockTable& blockTable, MultiBlock mb,
-                                       glm::ivec3 intervalMin,
-                                       glm::ivec3 intervalMax, int testCount,
-                                       int genLimit);
 
        private:
         BlockPrefab createTopBlock(BlockTable& blockTable, int x, int y,
