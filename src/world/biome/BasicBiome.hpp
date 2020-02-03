@@ -7,9 +7,9 @@
 
 #include "../BlockTable.hpp"
 #include "../MultiBlock.hpp"
-#include "../common/Random.hpp"
 #include "../IntVec2Hash.hpp"
 #include "Biome.hpp"
+#include "Random.hpp"
 namespace ofxPlanet {
 
 class Block;

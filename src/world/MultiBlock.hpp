@@ -5,8 +5,8 @@
 #include <tuple>
 #include <unordered_map>
 #include <vector>
+#include <glm/glm.hpp>
 
-#include "../common/GLM.hpp"
 namespace ofxPlanet {
 
 struct MultiBlockCell {
