@@ -244,6 +244,12 @@ class World : public std::enable_shared_from_this<World> {
          */
         std::vector<WorldPart> split(int splitNum) const;
 
+		/**
+		 * returns shader.
+		 * @return
+		 */
+		ofShader& getShader();
+
        private:
         void checkFBO();
         explicit World(ofShader& shader, const glm::ivec3& size);

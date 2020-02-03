@@ -243,6 +243,10 @@ std::vector<WorldPart> World::split(int splitNum) const {
         return ret;
 }
 
+ofShader & World::getShader() {
+	return shader;
+}
+
 void World::checkFBO() {
         int newW = ofGetWidth();
         int newH = ofGetHeight();
