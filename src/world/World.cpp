@@ -79,25 +79,20 @@ void World::update() {
 void World::drawToBuffer() {
         rehash();
         checkFBO();
-        // screenBuffer.bind();
         fbo.begin();
-        glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ZERO,
-                            GL_ONE);
+        glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ZERO, GL_ONE);
         glEnable(GL_DEPTH_TEST);
-        // ofClear(0);
         fbo.clear();
         ofEnableAlphaBlending();
         ofSetBackgroundColor(0, 0, 0, 0);
         renderer.render();
         fbo.end();
-        // screenBuffer.unbind();
 }
 
 void World::render() {
         glDisable(GL_DEPTH_TEST);
         glDisable(GL_CULL_FACE);
         fbo.draw(0, 0, ofGetWidth(), ofGetHeight());
-        // screenBuffer.render();
 }
 
 void World::invalidate() { this->isInvalid = true; }
