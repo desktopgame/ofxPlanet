@@ -2,6 +2,7 @@
 #ifndef WORLD_GRAPHICSBATCH_HPP
 #define WORLD_GRAPHICSBATCH_HPP
 #include <ofShader.h>
+#include <glm/glm.hpp>
 
 namespace ofxPlanet {
 class World;

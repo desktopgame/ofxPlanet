@@ -4,7 +4,6 @@
 #include <ofEasyCam.h>
 #include <ofFbo.h>
 #include <ofLight.h>
-#include <ofVec3f.h>
 #include <ofGraphics.h>
 
 #include <algorithm>

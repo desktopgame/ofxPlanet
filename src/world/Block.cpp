@@ -1,6 +1,6 @@
 #include "Block.hpp"
 
-#include "../common/GLM.hpp"
+#include <glm/glm.hpp>
 #include "BlockRenderer.hpp"
 #include "Texture.hpp"
 #include "TexturePack.hpp"

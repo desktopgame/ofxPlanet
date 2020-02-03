@@ -1,6 +1,5 @@
 #include "Plane.hpp"
 
-#include "Camera.hpp"
 namespace ofxPlanet {
 
 Plane::Plane(ofShader& shader, PlaneType type, const glm::vec3 size)

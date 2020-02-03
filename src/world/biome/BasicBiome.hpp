@@ -1,9 +1,8 @@
 #pragma once
 #ifndef WORLD_BIOME_BASICBIOME_HPP
 #define WORLD_BIOME_BASICBIOME_HPP
-#include <ofVec3f.h>
-
 #include <unordered_map>
+#include <glm/glm.hpp>
 
 #include "../BlockTable.hpp"
 #include "../MultiBlock.hpp"

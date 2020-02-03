@@ -4,6 +4,6 @@
 #include "world/Planet.hpp"
 #include "world/World.hpp"
 #include "world/WorldIO.hpp"
-#include "world/Biome.hpp"
-#include "world/BasicBiome.hpp"
+#include "world/biome/Biome.hpp"
+#include "world/biome/BasicBiome.hpp"
 #endif

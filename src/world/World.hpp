@@ -1,9 +1,8 @@
 #pragma once
 #ifndef WORLD_WORLD_HPP
 #define WORLD_WORLD_HPP
-#include <ofCamera.h>
 #include <ofFbo.h>
-#include <ofVec3f.h>
+#include <glm/glm.hpp>
 
 #include <array>
 #include <memory>
