@@ -3,6 +3,8 @@ ofxPlanet
 
 ofxPlanet is terrain generator.
 
+![スクリーンショット](ss.png)
+
 Introduction
 ------------
 ofxPlanet is terrain generator.  
