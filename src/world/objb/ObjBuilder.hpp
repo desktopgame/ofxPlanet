@@ -6,18 +6,18 @@
 #include <string>
 #include <vector>
 
-namespace planet {
+namespace ofxPlanet {
 namespace objb {
 /**
- * IndexMode ‚ÍA‚ ‚éƒCƒ“ƒfƒbƒNƒX‚ªŒ»İ‚Ìƒ‚ƒfƒ‹‚©‚ç‚ÌˆÊ’u‚Å‚ ‚é‚©A
- * ‘S‚Ä‚Ì’¸“_‚©‚ç‚ÌˆÊ’u‚Å‚ ‚é‚©‚ğw’è‚·‚é—ñ‹“Œ^‚Å‚·B
+ * IndexMode ï¿½ÍAï¿½ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½İ‚Ìƒï¿½ï¿½fï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÊ’uï¿½Å‚ï¿½ï¿½é‚©ï¿½A
+ * ï¿½Sï¿½Ä‚Ì’ï¿½ï¿½_ï¿½ï¿½ï¿½ï¿½ÌˆÊ’uï¿½Å‚ï¿½ï¿½é‚©ï¿½ï¿½ï¿½wï¿½è‚·ï¿½ï¿½ñ‹“Œ^ï¿½Å‚ï¿½ï¿½B
  */
 enum class IndexMode {
         Local,
         Global,
 };
 /**
- * ObjIndex ‚Í’¸“_/UV/–@ü‚ğQÆ‚·‚é‚½‚ß‚Ì®”‚Å‚·B
+ * ObjIndex ï¿½Í’ï¿½ï¿½_/UV/ï¿½@ï¿½ï¿½ï¿½ï¿½ï¿½Qï¿½Æ‚ï¿½ï¿½é‚½ï¿½ß‚Ìï¿½ï¿½ï¿½ï¿½Å‚ï¿½ï¿½B
  */
 struct ObjIndex {
         int index;
@@ -29,7 +29,7 @@ struct ObjIndex {
         explicit ObjIndex();
 };
 /**
- * ObjPolygon ‚Í’¸“_ˆê‚Â‚ ‚½‚è‚Ìî•ñ‚Ìˆê——‚Å‚·B
+ * ObjPolygon ï¿½Í’ï¿½ï¿½_ï¿½ï¿½Â‚ï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½Ìˆê——ï¿½Å‚ï¿½ï¿½B
  */
 struct ObjPolygon {
         ObjIndex vertexIndex;
@@ -41,20 +41,20 @@ struct ObjPolygon {
         explicit ObjPolygon(ObjIndex vertexIndex, ObjIndex texcoordIndex);
 };
 /**
- * ObjFace ‚Í’¸“_‚Ìˆê——‚Å\¬‚³‚ê‚é–Ê‚Å‚·B
+ * ObjFace ï¿½Í’ï¿½ï¿½_ï¿½Ìˆê——ï¿½Å\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê‚Å‚ï¿½ï¿½B
  */
 using ObjFace = std::vector<ObjPolygon>;
 class ObjBuilder;
 /**
- * ObjModel ‚Íƒ‚ƒfƒ‹‚Å‚·B
+ * ObjModel ï¿½Íƒï¿½ï¿½fï¿½ï¿½ï¿½Å‚ï¿½ï¿½B
  */
 class ObjModel {
        public:
         explicit ObjModel(ObjBuilder& builder, const std::string& name);
         /**
-         * ’¸“_‚ªŠù‚É’Ç‰Á‚³‚ê‚Ä‚¢‚é‚È‚ç‚»‚ê‚ğQÆ‚·‚é‚æ‚¤‚É destPoly ‚ğ•ÏX‚µA
-         * ‚»‚¤‚Å‚È‚¯‚ê‚ÎV‹K‚É’¸“_‚ğ’Ç‰Á‚µ‚Ä‚»‚ê‚ğQÆ‚·‚é‚æ‚¤‚É destPoly
-         * ‚ğ•ÏX‚µ‚Ü‚·B
+         * ï¿½ï¿½ï¿½_ï¿½ï¿½ï¿½ï¿½ï¿½É’Ç‰ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½È‚ç‚»ï¿½ï¿½ï¿½ï¿½Qï¿½Æ‚ï¿½ï¿½ï¿½æ‚¤ï¿½ï¿½ destPoly ï¿½ï¿½ÏXï¿½ï¿½ï¿½A
+         * ï¿½ï¿½ï¿½ï¿½ï¿½Å‚È‚ï¿½ï¿½ï¿½ÎVï¿½Kï¿½É’ï¿½ï¿½_ï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½Qï¿½Æ‚ï¿½ï¿½ï¿½æ‚¤ï¿½ï¿½ destPoly
+         * ï¿½ï¿½ÏXï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
          * @param aVertex
          * @param destPoly
          * @return
@@ -62,35 +62,35 @@ class ObjModel {
         ObjModel& sharedVertex(const glm::vec3& aVertex, ObjPolygon& destPoly);
 
         /**
-         * ’¸“_‚ğ’Ç‰Á‚µ‚Ü‚·B
+         * ï¿½ï¿½ï¿½_ï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
          * @param vertex
          * @return
          */
         ObjModel& vertex(const glm::vec3& vertex);
 
         /**
-         * –@ü‚ğ’Ç‰Á‚µ‚Ü‚·B
+         * ï¿½@ï¿½ï¿½ï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
          * @param normal
          * @return
          */
         ObjModel& normal(const glm::vec3& normal);
 
         /**
-         * UVÀ•W‚ğ’Ç‰Á‚µ‚Ü‚·B
+         * UVï¿½ï¿½ï¿½Wï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
          * @param texcoord
          * @return
          */
         ObjModel& texcoord(const glm::vec2& texcoord);
 
         /**
-         * –Ê‚ğ’Ç‰Á‚µ‚Ü‚·B
+         * ï¿½Ê‚ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
          * @param face
          * @return
          */
         ObjModel& face(const ObjFace& face);
 
         /**
-         * ‚±‚Ìƒ‚ƒfƒ‹‚Åg—p‚·‚éƒ}ƒeƒŠƒAƒ‹‚ğw’è‚µ‚Ü‚·B
+         * ï¿½ï¿½ï¿½Ìƒï¿½ï¿½fï¿½ï¿½ï¿½Ågï¿½pï¿½ï¿½ï¿½ï¿½}ï¿½eï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½wï¿½è‚µï¿½Ü‚ï¿½ï¿½B
          * @param material
          * @return
          */
@@ -109,98 +109,98 @@ class ObjModel {
         ObjBuilder& builder;
 };
 /**
- * ObjBuilder ‚Í .obj ƒtƒH[ƒ}ƒbƒg‚Ìƒ‚ƒfƒ‹‚ğo—Í‚·‚é‚½‚ß‚Ìƒwƒ‹ƒp[‚Å‚·B
+ * ObjBuilder ï¿½ï¿½ .obj ï¿½tï¿½Hï¿½[ï¿½}ï¿½bï¿½gï¿½Ìƒï¿½ï¿½fï¿½ï¿½ï¿½ï¿½ï¿½oï¿½Í‚ï¿½ï¿½é‚½ï¿½ß‚Ìƒwï¿½ï¿½ï¿½pï¿½[ï¿½Å‚ï¿½ï¿½B
  */
 class ObjBuilder {
        public:
         explicit ObjBuilder();
         ~ObjBuilder();
         /**
-         * V‚µ‚¢ƒ‚ƒfƒ‹‚ğ¶¬‚µ‚Ü‚·B
+         * ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½ï¿½ï¿½ğ¶ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
          * @param name
          * @return
          */
         ObjModel& newModel(const std::string& name);
         /**
-         * –‘O‚É•K—v‚É‚È‚éƒ‚ƒfƒ‹‚Ì”‚ª‚¨‚¨‚æ‚»•ª‚©‚Á‚Ä‚¢‚é‚È‚çA
-         * –‘O‚ÉƒxƒNƒgƒ‹‚ğL’·‚³‚¹‚Ü‚·B
+         * ï¿½ï¿½ï¿½Oï¿½É•Kï¿½vï¿½É‚È‚éƒ‚ï¿½fï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ‚»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½È‚ï¿½A
+         * ï¿½ï¿½ï¿½Oï¿½Éƒxï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
          * @param size
          */
         void reserveModels(int size);
 
         /**
-         * “Ç‚İ‚Şƒ}ƒeƒŠƒAƒ‹’è‹`ƒtƒ@ƒCƒ‹‚ğ’Ç‰Á‚µ‚Ü‚·B
+         * ï¿½Ç‚İï¿½ï¿½Şƒ}ï¿½eï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½`ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
          * @param _material
          * @return
          */
         ObjBuilder& material(const std::string& _material);
 
         /**
-         * “Á’è‚Ìƒ‚ƒfƒ‹‚É•R•t‚¯‚ç‚ê‚È‚¢ƒOƒ[ƒoƒ‹‚È’¸“_‚ğ’Ç‰Á‚µ‚Ü‚·B
+         * ï¿½ï¿½ï¿½ï¿½Ìƒï¿½ï¿½fï¿½ï¿½ï¿½É•Rï¿½tï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½Oï¿½ï¿½ï¿½[ï¿½oï¿½ï¿½ï¿½È’ï¿½ï¿½_ï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
          * @param vertex
          * @return
          */
         ObjBuilder& globalVertex(glm::vec3 vertex);
 
         /**
-         * “Á’è‚Ìƒ‚ƒfƒ‹‚É•R•t‚¯‚ç‚ê‚È‚¢ƒOƒ[ƒoƒ‹‚È–@ü‚ğ’Ç‰Á‚µ‚Ü‚·B
+         * ï¿½ï¿½ï¿½ï¿½Ìƒï¿½ï¿½fï¿½ï¿½ï¿½É•Rï¿½tï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½Oï¿½ï¿½ï¿½[ï¿½oï¿½ï¿½ï¿½È–@ï¿½ï¿½ï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
          * @param vertex
          * @return
          */
         ObjBuilder& globalNormal(glm::vec3 normal);
 
         /**
-         * “Á’è‚Ìƒ‚ƒfƒ‹‚É•R•t‚¯‚ç‚ê‚È‚¢ƒOƒ[ƒoƒ‹‚ÈUV‚ğ’Ç‰Á‚µ‚Ü‚·B
+         * ï¿½ï¿½ï¿½ï¿½Ìƒï¿½ï¿½fï¿½ï¿½ï¿½É•Rï¿½tï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½Oï¿½ï¿½ï¿½[ï¿½oï¿½ï¿½ï¿½ï¿½UVï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
          * @param vertex
          * @return
          */
         ObjBuilder& globalTexcoord(glm::vec2 texcoord);
 
         /**
-         * Œ»İ‚Ì obj’è‹` ‚ğ•¶š—ñ‚Å•Ô‚µ‚Ü‚·B
+         * ï¿½ï¿½ï¿½İ‚ï¿½ objï¿½ï¿½` ï¿½ğ•¶ï¿½ï¿½ï¿½Å•Ô‚ï¿½ï¿½Ü‚ï¿½ï¿½B
          * @return
          */
         std::string toString() const;
 
         /**
-         * Œ»İ‚Ì obj’è‹` ‚ğƒXƒgƒŠ[ƒ€‚Ö’¼Ú‘‚«‚İ‚Ü‚·B
+         * ï¿½ï¿½ï¿½İ‚ï¿½ objï¿½ï¿½` ï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Ö’ï¿½ï¿½Úï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ‚Ü‚ï¿½ï¿½B
          * @param stream
          */
         template <typename StreamType>
         void write(StreamType& stream) const;
 
         /**
-         * w’èˆÊ’u‚Ìƒ‚ƒfƒ‹‚ğ•Ô‚µ‚Ü‚·B
+         * ï¿½wï¿½ï¿½Ê’uï¿½Ìƒï¿½ï¿½fï¿½ï¿½ï¿½ï¿½Ô‚ï¿½ï¿½Ü‚ï¿½ï¿½B
          * @param index
          * @return
          */
         ObjModel& getModelAt(int index);
 
         /**
-         * ‘S‚Ä‚Ìƒ‚ƒfƒ‹‚Ì”‚ğ•Ô‚µ‚Ü‚·B
+         * ï¿½Sï¿½Ä‚Ìƒï¿½ï¿½fï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½Ô‚ï¿½ï¿½Ü‚ï¿½ï¿½B
          * @return
          */
         int getModelCount() const;
 
         /**
-         * ƒOƒ[ƒoƒ‹‚È’¸“_‚Ì”‚ğ•Ô‚µ‚Ü‚·B
+         * ï¿½Oï¿½ï¿½ï¿½[ï¿½oï¿½ï¿½ï¿½È’ï¿½ï¿½_ï¿½Ìï¿½ï¿½ï¿½Ô‚ï¿½ï¿½Ü‚ï¿½ï¿½B
          * @return
          */
         int getGlobalVertexCount() const;
         /**
-         * ƒOƒ[ƒoƒ‹‚È–@ü‚Ì”‚ğ•Ô‚µ‚Ü‚·B
+         * ï¿½Oï¿½ï¿½ï¿½[ï¿½oï¿½ï¿½ï¿½È–@ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½Ô‚ï¿½ï¿½Ü‚ï¿½ï¿½B
          * @return
          */
         int getGlobalNormalCount() const;
         /**
-         * ƒOƒ[ƒoƒ‹‚ÈUV‚Ì”‚ğ•Ô‚µ‚Ü‚·B
+         * ï¿½Oï¿½ï¿½ï¿½[ï¿½oï¿½ï¿½ï¿½ï¿½UVï¿½Ìï¿½ï¿½ï¿½Ô‚ï¿½ï¿½Ü‚ï¿½ï¿½B
          * @return
          */
         int getGloalTexcoordCount() const;
 
         /**
-         * ’¸“_‚ğƒJƒEƒ“ƒg‚µ‚Ä•Ô‚µ‚Ü‚·B
-         * Å‰‚Í 1 ‚ğ•Ô‚µ‚Ü‚·B
+         * ï¿½ï¿½ï¿½_ï¿½ï¿½ï¿½Jï¿½Eï¿½ï¿½ï¿½gï¿½ï¿½ï¿½Ä•Ô‚ï¿½ï¿½Ü‚ï¿½ï¿½B
+         * ï¿½Åï¿½ï¿½ï¿½ 1 ï¿½ï¿½Ô‚ï¿½ï¿½Ü‚ï¿½ï¿½B
          * @return
          */
         int countVertex();
@@ -247,7 +247,7 @@ inline void ObjBuilder::write(StreamType& stream) const {
                 stream << "vt " << texcoord.x << " " << texcoord.y << std::endl;
         }
         stream << "# Local Data" << std::endl;
-        // æ‚É’¸“_, –@ü, UV‚¾‚¯‚ğ‘‚«‚ñ‚Å‚¨‚­
+        // ï¿½ï¿½É’ï¿½ï¿½_, ï¿½@ï¿½ï¿½, UVï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å‚ï¿½ï¿½ï¿½
         for (int i = 0; i < size; i++) {
                 auto model = models.at(i);
                 for (auto vert : model->vertices) {
@@ -263,7 +263,7 @@ inline void ObjBuilder::write(StreamType& stream) const {
                                << std::endl;
                 }
         }
-        // –Ê‚ğì¬‚·‚é
+        // ï¿½Ê‚ï¿½ï¿½ì¬ï¿½ï¿½ï¿½ï¿½
         for (int i = 0; i < size; i++) {
                 writeImpl(stream, i, vcache, ncache, tccache);
         }
@@ -314,5 +314,5 @@ inline void ObjBuilder::writeImpl(StreamType& stream, int index,
         }
 }
 }  // namespace objb
-}  // namespace planet
+}  // namespace ofxPlanet
 #endif

@@ -2,7 +2,7 @@
 
 #include "../common/GLM.hpp"
 #include "Block.hpp"
-namespace planet {
+namespace ofxPlanet {
 
 CubeBatch::CubeBatch(const World& world, ofShader& shader,
                      const glm::vec3& size, int direction)
@@ -113,4 +113,4 @@ std::vector<float>& CubeBatch::getPosVec(PlaneType type) {
         assert(i >= 0 && i < static_cast<int>(PlaneType::Count));
         return posVec.at(i);
 }
-}  // namespace planet
+}  // namespace ofxPlanet

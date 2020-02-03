@@ -6,7 +6,7 @@
 
 #include "BlockInfoCollection.hpp"
 
-namespace planet {
+namespace ofxPlanet {
 class Block;
 class BlockPack {
        public:
@@ -35,5 +35,5 @@ class BlockPack {
         std::vector<std::shared_ptr<Block> > blockVec;
         static std::vector<std::shared_ptr<BlockPack> > blockPacks;
 };
-}  // namespace planet
+}  // namespace ofxPlanet
 #endif

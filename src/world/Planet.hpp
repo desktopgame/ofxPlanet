@@ -7,7 +7,7 @@
 
 #include "../common/GLM.hpp"
 #include "BlockTable.hpp"
-namespace planet {
+namespace ofxPlanet {
 
 class WorldGenerateService;
 class World;
@@ -32,5 +32,5 @@ class Planet {
         BlockTable blockTable;
         std::shared_ptr<World> world;
 };
-}  // namespace planet
+}  // namespace ofxPlanet
 #endif

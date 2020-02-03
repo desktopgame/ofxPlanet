@@ -2,7 +2,7 @@
 
 #include "Texture.hpp"
 #include "TexturePack.hpp"
-namespace planet {
+namespace ofxPlanet {
 
 TextureSet::TextureSet(const std::weak_ptr<const TexturePack> pack,
                        std::string name)
@@ -51,4 +51,4 @@ std::shared_ptr<Texture> TextureSet::getRightImage() const {
             std::const_pointer_cast<TexturePack>(pack.lock());
         return tp->getImage(right);
 }
-}  // namespace planet
+}  // namespace ofxPlanet

@@ -6,7 +6,7 @@
 #include <memory>
 #include <unordered_map>
 
-namespace planet {
+namespace ofxPlanet {
 class World;
 class GraphicsBatch;
 class GraphicsRenderer {
@@ -33,5 +33,5 @@ class GraphicsRenderer {
         std::unordered_map<GLuint, std::shared_ptr<GraphicsBatch> > map;
         std::shared_ptr<GraphicsBatch> ref(GLuint texture);
 };
-}  // namespace planet
+}  // namespace ofxPlanet
 #endif

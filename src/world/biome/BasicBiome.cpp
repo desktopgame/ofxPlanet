@@ -8,7 +8,7 @@
 #include "../BlockPack.hpp"
 #include "../World.hpp"
 #include "../engine/Generator.hpp"
-namespace planet {
+namespace ofxPlanet {
 
 BasicBiome::BasicBiome()
     : random(),
@@ -125,4 +125,4 @@ BlockPrefab BasicBiome::createWaterBlock(BlockTable& blockTable, int x, int y,
         return BlockPrefab(
             BlockPack::getCurrent()->getBlockIndexForName(waterBlock), false);
 }
-}  // namespace planet
+}  // namespace ofxPlanet

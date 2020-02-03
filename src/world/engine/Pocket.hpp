@@ -1,7 +1,7 @@
 #pragma once
 #ifndef WORLD_ENGINE_POCKET_HPP
 #define WORLD_ENGINE_POCKET_HPP
-namespace planet {
+namespace ofxPlanet {
 class Pocket {
        public:
         explicit Pocket(int x, int y, int z, float zNoise);
@@ -10,5 +10,5 @@ class Pocket {
         int z;
         float zNoise;
 };
-}  // namespace planet
+}  // namespace ofxPlanet
 #endif

@@ -15,7 +15,7 @@
 #include "BlockRenderer.hpp"
 #include "Camera.hpp"
 #include "TexturePack.hpp"
-namespace planet {
+namespace ofxPlanet {
 
 WorldPart::WorldPart(const std::shared_ptr<World>& world, glm::ivec3 offset)
     : world(world), offset(offset) {}
@@ -140,13 +140,13 @@ void World::setBlock(float x, float y, float z, std::shared_ptr<Block> block) {
 }
 
 void World::setBlock(int x, int y, int z, std::shared_ptr<Block> block) {
-        // ˆÈ‘O“¯‚¶À•W‚ÉƒuƒƒbƒN‚ª’u‚©‚ê‚Ä‚¢‚½‚È‚çíœ
+        // ï¿½È‘Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½Éƒuï¿½ï¿½ï¿½bï¿½Nï¿½ï¿½ï¿½uï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½È‚ï¿½íœ
         glm::ivec3 pos(x, y, z);
         auto iter = std::remove_if(
             notBlockPositionsVec.begin(), notBlockPositionsVec.end(),
             [pos](glm::ivec3 e) -> bool { return e == pos; });
         notBlockPositionsVec.erase(iter, notBlockPositionsVec.end());
-        //ƒuƒƒbƒN‚ÌƒTƒCƒY‚ªƒfƒtƒHƒ‹ƒg‚Å‚È‚¢‚È‚ç‹L˜^‚·‚é
+        //ï¿½uï¿½ï¿½ï¿½bï¿½Nï¿½ÌƒTï¿½Cï¿½Yï¿½ï¿½ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Å‚È‚ï¿½ï¿½È‚ï¿½Lï¿½^ï¿½ï¿½ï¿½ï¿½
         if (block && block->getShape() != BlockShape::Block) {
                 notBlockPositionsVec.emplace_back(pos);
         }
@@ -202,7 +202,7 @@ int World::getGroundY(int x, int z) const {
         return ySize;
 }
 glm::vec3 World::getPhysicalPosition(int x, int y, int z) const {
-        // ‚Ü‚¸‚Í‘S‚Ä‚ÌƒuƒƒbƒN‚ª’ÊíƒuƒƒbƒN‚Å‚ ‚é‘O’ñ‚ÅŒvZ‚·‚é
+        // ï¿½Ü‚ï¿½ï¿½Í‘Sï¿½Ä‚Ìƒuï¿½ï¿½ï¿½bï¿½Nï¿½ï¿½ï¿½Êï¿½uï¿½ï¿½ï¿½bï¿½Nï¿½Å‚ï¿½ï¿½ï¿½Oï¿½ï¿½ÅŒvï¿½Zï¿½ï¿½ï¿½ï¿½
         glm::vec3 pos(x * 2, y * 2, z * 2);
         /*
         for (auto e : notBlockPositionsVec) {
@@ -276,4 +276,4 @@ World::World(ofShader& shader, int xSize, int ySize, int zSize)
       shader(shader),
       fboW(-1),
       fboH(-1) {}
-}  // namespace planet
+}  // namespace ofxPlanet

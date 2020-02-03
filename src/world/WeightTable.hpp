@@ -6,7 +6,7 @@
 
 #include "IntVec3Compare.hpp"
 
-namespace planet {
+namespace ofxPlanet {
 class WeightTable {
        public:
         explicit WeightTable(int xSize, int ySize, int zSize);
@@ -26,5 +26,5 @@ class WeightTable {
         int xSize, ySize, zSize;
         std::vector<std::vector<std::vector<int> > > vec;
 };
-}  // namespace planet
+}  // namespace ofxPlanet
 #endif

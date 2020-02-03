@@ -10,7 +10,7 @@
 
 #include "GraphicsBatch.hpp"
 #include "Plane.hpp"
-namespace planet {
+namespace ofxPlanet {
 class World;
 class Camera;
 class CubeBatch : public GraphicsBatch {
@@ -44,5 +44,5 @@ class CubeBatch : public GraphicsBatch {
         ofBufferObject vbo[static_cast<int>(PlaneType::Count)];
         // ofShader& shader;
 };
-}  // namespace planet
+}  // namespace ofxPlanet
 #endif

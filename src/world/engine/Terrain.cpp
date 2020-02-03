@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <iostream>
 
-namespace planet {
+namespace ofxPlanet {
 Terrain::Terrain()
     : cells(),
       pockets(),
@@ -53,4 +53,4 @@ std::vector<unsigned char> Terrain::toPixelVec() const {
         }
         return v;
 }
-}  // namespace planet
+}  // namespace ofxPlanet

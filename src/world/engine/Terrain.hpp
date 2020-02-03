@@ -7,7 +7,7 @@
 #include "Cell.hpp"
 #include "Pocket.hpp"
 
-namespace planet {
+namespace ofxPlanet {
 class Terrain {
        public:
         explicit Terrain();
@@ -31,5 +31,5 @@ class Terrain {
         std::vector<Cell> cells;
         std::vector<Pocket> pockets;
 };
-}  // namespace planet
+}  // namespace ofxPlanet
 #endif

@@ -4,7 +4,7 @@
 #include <ofxImGui.h>
 
 #include <memory>
-namespace planet {
+namespace ofxPlanet {
 
 class BlockTable;
 class World;
@@ -16,5 +16,5 @@ class Biome {
 
        private:
 };
-}  // namespace planet
+}  // namespace ofxPlanet
 #endif

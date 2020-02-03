@@ -14,7 +14,7 @@
 #include "TexturePack.hpp"
 #include "World.hpp"
 
-namespace planet {
+namespace ofxPlanet {
 // Progress
 Progress::Progress() : value(0.0f) {}
 void Progress::setValue(float value) {
@@ -700,4 +700,4 @@ void WorldIO::genBackPlane(const std::string& outputDir,
 
         aa.face(face);
 }
-}  // namespace planet
+}  // namespace ofxPlanet

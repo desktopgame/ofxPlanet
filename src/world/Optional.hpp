@@ -3,7 +3,7 @@
 #define WORLD_OPTIONAL_HPP
 #include <stdexcept>
 
-namespace planet {
+namespace ofxPlanet {
 template <typename T>
 class Optional {
        public:
@@ -60,5 +60,5 @@ template <typename T>
 inline bool Optional<T>::hasValue() const {
         return !isEmpty();
 }
-}  // namespace planet
+}  // namespace ofxPlanet
 #endif

@@ -6,7 +6,7 @@
 
 #include "Optional.hpp"
 
-namespace planet {
+namespace ofxPlanet {
 struct TextureMappingRule {
         explicit TextureMappingRule() = default;
         Optional<std::string> all, top, bottom, left, right, front, back;
@@ -40,5 +40,5 @@ class TextureInfoCollection {
         std::vector<TextureInfo> textureInfoVec;
         std::string baseDirectory;
 };
-}  // namespace planet
+}  // namespace ofxPlanet
 #endif

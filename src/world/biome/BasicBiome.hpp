@@ -10,7 +10,7 @@
 #include "../common/Random.hpp"
 #include "../IntVec2Hash.hpp"
 #include "Biome.hpp"
-namespace planet {
+namespace ofxPlanet {
 
 class Block;
 class BasicBiome : public Biome {
@@ -52,5 +52,5 @@ class BasicBiome : public Biome {
         char waterBlock[255];
         bool generateCave;
 };
-}  // namespace planet
+}  // namespace ofxPlanet
 #endif

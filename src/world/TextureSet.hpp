@@ -4,7 +4,7 @@
 #include <memory>
 
 #include "Texture.hpp"
-namespace planet {
+namespace ofxPlanet {
 
 class TexturePack;
 class Texture;
@@ -32,5 +32,5 @@ class TextureSet {
         std::weak_ptr<const TexturePack> pack;
         std::string name;
 };
-}  // namespace planet
+}  // namespace ofxPlanet
 #endif

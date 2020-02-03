@@ -5,7 +5,7 @@
 
 #include "BlockPack.hpp"
 #include "MultiBlock.hpp"
-namespace planet {
+namespace ofxPlanet {
 // BlockPrefab
 BlockPrefab::BlockPrefab(int id, bool instanced)
     : id(id), instanced(instanced) {}
@@ -94,30 +94,30 @@ bool BlockTable::canExpand(int baseX, int baseY, int baseZ,
         auto points = expandTargets(baseX, baseY, baseZ, mb);
         for (auto& point : points) {
                 glm::ivec3 pos = std::get<0>(point);
-				//‚»‚ÌÀ•W‚Íƒ[ƒ‹ƒh‚©‚ç‚Í‚İo‚·
+				//ï¿½ï¿½ï¿½Ìï¿½ï¿½Wï¿½Íƒï¿½ï¿½[ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½Í‚İoï¿½ï¿½
                 if (!contains(pos.x, pos.y, pos.z)) {
                         return false;
                 }
                 int oldId = get(pos.x, pos.y, pos.z).id;
-				//V‚µ‚­İ’u‚³‚ê‚éƒuƒƒbƒN‚ª‹ó‹C‚È‚ç–³‹
+				//ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½İ’uï¿½ï¿½ï¿½ï¿½ï¿½uï¿½ï¿½ï¿½bï¿½Nï¿½ï¿½ï¿½ï¿½Cï¿½È‚ç–³ï¿½ï¿½
                 int newId = std::get<1>(point);
                 if (newId < 0) {
                         continue;
                 }
-                //Šù‚ÉƒuƒƒbƒN‚ª‚ ‚é
+                //ï¿½ï¿½ï¿½Éƒuï¿½ï¿½ï¿½bï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 if (oldId >= 0) {
                         return false;
                 }
-				// ‰º‚ÉƒuƒƒbƒN‚ª‚ ‚é‚©‚Ç‚¤‚©ƒ`ƒFƒbƒN‚·‚é
+				// ï¿½ï¿½ï¿½Éƒuï¿½ï¿½ï¿½bï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½`ï¿½Fï¿½bï¿½Nï¿½ï¿½ï¿½ï¿½
 				if (pos.y > 0) {
-					// ‚»‚à‚»‚à‚Ü‚¾‰º‚É\‘¢•¨‚ª‚ ‚é‚©Šm”F
+					// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½É\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é‚©ï¿½mï¿½F
 					glm::ivec3 bottom(pos.x, pos.y - 1, pos.z);
 					auto iter = std::find_if(points.begin(), points.end(), [bottom](auto e) -> bool {
 						return std::get<0>(e) == bottom;
 					});
-					// ‚È‚¢
+					// ï¿½È‚ï¿½
 					if (iter == points.end()) {
-						// ‚©‚ÂAŠù‚Éİ’u‚µ‚Ä‚¢‚éƒuƒƒbƒN‚ª‘¶İ‚µ‚È‚¢
+						// ï¿½ï¿½ï¿½ÂAï¿½ï¿½ï¿½Éİ’uï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½uï¿½ï¿½ï¿½bï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½İ‚ï¿½ï¿½È‚ï¿½
 						if (get(bottom.x, bottom.y, bottom.z).id == -1) {
 							return false;
 						}
@@ -218,4 +218,4 @@ void BlockTable::addPos(glm::ivec3 pos, glm::ivec3 newPos,
                 }
         }
 }
-}  // namespace planet
+}  // namespace ofxPlanet

@@ -4,9 +4,9 @@
 #include <ofShader.h>
 #include <ofVbo.h>
 
-namespace planet {
+namespace ofxPlanet {
 /**
- * PlaneType ‚Í•½–Ê‚Ì•ûŒü‚ğİ’è‚·‚é—ñ‹“Œ^‚Å‚·B
+ * PlaneType ï¿½Í•ï¿½ï¿½Ê‚Ì•ï¿½ï¿½ï¿½ï¿½ï¿½İ’è‚·ï¿½ï¿½ñ‹“Œ^ï¿½Å‚ï¿½ï¿½B
  */
 enum class PlaneType : unsigned int {
         Front = 0,
@@ -20,7 +20,7 @@ enum class PlaneType : unsigned int {
 class Camera;
 class Shader;
 /**
- * Plane ‚Í•½–Ê‚ğ•`‰æ‚·‚é‚½‚ß‚ÌƒNƒ‰ƒX‚Å‚·B
+ * Plane ï¿½Í•ï¿½ï¿½Ê‚ï¿½`ï¿½æ‚·ï¿½é‚½ï¿½ß‚ÌƒNï¿½ï¿½ï¿½Xï¿½Å‚ï¿½ï¿½B
  */
 class Plane {
        public:
@@ -66,5 +66,5 @@ class Plane {
         ofVbo ofVAO;
         ofShader& shader;
 };
-}  // namespace planet
+}  // namespace ofxPlanet
 #endif  // !SHADER_PLANE_HPP

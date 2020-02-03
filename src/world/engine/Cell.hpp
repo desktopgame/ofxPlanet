@@ -1,6 +1,6 @@
 #ifndef GAME_WORLD_GEN_CELL_HPP
 #define GAME_WORLD_GEN_CELL_HPP
-namespace planet {
+namespace ofxPlanet {
 struct Cell {
         int x;
         int z;
@@ -9,5 +9,5 @@ struct Cell {
 };
 
 bool operator==(const Cell& a, const Cell& b);
-}  // namespace planet
+}  // namespace ofxPlanet
 #endif

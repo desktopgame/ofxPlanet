@@ -9,7 +9,7 @@
 #include "MultiBlock.hpp"
 #include "engine/Terrain.hpp"
 
-namespace planet {
+namespace ofxPlanet {
 struct BlockPrefab {
         explicit BlockPrefab(int id, bool instanced);
         explicit BlockPrefab();
@@ -18,7 +18,7 @@ struct BlockPrefab {
 };
 
 /**
- * BlockArea ‚ÍA“¯‚¶YÀ•W‚É‘¶İ‚·‚éƒuƒƒbƒNÀ•W‚Ìˆê——‚Å‚·B
+ * BlockArea ï¿½ÍAï¿½ï¿½ï¿½ï¿½Yï¿½ï¿½ï¿½Wï¿½É‘ï¿½ï¿½İ‚ï¿½ï¿½ï¿½uï¿½ï¿½ï¿½bï¿½Nï¿½ï¿½ï¿½Wï¿½Ìˆê——ï¿½Å‚ï¿½ï¿½B
  */
 class BlockArea {
        public:
@@ -50,7 +50,7 @@ class BlockTable {
                        const MultiBlock& mb) const;
 
         /**
-         * w’è‚ÌÀ•W‚ª”ÍˆÍ‚È‚çtrue.
+         * ï¿½wï¿½ï¿½Ìï¿½ï¿½Wï¿½ï¿½ï¿½ÍˆÍ‚È‚ï¿½true.
          * @param x
          * @param y
          * @param z
@@ -58,21 +58,21 @@ class BlockTable {
          */
         bool contains(int x, int y, int z) const;
         /**
-         * w’è‚ÌXZÀ•W“à‚Å‚à‚Á‚Æ‚à‚‚¢ˆÊ’u‚ÌYÀ•W‚ğ•Ô‚µ‚Ü‚·B
+         * ï¿½wï¿½ï¿½ï¿½XZï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½Å‚ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê’uï¿½ï¿½Yï¿½ï¿½ï¿½Wï¿½ï¿½Ô‚ï¿½ï¿½Ü‚ï¿½ï¿½B
          * @param x
          * @param z
          * @return
          */
         int getTopYForXZ(int x, int z) const;
         /**
-         * XZ•ûŒü‘S‚Ä‚ğŒŸ¸‚µ‚ÄA‚à‚Á‚Æ‚à‚‚¢ƒuƒƒbƒNÀ•W‚ğŠî€‚Æ‚µ‚½ BlockArea
-         * ‚Ìˆê——‚ğ•Ô‚µ‚Ü‚·B
+         * XZï¿½ï¿½ï¿½ï¿½ï¿½Sï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÄAï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½uï¿½ï¿½ï¿½bï¿½Nï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½î€ï¿½Æ‚ï¿½ï¿½ï¿½ BlockArea
+         * ï¿½Ìˆê——ï¿½ï¿½Ô‚ï¿½ï¿½Ü‚ï¿½ï¿½B
          * @return
          */
         std::vector<BlockArea> getAllBlockAreaForTop() const;
 
         /**
-         * w’è‚Ì—Ìˆæ‚ğã•ûŒü‚É‚Ç‚ê‚¾‚¯Ï‚İd‚Ë‚é‚±‚Æ‚ª‚Å‚«‚é‚©‚ğ•Ô‚µ‚Ü‚·B
+         * ï¿½wï¿½ï¿½Ì—Ìˆï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É‚Ç‚ê‚¾ï¿½ï¿½ï¿½Ï‚İdï¿½Ë‚é‚±ï¿½Æ‚ï¿½ï¿½Å‚ï¿½ï¿½é‚©ï¿½ï¿½Ô‚ï¿½ï¿½Ü‚ï¿½ï¿½B
          * @param blockArea
          * @return
          */
@@ -96,5 +96,5 @@ class BlockTable {
         Terrain terrain;
         std::vector<std::vector<std::vector<BlockPrefab> > > vec;
 };
-}  // namespace planet
+}  // namespace ofxPlanet
 #endif

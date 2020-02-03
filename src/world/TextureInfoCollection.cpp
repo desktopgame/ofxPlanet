@@ -5,7 +5,7 @@
 
 #include "picojson/picojson.h"
 
-namespace planet {
+namespace ofxPlanet {
 TextureInfoCollection::TextureInfoCollection(const std::string& baseDirectory)
     : baseDirectory(baseDirectory), textureInfoVec() {}
 TextureInfoCollection::TextureInfoCollection() : TextureInfoCollection(".") {}
@@ -137,4 +137,4 @@ std::string TextureInfoCollection::getBaseDirectory() const {
 std::string TextureInfoCollection::getBasePath() const {
         return ofToDataPath(baseDirectory);
 }
-}  // namespace planet
+}  // namespace ofxPlanet

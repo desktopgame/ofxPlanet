@@ -3,7 +3,7 @@
 #define WORLD_GRAPHICSBATCH_HPP
 #include <ofShader.h>
 
-namespace planet {
+namespace ofxPlanet {
 class World;
 class GraphicsBatch {
        public:
@@ -25,5 +25,5 @@ class GraphicsBatch {
         const World& world;
         ofShader& shader;
 };
-}  // namespace planet
+}  // namespace ofxPlanet
 #endif

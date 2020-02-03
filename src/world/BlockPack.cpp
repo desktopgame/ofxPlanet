@@ -2,7 +2,7 @@
 
 #include "Block.hpp"
 
-namespace planet {
+namespace ofxPlanet {
 std::vector<std::shared_ptr<BlockPack> > BlockPack::blockPacks;
 
 std::shared_ptr<BlockPack> BlockPack::load(
@@ -73,4 +73,4 @@ std::shared_ptr<BlockPack> BlockPack::registerBlockPack(
         }
         return pack;
 }
-}  // namespace planet
+}  // namespace ofxPlanet

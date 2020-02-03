@@ -1,5 +1,5 @@
 #include "CubeRenderer.hpp"
-namespace planet {
+namespace ofxPlanet {
 
 CubeRenderer::CubeRenderer(const World& world, ofShader& shader,
                            const glm::vec3& size, int direction)
@@ -9,4 +9,4 @@ std::shared_ptr<GraphicsBatch> CubeRenderer::createBatch(const World& world,
                                                          ofShader& shader) {
         return std::make_shared<CubeBatch>(world, shader, size, direction);
 }
-}  // namespace planet
+}  // namespace ofxPlanet

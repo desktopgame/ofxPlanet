@@ -5,7 +5,7 @@
 #include "Texture.hpp"
 #include "TexturePack.hpp"
 #include "World.hpp"
-namespace planet {
+namespace ofxPlanet {
 Block::Block(BlockShape shape, const std::string& name,
              const std::string& textureReference, int id)
     : shape(shape), name(name), textureReference(textureReference), id(id) {}
@@ -110,4 +110,4 @@ BlockShape stringToBlockShape(const std::string& str) {
         }
         return BlockShape::Block;
 }
-}  // namespace planet
+}  // namespace ofxPlanet

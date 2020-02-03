@@ -1,5 +1,5 @@
 #include "IntVec2Hash.hpp"
-namespace planet {
+namespace ofxPlanet {
 size_t Vec2HashFunc::operator()(const glm::ivec2 & k) const {
 	return std::hash<int>()(k.x) ^ std::hash<int>()(k.y);
 }

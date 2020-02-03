@@ -10,7 +10,7 @@
 #include "objb/MtlBuilder.hpp"
 #include "objb/ObjBuilder.hpp"
 
-namespace planet {
+namespace ofxPlanet {
 class World;
 class Planet;
 
@@ -107,5 +107,5 @@ class WorldIO {
         WorldIO() = delete;
         ~WorldIO() = delete;
 };
-}  // namespace planet
+}  // namespace ofxPlanet
 #endif

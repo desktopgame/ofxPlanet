@@ -3,7 +3,7 @@
 #define WORLD_BLOCKRENDERER_HPP
 #include "CubeRenderer.hpp"
 
-namespace planet {
+namespace ofxPlanet {
 class World;
 class BlockRenderer {
        public:
@@ -30,5 +30,5 @@ class BlockRenderer {
         CubeRenderer topSlabRenderer;
         CubeRenderer bottomSlabRenderer;
 };
-}  // namespace planet
+}  // namespace ofxPlanet
 #endif

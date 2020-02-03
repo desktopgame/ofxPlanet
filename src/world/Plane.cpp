@@ -1,7 +1,7 @@
 #include "Plane.hpp"
 
 #include "Camera.hpp"
-namespace planet {
+namespace ofxPlanet {
 
 Plane::Plane(ofShader& shader, PlaneType type, const glm::vec3 size)
     : shader(shader), type(type), ofVAO() {
@@ -172,4 +172,4 @@ std::vector<float> Plane::createBottomNormal(glm::vec3 size) {
 std::vector<float> Plane::createBottomUV() {
         return std::vector<float>{0, 0, 1, 0, 1, 1, 0, 1};
 }
-}  // namespace planet
+}  // namespace ofxPlanet

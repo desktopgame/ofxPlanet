@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-namespace planet {
+namespace ofxPlanet {
 struct BlockInfo {
         explicit BlockInfo() = default;
         std::string textue;
@@ -27,5 +27,5 @@ class BlockInfoCollection {
        private:
         std::vector<BlockInfo> blockInfoVec;
 };
-}  // namespace planet
+}  // namespace ofxPlanet
 #endif

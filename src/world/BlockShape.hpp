@@ -1,7 +1,7 @@
 #pragma once
 #ifndef WORLD_BLOCKSHAPE_HPP
 #define WORLD_BLOCKSHAPE_HPP
-namespace planet {
+namespace ofxPlanet {
 enum class BlockShape {
         Block,
         LeftSlab,

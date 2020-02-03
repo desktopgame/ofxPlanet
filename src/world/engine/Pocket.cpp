@@ -1,5 +1,5 @@
 #include "Pocket.hpp"
-namespace planet {
+namespace ofxPlanet {
 Pocket::Pocket(int x, int y, int z, float zNoise)
     : x(x), y(y), z(z), zNoise(zNoise) {}
-}  // namespace planet
+}  // namespace ofxPlanet

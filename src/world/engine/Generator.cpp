@@ -1,7 +1,7 @@
 #include "Generator.hpp"
 
 #include <iostream>
-namespace planet {
+namespace ofxPlanet {
 
 Generator::Generator(const glm::ivec3& size) : size(size), sivPerlin() {}
 
@@ -35,4 +35,4 @@ Terrain Generator::generate(unsigned int seed) {
         }
         return ter;
 }
-}  // namespace planet
+}  // namespace ofxPlanet

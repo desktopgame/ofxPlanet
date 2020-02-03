@@ -7,7 +7,7 @@
 #include "Block.hpp"
 #include "BlockPack.hpp"
 #include "Plane.hpp"
-namespace planet {
+namespace ofxPlanet {
 
 std::vector<std::shared_ptr<TexturePack> > TexturePack::texturePacks;
 
@@ -188,4 +188,4 @@ std::shared_ptr<TexturePack> TexturePack::registerTexturePack(
 }
 
 // private
-}  // namespace planet
+}  // namespace ofxPlanet

@@ -10,7 +10,7 @@
 #include "TextureInfoCollection.hpp"
 #include "TextureSet.hpp"
 
-namespace planet {
+namespace ofxPlanet {
 
 class Plane;
 class TexturePack : public std::enable_shared_from_this<TexturePack> {
@@ -49,5 +49,5 @@ class TexturePack : public std::enable_shared_from_this<TexturePack> {
         std::unordered_map<std::string, std::shared_ptr<Texture> > images;
         static std::vector<std::shared_ptr<TexturePack> > texturePacks;
 };
-}  // namespace planet
+}  // namespace ofxPlanet
 #endif

@@ -7,7 +7,7 @@
 
 #include "CubeBatch.hpp"
 #include "GraphicsRenderer.hpp"
-namespace planet {
+namespace ofxPlanet {
 
 class Camera;
 class CubeRenderer : public GraphicsRenderer {
@@ -23,5 +23,5 @@ class CubeRenderer : public GraphicsRenderer {
         glm::vec3 size;
         int direction;
 };
-}  // namespace planet
+}  // namespace ofxPlanet
 #endif

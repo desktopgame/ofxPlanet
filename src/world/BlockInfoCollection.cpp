@@ -2,7 +2,7 @@
 
 #include "picojson/picojson.h"
 
-namespace planet {
+namespace ofxPlanet {
 BlockInfoCollection::BlockInfoCollection() : blockInfoVec() {}
 std::string BlockInfoCollection::serialize() const {
         picojson::object rootO;
@@ -34,7 +34,7 @@ void BlockInfoCollection::deserialize(const std::string& json) {
                 auto blockO = blockV.get<picojson::object>();
                 auto textureV = blockO["texture"];
                 auto referenceV = blockO["reference"];
-                // Shape‘®«‚Í•K{‚Å‚Í‚È‚¢‚Ì‚ÅƒfƒtƒHƒ‹ƒg’l‚ª‚ ‚é
+                // Shapeï¿½ï¿½ï¿½ï¿½ï¿½Í•Kï¿½{ï¿½Å‚Í‚È‚ï¿½ï¿½Ì‚Åƒfï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 std::string shape("Block");
                 if (blockO.count("shape")) {
                         shape = blockO["shape"].get<std::string>();
@@ -69,4 +69,4 @@ bool BlockInfoCollection::tryGetBlockInfo(const std::string& reference,
 int BlockInfoCollection::getBlockInfoCount() const {
         return static_cast<int>(blockInfoVec.size());
 }
-}  // namespace planet
+}  // namespace ofxPlanet

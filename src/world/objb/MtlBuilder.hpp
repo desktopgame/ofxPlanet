@@ -5,10 +5,10 @@
 #include <string>
 #include <vector>
 
-namespace planet {
+namespace ofxPlanet {
 namespace objb {
 /**
- * MtlElement ‚ÍAƒ}ƒeƒŠƒAƒ‹’è‹`‚Å‚·B
+ * MtlElement ï¿½ÍAï¿½}ï¿½eï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½`ï¿½Å‚ï¿½ï¿½B
  */
 class MtlElement {
        public:
@@ -35,7 +35,7 @@ class MtlElement {
         std::string _map_Kd;
 };
 /**
- * MtlBuilder ‚Í .mtl ƒtƒH[ƒ}ƒbƒg‚Ìƒ‚ƒfƒ‹‚ğo—Í‚·‚é‚½‚ß‚Ìƒwƒ‹ƒp[‚Å‚·B
+ * MtlBuilder ï¿½ï¿½ .mtl ï¿½tï¿½Hï¿½[ï¿½}ï¿½bï¿½gï¿½Ìƒï¿½ï¿½fï¿½ï¿½ï¿½ï¿½ï¿½oï¿½Í‚ï¿½ï¿½é‚½ï¿½ß‚Ìƒwï¿½ï¿½ï¿½pï¿½[ï¿½Å‚ï¿½ï¿½B
  */
 class MtlBuilder {
        public:
@@ -48,5 +48,5 @@ class MtlBuilder {
         std::vector<MtlElement*> elements;
 };
 }  // namespace objb
-}  // namespace planet
+}  // namespace ofxPlanet
 #endif

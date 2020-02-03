@@ -8,7 +8,7 @@
 #include "PerlinNoise/PerlinNoise.hpp"
 #include "../World.hpp"
 #include "Terrain.hpp"
-namespace planet {
+namespace ofxPlanet {
 class Generator {
        public:
         explicit Generator(const glm::ivec3& size);
@@ -20,5 +20,5 @@ class Generator {
        private:
         siv::PerlinNoise sivPerlin;
 };
-}  // namespace planet
+}  // namespace ofxPlanet
 #endif

@@ -1,5 +1,5 @@
 #include "BlockRenderer.hpp"
-namespace planet {
+namespace ofxPlanet {
 BlockRenderer::BlockRenderer(const World& world, ofShader& shader)
     : cubeRenderer(world, shader, glm::vec3(1, 1, 1), 1),
       leftSlabRenderer(world, shader, glm::vec3(0.5f, 1, 1), -1),
@@ -32,4 +32,4 @@ CubeRenderer& BlockRenderer::getTopSlabRenderer() { return topSlabRenderer; }
 CubeRenderer& BlockRenderer::getBottomSlabRenderer() {
         return bottomSlabRenderer;
 }
-}  // namespace planet
+}  // namespace ofxPlanet

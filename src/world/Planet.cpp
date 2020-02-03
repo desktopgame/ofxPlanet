@@ -2,7 +2,7 @@
 
 #include "World.hpp"
 #include "biome/Biome.hpp"
-namespace planet {
+namespace ofxPlanet {
 
 Planet::Planet(ofShader& shader)
     : shader(shader), world(nullptr), blockTable(0, 0, 0) {}
@@ -35,4 +35,4 @@ void Planet::render() {
 
 std::shared_ptr<World> Planet::getWorld() const { return world; }
 BlockTable Planet::getBlockTable() const { return blockTable; }
-}  // namespace planet
+}  // namespace ofxPlanet

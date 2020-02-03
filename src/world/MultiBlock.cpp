@@ -8,7 +8,7 @@
 #include "Block.hpp"
 #include "BlockPack.hpp"
 
-namespace planet {
+namespace ofxPlanet {
 MultiBlockCell::MultiBlockCell(const glm::ivec3& point, int blockId)
     : point(point), blockId(blockId) {}
 void multiBlock2DSize(const MultiBlockLayer& layer, glm::ivec3& destSize) {
@@ -55,7 +55,7 @@ std::vector<MultiBlockCell> toCellVec(const MultiBlock& block) {
                                 auto& blockName = line.at(x);
                                 int blockIndex =
                                     blockPack->getBlockIndexForName(blockName);
-                                // TODO:ƒuƒƒbƒN‚ª‚È‚©‚Á‚½ê‡
+                                // TODO:ï¿½uï¿½ï¿½ï¿½bï¿½Nï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡
                                 MultiBlockCell cell(glm::ivec3(x, y, z),
                                                     blockIndex);
                                 ret.emplace_back(cell);
@@ -64,4 +64,4 @@ std::vector<MultiBlockCell> toCellVec(const MultiBlock& block) {
         }
         return ret;
 }
-}  // namespace planet
+}  // namespace ofxPlanet

@@ -7,7 +7,7 @@
 
 #include "BlockShape.hpp"
 #include "TextureSet.hpp"
-namespace planet {
+namespace ofxPlanet {
 
 class World;
 class BlockRenderer;
@@ -42,5 +42,5 @@ class Block {
         int id;
         int textureSetIndex;
 };
-}  // namespace planet
+}  // namespace ofxPlanet
 #endif

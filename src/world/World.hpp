@@ -10,7 +10,7 @@
 
 #include "BlockRenderer.hpp"
 #include "BlockTable.hpp"
-namespace planet {
+namespace ofxPlanet {
 
 class Camera;
 class World;
@@ -86,5 +86,5 @@ class World : public std::enable_shared_from_this<World> {
         bool bIsPlayMode;
 };
 
-}  // namespace planet
+}  // namespace ofxPlanet
 #endif

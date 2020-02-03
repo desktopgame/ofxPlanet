@@ -2,7 +2,7 @@
 
 #include "GraphicsBatch.hpp"
 
-namespace planet {
+namespace ofxPlanet {
 GraphicsRenderer::GraphicsRenderer(const World& world, ofShader& shader)
     : world(world), shader(shader), map() {}
 void GraphicsRenderer::putFront(GLuint texture, int x, int y, int z) {
@@ -45,4 +45,4 @@ std::shared_ptr<GraphicsBatch> GraphicsRenderer::ref(GLuint texture) {
         }
         return map.at(texture);
 }
-}  // namespace planet
+}  // namespace ofxPlanet

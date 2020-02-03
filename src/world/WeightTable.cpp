@@ -1,5 +1,5 @@
 #include "WeightTable.hpp"
-namespace planet {
+namespace ofxPlanet {
 WeightTable::WeightTable(int xSize, int ySize, int zSize)
     : xSize(xSize), ySize(ySize), zSize(zSize), vec() {
         for (int i = 0; i < xSize; i++) {
@@ -57,4 +57,4 @@ void WeightTable::addWeight(int x, int y, int z, int weight,
         addWeight(zp.x, zp.y, zp.z, weight - 1, set);
         addWeight(zn.x, zn.y, zn.z, weight - 1, set);
 }
-}  // namespace planet
+}  // namespace ofxPlanet

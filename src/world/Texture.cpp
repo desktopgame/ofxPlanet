@@ -2,7 +2,7 @@
 
 #include <ofxSOIL.h>
 
-namespace planet {
+namespace ofxPlanet {
 
 Texture::Texture() : width(-1), height(-1), ch(-1), data(nullptr), name(0) {
         glGenTextures(1, &name);
@@ -41,4 +41,4 @@ unsigned char* Texture::getData() const { return data; }
 
 GLuint Texture::getName() const { return name; }
 std::string Texture::getPath() const { return path; }
-}  // namespace planet
+}  // namespace ofxPlanet

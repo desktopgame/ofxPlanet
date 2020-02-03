@@ -5,9 +5,9 @@
 
 #include <string>
 
-namespace planet {
+namespace ofxPlanet {
 /**
- * Texture ‚ÍAƒeƒNƒXƒ`ƒƒ‚ğOpenGL‚Æ•R•t‚¯‚éƒNƒ‰ƒX‚Å‚·B
+ * Texture ï¿½ÍAï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½ï¿½OpenGLï¿½Æ•Rï¿½tï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½Xï¿½Å‚ï¿½ï¿½B
  */
 class Texture {
        public:
@@ -33,5 +33,5 @@ class Texture {
         unsigned char* data;
         GLuint name;
 };
-}  // namespace planet
+}  // namespace ofxPlanet
 #endif
