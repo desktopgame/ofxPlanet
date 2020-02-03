@@ -9,7 +9,7 @@
 
 namespace ofxPlanet {
 /**
- * PlaneType �͕��ʂ̕�����ݒ肷��񋓌^�ł��B
+ * PlaneType is orientation for Plane.
  */
 enum class PlaneType : unsigned int {
         Front = 0,
@@ -23,15 +23,29 @@ enum class PlaneType : unsigned int {
 class Camera;
 class Shader;
 /**
- * Plane �͕��ʂ�`�悷�邽�߂̃N���X�ł��B
+ * Plane is can fast drawable using instancing.
  */
 class Plane {
        public:
         explicit Plane(ofShader& shader, PlaneType type, const glm::vec3 size);
+		/**
+		 * draw plane.
+		 */
         void draw();
+		/**
+		 * draw planes.
+		 */
         void drawInstanced(int count);
 
+		/**
+		 * returns vertex array object.
+		 * @return
+		 */
         ofVbo& getVAO();
+
+		/**
+		 * returns vertex array object.
+		 */
         const ofVbo& getVAO() const;
 
        private:

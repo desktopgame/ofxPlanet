@@ -64,12 +64,6 @@ void Plane::setupOfVbo(PlaneType type, const glm::vec3 size) {
         }
         auto indexData = std::vector<ofIndexType>{0, 1, 2, 2, 3, 0};
         ofVAO.setIndexData(indexData.data(), indexData.size(), GL_STATIC_DRAW);
-        /*
-                auto shader = nameSet.getShader();
-                shader->use();
-                nameSet.apply(shader);
-                shader->unuse();
-        */
 }
 
 std::vector<float> Plane::createFrontVertex(glm::vec3 size) {
