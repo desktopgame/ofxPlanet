@@ -95,11 +95,6 @@ void BasicBiome::onGenerateCave(BlockTable& blockTable, int x, int y, int z,
         }
 }
 
-void BasicBiome::generateStructure(BlockTable& blockTable, MultiBlock mb,
-                                   glm::ivec3 intervalMin,
-                                   glm::ivec3 intervalMax, int testCount,
-                                   int genLimit) {}
-
 BlockPrefab BasicBiome::createTopBlock(BlockTable& blockTable, int x, int y,
                                        int z) const {
         return BlockPrefab(

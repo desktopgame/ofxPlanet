@@ -8,7 +8,7 @@
 namespace ofxPlanet {
 namespace objb {
 /**
- * MtlElement �́A�}�e���A����`�ł��B
+ * MtlElement is material information.
  */
 class MtlElement {
        public:
@@ -35,7 +35,7 @@ class MtlElement {
         std::string _map_Kd;
 };
 /**
- * MtlBuilder �� .mtl �t�H�[�}�b�g�̃��f�����o�͂��邽�߂̃w���p�[�ł��B
+ * MtlBuilder is helper class for material definition file.
  */
 class MtlBuilder {
        public:
