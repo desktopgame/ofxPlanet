@@ -135,33 +135,31 @@ AsyncOperation WorldIO::saveObj(const std::string& outputDir,
 AsyncOperation WorldIO::saveObj(const std::string& outputDir,
                                 const std::shared_ptr<World>& world,
                                 int splitCount) {
-        // ファイル名を作るためのバッファ初期化
+		// intialize buffer for create a file name.
         char buf[64];
         std::memset(buf, '\0', 64);
         std::string cpOutputDir = outputDir;
-        // ワールドを指定の分割数で分割
+		// split a world by specified count.
         auto worlds = world->split(splitCount);
         auto asyncVec = std::vector<AsyncOperation>();
         int splitCountN = static_cast<int>(worlds.size());
-        // 分割されたワールド全てに
         for (int i = 0; i < splitCountN; i++) {
                 auto wpart = worlds.at(i);
-                // 分割されたワールドが、どれだけのオフセットを加えれば
-                // ただしい位置に表示されるかをファイル名に含める
+				// create a file name.
                 std::sprintf(buf, "_Split_x%dz%d", wpart.offset.x,
                              wpart.offset.z);
-                // ワールドを格納するためのディレクトリを作成
+				// create directory for contain obj file.
                 auto newOutputDir = cpOutputDir + std::string(buf);
                 ofDirectory::createDirectory(ofFilePath::join(
                     ofFilePath::getCurrentExeDir(), newOutputDir));
-                // 既存のファイルを削除して、生成を開始
+				// remove already exists file, and create new obj file.
                 auto outputFile = ofFilePath::join(
                     ofFilePath::getCurrentExeDir(),
                     ofFilePath::join(newOutputDir, "data.obj"));
                 asyncVec.emplace_back(
                     WorldIO::saveObj(newOutputDir, wpart.world));
         }
-        // 全てのワールド生成が終わるまで待機する
+		// wait while to finish for all world generate
         auto aAsync = std::make_shared<Progress>();
         std::thread([aAsync, asyncVec, splitCountN]() -> void {
                 bool run = true;
@@ -169,7 +167,6 @@ AsyncOperation WorldIO::saveObj(const std::string& outputDir,
                 while (run) {
                         run = false;
                         count = 0;
-                        // すべて終わるまで待機
                         for (auto aa : asyncVec) {
                                 if (!aa->isDone()) {
                                         run = true;
@@ -209,13 +206,13 @@ void WorldIO::saveObjAsync(std::shared_ptr<Progress> progress,
                            const std::string& outputDir,
                            const std::shared_ptr<World>& world) {
         using namespace objb;
-        // 先にファイルを消しておく
+		// remove already exists file.
         auto outputPath =
             ofFilePath::join(ofFilePath::getCurrentExeDir(),
                              ofFilePath::join(outputDir, "data.obj"));
         ofFile::removeFile(outputPath);
         ofFile::removeFile(outputPath + ".mtl");
-        // 共有される頂点情報を書き込んでおく
+		// write shared vertex information.
         ObjBuilder ob;
         MtlBuilder mb;
         ob.globalTexcoord(glm::vec2(0, 0))
@@ -239,7 +236,6 @@ void WorldIO::saveObjAsync(std::shared_ptr<Progress> progress,
         int ysize = world->getYSize();
         int zsize = world->getZSize();
         float all = static_cast<float>(xsize * ysize * zsize);
-        // glm::vec3 size(1, 1, 1);
         ob.reserveModels(xsize * ysize * zsize);
         std::vector<std::string> texVec;
         for (int x = 0; x < xsize; x++) {
@@ -331,13 +327,13 @@ void WorldIO::saveObjAsync(std::shared_ptr<Progress> progress,
                         }
                 }
         }
-        // オブジェクトファイルを生成
+		// create object file.
         std::ofstream objOFS(outputPath);
         if (!objOFS.fail()) {
                 ob.write(objOFS);
         }
         objOFS.close();
-        // マテリアルファイルを生成
+		// create material file.
         std::ofstream mtlOFS(outputPath + ".mtl");
         if (!mtlOFS.fail()) {
                 mtlOFS << mb.toString() << std::endl;
