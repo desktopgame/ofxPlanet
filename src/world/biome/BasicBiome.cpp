@@ -8,6 +8,8 @@
 #include "../BlockPack.hpp"
 #include "../World.hpp"
 #include "../engine/Generator.hpp"
+#include "../csvr/Parser.hpp"
+
 namespace ofxPlanet {
 
 BasicBiome::BasicBiome()
@@ -42,7 +44,7 @@ void BasicBiome::generate(BlockTable& blockTable) {
         // generate terrain
         auto terrain = gen.generate(seed_gen());
         blockTable.setTerrain(terrain);
-        onBeginGenerateTerrain();
+        onBeginGenerateTerrain(blockTable);
         for (int i = 0; i < terrain.getCellCount(); i++) {
                 Cell cellSrc = terrain.getCellAt(i);
                 Cell cell =
@@ -52,7 +54,7 @@ void BasicBiome::generate(BlockTable& blockTable) {
                 heightMap->insert_or_assign(glm::ivec2(cell.x, cell.z), y);
                 onGenerateTerrain(blockTable, cell.x, y, cell.z);
         }
-        onEndGenerateTerrain();
+        onEndGenerateTerrain(blockTable);
         // generate structure
         onGenerateStructures(blockTable);
         // generate cave
@@ -84,7 +86,7 @@ void BasicBiome::onBeginGenerateWorld(BlockTable& blockTable) {}
 
 void BasicBiome::onEndGenerateWorld(BlockTable& blockTable) {}
 
-void BasicBiome::onBeginGenerateTerrain() {}
+void BasicBiome::onBeginGenerateTerrain(BlockTable& blockTable) {}
 
 void BasicBiome::onGenerateTerrain(BlockTable& blockTable, int x, int y,
                                    int z) {
@@ -96,7 +98,7 @@ void BasicBiome::onGenerateTerrain(BlockTable& blockTable, int x, int y,
         }
 }
 
-void BasicBiome::onEndGenerateTerrain() {}
+void BasicBiome::onEndGenerateTerrain(BlockTable& blockTable) {}
 
 void BasicBiome::onGenerateStructures(BlockTable& blockTable) {}
 
@@ -110,6 +112,28 @@ void BasicBiome::onGenerateCave(BlockTable& blockTable, int x, int y, int z,
 
 void BasicBiome::registerStruct(const std::string& name, const MultiBlock& mb) {
         this->multiBlockMap->insert_or_assign(name, mb);
+}
+
+void BasicBiome::registerStruct(const std::string & name, const std::string & csvr) {
+	MultiBlock mb;
+	csvr::Parser parser;
+	parser.parse(csvr);
+	for (int i = 0; i < parser.getTableCount(); i++) {
+		auto& table = parser.getTableAt(i);
+		MultiBlockLayer mbLayer;
+		for (int j = 0; j < static_cast<int>(table.size()); j++) {
+			auto& line = table.at(j);
+			MultiBlockLine mbLine;
+			for (int k = 0; k < static_cast<int>(line.size());
+				k++) {
+				auto& col = line.at(k);
+				mbLine.emplace_back(col);
+			}
+			mbLayer.emplace_back(mbLine);
+		}
+		mb.emplace_back(mbLayer);
+	}
+	registerStruct(name, mb);
 }
 
 void BasicBiome::generateStruct(BlockTable& table, const std::string& name,
