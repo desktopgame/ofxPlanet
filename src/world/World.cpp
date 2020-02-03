@@ -5,15 +5,14 @@
 #include <ofFbo.h>
 #include <ofLight.h>
 #include <ofVec3f.h>
+#include <ofGraphics.h>
 
 #include <algorithm>
 #include <string>
 
-#include "../game/ofApp.h"
 #include "Block.hpp"
 #include "BlockPack.hpp"
 #include "BlockRenderer.hpp"
-#include "Camera.hpp"
 #include "TexturePack.hpp"
 namespace ofxPlanet {
 
