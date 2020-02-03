@@ -6,4 +6,9 @@
 #include "world/WorldIO.hpp"
 #include "world/biome/Biome.hpp"
 #include "world/biome/BasicBiome.hpp"
+
+#include "world/TexturePack.hpp"
+#include "world/TextureInfoCollection.hpp"
+#include "world/BlockPack.hpp"
+#include "world/BlockInfoCollection.hpp"
 #endif
