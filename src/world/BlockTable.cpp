@@ -94,32 +94,25 @@ bool BlockTable::canExpand(int baseX, int baseY, int baseZ,
         auto points = expandTargets(baseX, baseY, baseZ, mb);
         for (auto& point : points) {
                 glm::ivec3 pos = std::get<0>(point);
-                //���̍��W�̓��[���h����͂ݏo��
                 if (!contains(pos.x, pos.y, pos.z)) {
                         return false;
                 }
                 int oldId = get(pos.x, pos.y, pos.z).id;
-                //�V�����ݒu�����u���b�N����C�Ȃ疳��
                 int newId = std::get<1>(point);
                 if (newId < 0) {
                         continue;
                 }
-                //���Ƀu���b�N������
                 if (oldId >= 0) {
                         return false;
                 }
-                // ���Ƀu���b�N�����邩�ǂ����`�F�b�N����
                 if (pos.y > 0) {
-                        // ���������܂����ɍ\���������邩�m�F
                         glm::ivec3 bottom(pos.x, pos.y - 1, pos.z);
                         auto iter = std::find_if(
                             points.begin(), points.end(),
                             [bottom](auto e) -> bool {
                                     return std::get<0>(e) == bottom;
                             });
-                        // �Ȃ�
                         if (iter == points.end()) {
-                                // ���A���ɐݒu���Ă���u���b�N�����݂��Ȃ�
                                 if (get(bottom.x, bottom.y, bottom.z).id ==
                                     -1) {
                                         return false;
