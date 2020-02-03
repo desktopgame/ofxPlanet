@@ -14,60 +14,60 @@ class GraphicsBatch {
        public:
         GraphicsBatch(const World& world, ofShader& shader);
         virtual ~GraphicsBatch() {}
-		/**
-		 * add position for specific side.
-		 * @param x
-		 * @param y
-		 * @param z
-		 */
+        /**
+         * add position for specific side.
+         * @param x
+         * @param y
+         * @param z
+         */
         virtual void putFront(int x, int y, int z) = 0;
-		/**
-		 * add position for specific side.
-		 * @param x
-		 * @param y
-		 * @param z
-		 */
+        /**
+         * add position for specific side.
+         * @param x
+         * @param y
+         * @param z
+         */
         virtual void putBack(int x, int y, int z) = 0;
-		/**
-		 * add position for specific side.
-		 * @param x
-		 * @param y
-		 * @param z
-		 */
+        /**
+         * add position for specific side.
+         * @param x
+         * @param y
+         * @param z
+         */
         virtual void putLeft(int x, int y, int z) = 0;
-		/**
-		 * add position for specific side.
-		 * @param x
-		 * @param y
-		 * @param z
-		 */
+        /**
+         * add position for specific side.
+         * @param x
+         * @param y
+         * @param z
+         */
         virtual void putRight(int x, int y, int z) = 0;
-		/**
-		 * add position for specific side.
-		 * @param x
-		 * @param y
-		 * @param z
-		 */
+        /**
+         * add position for specific side.
+         * @param x
+         * @param y
+         * @param z
+         */
         virtual void putTop(int x, int y, int z) = 0;
-		/**
-		 * add position for specific side.
-		 * @param x
-		 * @param y
-		 * @param z
-		 */
+        /**
+         * add position for specific side.
+         * @param x
+         * @param y
+         * @param z
+         */
         virtual void putBottom(int x, int y, int z) = 0;
-		/**
-		 * clear all vertex.
-		 */
+        /**
+         * clear all vertex.
+         */
         virtual void clear() = 0;
-		/**
-		 * update all primitive.
-		 */
+        /**
+         * update all primitive.
+         */
         virtual void update() = 0;
-		/**
-		 * draw all primitive.
-		 * @param texture
-		 */
+        /**
+         * draw all primitive.
+         * @param texture
+         */
         virtual void render(GLuint texture) = 0;
 
        protected:

@@ -13,66 +13,66 @@ class Block;
  */
 class BlockPack {
        public:
-		/**
-		 * add BlockPack by specific block collection.
-		 * @param blockInfoCollection
-		 * @return
-		 */
+        /**
+         * add BlockPack by specific block collection.
+         * @param blockInfoCollection
+         * @return
+         */
         static std::shared_ptr<BlockPack> load(
             const BlockInfoCollection& blockInfoCollection);
-		/**
-		 * add BlockPack.
-		 * @paam name
-		 * @return
-		 */
+        /**
+         * add BlockPack.
+         * @paam name
+         * @return
+         */
         static std::shared_ptr<BlockPack> make(const std::string& name);
-		/**
-		 * returns a selecting TexturePack.
-		 * @return
-		 */
+        /**
+         * returns a selecting TexturePack.
+         * @return
+         */
         static std::shared_ptr<BlockPack> getCurrent();
 
-		/**
-		 * add Block.
-		 * @param block
-		 */
+        /**
+         * add Block.
+         * @param block
+         */
         void addBlock(const std::shared_ptr<Block>& block);
 
-		/**
-		 * find block index from name.
-		 * @param name
-		 * @return
-		 */
+        /**
+         * find block index from name.
+         * @param name
+         * @return
+         */
         int getBlockIndexForName(const std::string& name) const;
 
-		/**
-		 * returns block from index.
-		 * @param index
-		 * @return
-		 */
+        /**
+         * returns block from index.
+         * @param index
+         * @return
+         */
         std::shared_ptr<Block> getBlock(int index) const;
 
-		/**
-		 * returns block from name.
-		 * @param name
-		 * @return
-		 */
+        /**
+         * returns block from name.
+         * @param name
+         * @return
+         */
         std::shared_ptr<Block> getBlock(const std::string& name) const;
 
-		/**
-		 * returns count of blocks.
-		 * @return
-		 */
+        /**
+         * returns count of blocks.
+         * @return
+         */
         int getBlockCount() const;
 
-		/**
-		 * return true if selected.
-		 * @return
-		 */
+        /**
+         * return true if selected.
+         * @return
+         */
         bool isSelected() const;
-		/**
-		 * select this BlockPack.
-		 */
+        /**
+         * select this BlockPack.
+         */
         void select();
 
        protected:

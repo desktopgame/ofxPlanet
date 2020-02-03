@@ -135,31 +135,31 @@ AsyncOperation WorldIO::saveObj(const std::string& outputDir,
 AsyncOperation WorldIO::saveObj(const std::string& outputDir,
                                 const std::shared_ptr<World>& world,
                                 int splitCount) {
-		// intialize buffer for create a file name.
+        // intialize buffer for create a file name.
         char buf[64];
         std::memset(buf, '\0', 64);
         std::string cpOutputDir = outputDir;
-		// split a world by specified count.
+        // split a world by specified count.
         auto worlds = world->split(splitCount);
         auto asyncVec = std::vector<AsyncOperation>();
         int splitCountN = static_cast<int>(worlds.size());
         for (int i = 0; i < splitCountN; i++) {
                 auto wpart = worlds.at(i);
-				// create a file name.
+                // create a file name.
                 std::sprintf(buf, "_Split_x%dz%d", wpart.offset.x,
                              wpart.offset.z);
-				// create directory for contain obj file.
+                // create directory for contain obj file.
                 auto newOutputDir = cpOutputDir + std::string(buf);
                 ofDirectory::createDirectory(ofFilePath::join(
                     ofFilePath::getCurrentExeDir(), newOutputDir));
-				// remove already exists file, and create new obj file.
+                // remove already exists file, and create new obj file.
                 auto outputFile = ofFilePath::join(
                     ofFilePath::getCurrentExeDir(),
                     ofFilePath::join(newOutputDir, "data.obj"));
                 asyncVec.emplace_back(
                     WorldIO::saveObj(newOutputDir, wpart.world));
         }
-		// wait while to finish for all world generate
+        // wait while to finish for all world generate
         auto aAsync = std::make_shared<Progress>();
         std::thread([aAsync, asyncVec, splitCountN]() -> void {
                 bool run = true;
@@ -206,13 +206,13 @@ void WorldIO::saveObjAsync(std::shared_ptr<Progress> progress,
                            const std::string& outputDir,
                            const std::shared_ptr<World>& world) {
         using namespace objb;
-		// remove already exists file.
+        // remove already exists file.
         auto outputPath =
             ofFilePath::join(ofFilePath::getCurrentExeDir(),
                              ofFilePath::join(outputDir, "data.obj"));
         ofFile::removeFile(outputPath);
         ofFile::removeFile(outputPath + ".mtl");
-		// write shared vertex information.
+        // write shared vertex information.
         ObjBuilder ob;
         MtlBuilder mb;
         ob.globalTexcoord(glm::vec2(0, 0))
@@ -327,13 +327,13 @@ void WorldIO::saveObjAsync(std::shared_ptr<Progress> progress,
                         }
                 }
         }
-		// create object file.
+        // create object file.
         std::ofstream objOFS(outputPath);
         if (!objOFS.fail()) {
                 ob.write(objOFS);
         }
         objOFS.close();
-		// create material file.
+        // create material file.
         std::ofstream mtlOFS(outputPath + ".mtl");
         if (!mtlOFS.fail()) {
                 mtlOFS << mb.toString() << std::endl;

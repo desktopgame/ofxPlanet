@@ -13,46 +13,46 @@ class Texture {
        public:
         explicit Texture();
         ~Texture();
-		/** 
-		 * load texture file for specific path.
-		 * @param path
-		 */
+        /**
+         * load texture file for specific path.
+         * @param path
+         */
         void load(const std::string& path);
-		/**
-		 * bind this texture.
-		 */
+        /**
+         * bind this texture.
+         */
         void bind();
-		/**
-		 * unbind texture.
-		 */
+        /**
+         * unbind texture.
+         */
         void unbind();
 
-		/**
-		 * returns width of texture.
-		 * @return
-		 */
+        /**
+         * returns width of texture.
+         * @return
+         */
         int getWidth() const;
-		/**
-		 * returns height of texture.
-		 * @return
-		 */
+        /**
+         * returns height of texture.
+         * @return
+         */
         int getHeight() const;
-		/**
-		 * returns RGBA data for texture.
-		 * @return
-		 */
+        /**
+         * returns RGBA data for texture.
+         * @return
+         */
         unsigned char* getData() const;
 
-		/**
-		 * returns texture object in OpenGL.
-		 * @return
-		 */
+        /**
+         * returns texture object in OpenGL.
+         * @return
+         */
         GLuint getName() const;
 
-		/**
-		 * returns path for texture.
-		 * @return
-		 */
+        /**
+         * returns path for texture.
+         * @return
+         */
         std::string getPath() const;
 
        private:

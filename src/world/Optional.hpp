@@ -13,37 +13,37 @@ class Optional {
         explicit Optional();
         explicit Optional(T value);
 
-		/**
-		 * set a value.
-		 * @param value
-		 */
+        /**
+         * set a value.
+         * @param value
+         */
         void setValue(T value);
-		/**
-		 * returns value.
-		 * @return
-		 */
+        /**
+         * returns value.
+         * @return
+         */
         T& getValue();
-		/**
-		 * return default value if empty.
-		 * in else, returns value.
-		 * @param defaultValue
-		 * @return
-		 */
+        /**
+         * return default value if empty.
+         * in else, returns value.
+         * @param defaultValue
+         * @return
+         */
         T getOrDefault(T defaultValue) const;
-		/**
-		 * returns value.
-		 * @return
-		 */
+        /**
+         * returns value.
+         * @return
+         */
         const T& getValue() const;
-		/**
-		 * return true if empty.
-		 * @return
-		 */
+        /**
+         * return true if empty.
+         * @return
+         */
         bool isEmpty() const;
-		/**
-		 * return false if empty.
-		 * @return
-		 */
+        /**
+         * return false if empty.
+         * @return
+         */
         bool hasValue() const;
 
        private:

@@ -14,25 +14,25 @@ namespace ofxPlanet {
 class World;
 class Planet;
 /**
- * Progress is progress for background generation process. 
+ * Progress is progress for background generation process.
  */
 class Progress {
        public:
         explicit Progress();
-		/**
-		 * set progress.
-		 * @param value
-		 */
+        /**
+         * set progress.
+         * @param value
+         */
         void setValue(float value);
-		/**
-		 * returns a progress.
-		 * @return
-		 */
+        /**
+         * returns a progress.
+         * @return
+         */
         float getValue() const;
-		/**
-		 * return true if progress finished.
-		 * @return
-		 */
+        /**
+         * return true if progress finished.
+         * @return
+         */
         bool isDone() const;
 
        private:
@@ -45,37 +45,37 @@ using AsyncOperation = std::shared_ptr<ReadonlyProgress>;
  */
 class WorldIO {
        public:
-		/**
-		 * generate as Json.
-		 * @param outputFile
-		 * @param world
-		 * @return
-		 */
+        /**
+         * generate as Json.
+         * @param outputFile
+         * @param world
+         * @return
+         */
         static AsyncOperation saveJson(const std::string& outputFile,
                                        const std::shared_ptr<World>& world);
-		/**
-		 * generate as Obj.
-		 * @param outputDir
-		 * @param world
-		 * @return
-		 */
+        /**
+         * generate as Obj.
+         * @param outputDir
+         * @param world
+         * @return
+         */
         static AsyncOperation saveObj(const std::string& outputDir,
                                       const std::shared_ptr<World>& world);
-		/**
-		 * generate as Obj.
-		 * @param outputDir
-		 * @param world
-		 * @return
-		 */
+        /**
+         * generate as Obj.
+         * @param outputDir
+         * @param world
+         * @return
+         */
         static AsyncOperation saveObj(const std::string& outputDir,
                                       const std::shared_ptr<World>& world,
                                       int splitCount);
-		/**
-		 * generate as Bmp.
-		 * @param outputFile
-		 * @param planet
-		 * @return
-		 */
+        /**
+         * generate as Bmp.
+         * @param outputFile
+         * @param planet
+         * @return
+         */
         static AsyncOperation saveBmp(const std::string& outputFile,
                                       const std::shared_ptr<Planet>& planet);
 

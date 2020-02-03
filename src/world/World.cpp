@@ -80,7 +80,8 @@ void World::drawToBuffer() {
         rehash();
         checkFBO();
         fbo.begin();
-        glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ZERO, GL_ONE);
+        glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ZERO,
+                            GL_ONE);
         glEnable(GL_DEPTH_TEST);
         fbo.clear();
         ofEnableAlphaBlending();

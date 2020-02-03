@@ -14,10 +14,10 @@ class Biome {
        public:
         Biome() = default;
         virtual ~Biome() = default;
-		/**
-		 * write block data to block table.
-		 * @param blockTable
-		 */
+        /**
+         * write block data to block table.
+         * @param blockTable
+         */
         virtual void generate(BlockTable& blockTable) = 0;
 
        private:

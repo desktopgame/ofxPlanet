@@ -16,66 +16,66 @@ class GraphicsRenderer {
        public:
         GraphicsRenderer(const World& world, ofShader& shader);
 
-		/**
-		 * add position to GraphicsBatch.
-		 * @param texture
-		 * @param x
-		 * @param y
-		 * @param z
-		 */
+        /**
+         * add position to GraphicsBatch.
+         * @param texture
+         * @param x
+         * @param y
+         * @param z
+         */
         void putFront(GLuint texture, int x, int y, int z);
-		/**
-		 * add position to GraphicsBatch.
-		 * @param texture
-		 * @param x
-		 * @param y
-		 * @param z
-		 */
+        /**
+         * add position to GraphicsBatch.
+         * @param texture
+         * @param x
+         * @param y
+         * @param z
+         */
         void putBack(GLuint texture, int x, int y, int z);
-		/**
-		 * add position to GraphicsBatch.
-		 * @param texture
-		 * @param x
-		 * @param y
-		 * @param z
-		 */
+        /**
+         * add position to GraphicsBatch.
+         * @param texture
+         * @param x
+         * @param y
+         * @param z
+         */
         void putLeft(GLuint texture, int x, int y, int z);
-		/**
-		 * add position to GraphicsBatch.
-		 * @param texture
-		 * @param x
-		 * @param y
-		 * @param z
-		 */
+        /**
+         * add position to GraphicsBatch.
+         * @param texture
+         * @param x
+         * @param y
+         * @param z
+         */
         void putRight(GLuint texture, int x, int y, int z);
-		/**
-		 * add position to GraphicsBatch.
-		 * @param texture
-		 * @param x
-		 * @param y
-		 * @param z
-		 */
+        /**
+         * add position to GraphicsBatch.
+         * @param texture
+         * @param x
+         * @param y
+         * @param z
+         */
         void putTop(GLuint texture, int x, int y, int z);
-		/**
-		 * add position to GraphicsBatch.
-		 * @param texture
-		 * @param x
-		 * @param y
-		 * @param z
-		 */
+        /**
+         * add position to GraphicsBatch.
+         * @param texture
+         * @param x
+         * @param y
+         * @param z
+         */
         void putBottom(GLuint texture, int x, int y, int z);
 
-		/**
-		 * clear all vertex.
-		 */
+        /**
+         * clear all vertex.
+         */
         void clear();
-		/**
-		 * update all primitive.
-		 */
+        /**
+         * update all primitive.
+         */
         void update();
-		/**
-		 * draw all GraphicsBatch.
-		 */
+        /**
+         * draw all GraphicsBatch.
+         */
         void render();
 
        protected:

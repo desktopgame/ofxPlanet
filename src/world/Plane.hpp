@@ -28,24 +28,24 @@ class Shader;
 class Plane {
        public:
         explicit Plane(ofShader& shader, PlaneType type, const glm::vec3 size);
-		/**
-		 * draw plane.
-		 */
+        /**
+         * draw plane.
+         */
         void draw();
-		/**
-		 * draw planes.
-		 */
+        /**
+         * draw planes.
+         */
         void drawInstanced(int count);
 
-		/**
-		 * returns vertex array object.
-		 * @return
-		 */
+        /**
+         * returns vertex array object.
+         * @return
+         */
         ofVbo& getVAO();
 
-		/**
-		 * returns vertex array object.
-		 */
+        /**
+         * returns vertex array object.
+         */
         const ofVbo& getVAO() const;
 
        private:

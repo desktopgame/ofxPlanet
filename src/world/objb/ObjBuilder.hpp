@@ -58,14 +58,14 @@ class ObjModel {
         ObjModel& sharedVertex(const glm::vec3& aVertex, ObjPolygon& destPoly);
 
         /**
-		 * add vertex.
+         * add vertex.
          * @param vertex
          * @return
          */
         ObjModel& vertex(const glm::vec3& vertex);
 
         /**
-		 * add normal vector.
+         * add normal vector.
          * @param normal
          * @return
          */
@@ -91,9 +91,9 @@ class ObjModel {
          */
         ObjModel& useMaterial(const std::string& material);
 
-		/**
-		 * @return
-		 */
+        /**
+         * @return
+         */
         int getUseIndexCount();
         std::string name;
         std::string material;
@@ -115,7 +115,7 @@ class ObjBuilder {
         explicit ObjBuilder();
         ~ObjBuilder();
         /**
-         * 
+         *
          * @param name
          * @return
          */

@@ -32,215 +32,216 @@ class Block;
  */
 class World : public std::enable_shared_from_this<World> {
        public:
-		/**
-		 * returns a new world.
-		 * @param shader
-		 * @param size
-		 * @return
-		 */
+        /**
+         * returns a new world.
+         * @param shader
+         * @param size
+         * @return
+         */
         static std::shared_ptr<World> create(ofShader& shader,
                                              const glm::ivec3& size);
 
-		/**
-		 * returns a new world.
-		 * @param shader
-		 * @param xSize
-		 * @param ySize
-		 * @param zSize
-		 * @return
-		 */
+        /**
+         * returns a new world.
+         * @param shader
+         * @param xSize
+         * @param ySize
+         * @param zSize
+         * @return
+         */
         static std::shared_ptr<World> create(ofShader& shader, int xSize,
                                              int ySize, int zSize);
-		/**
-		 * @param f
-		 * @return
-		 */
+        /**
+         * @param f
+         * @return
+         */
         static int floatToInt(float f);
 
-		/**
-		 * overwrite blocks by specified table.
-		 * @param table
-		 */
+        /**
+         * overwrite blocks by specified table.
+         * @param table
+         */
         void load(const BlockTable& table);
-		/**
-		 * remove all blocks.
-		 */
+        /**
+         * remove all blocks.
+         */
         void clear();
 
-		/**
-		 * update all blocks.
-		 */
+        /**
+         * update all blocks.
+         */
         void update();
 
-		/**
-		 * draw all blocks to frame buffer object.
-		 */
+        /**
+         * draw all blocks to frame buffer object.
+         */
         void drawToBuffer();
-		/**
-		 * draw frame buffer object to screen.
-		 */
+        /**
+         * draw frame buffer object to screen.
+         */
         void render();
 
-		/**
-		 * mark as`taint` state.
-		 */
+        /**
+         * mark as`taint` state.
+         */
         void invalidate();
-		/**
-		 * create verticies if marked as `taint` state.
-		 */
+        /**
+         * create verticies if marked as `taint` state.
+         */
         void rehash();
 
-		/**
-		 * overwrite block for specific position.
-		 * @param pos
-		 * @param block
-		 */
+        /**
+         * overwrite block for specific position.
+         * @param pos
+         * @param block
+         */
         void setBlock(glm::vec3 pos, std::shared_ptr<Block> block);
-		/**
-		 * overwrite block for specific position.
-		 * @param pos
-		 * @param block
-		 */
+        /**
+         * overwrite block for specific position.
+         * @param pos
+         * @param block
+         */
         void setBlock(glm::ivec3 pos, std::shared_ptr<Block> block);
-		/**
-		 * overwrite block for specific position.
-		 * @param x
-		 * @param y
-		 * @param z
-		 * @param block
-		 */
+        /**
+         * overwrite block for specific position.
+         * @param x
+         * @param y
+         * @param z
+         * @param block
+         */
         void setBlock(float x, float y, float z, std::shared_ptr<Block> block);
-		/**
-		 * overwrite block for specific position.
-		 * @param x
-		 * @param y
-		 * @param z
-		 * @return block
-		 */
+        /**
+         * overwrite block for specific position.
+         * @param x
+         * @param y
+         * @param z
+         * @return block
+         */
         void setBlock(int x, int y, int z, std::shared_ptr<Block> block);
-		/**
-		 * returns a block for specific position.
-		 * @param x
-		 * @param y
-		 * @param z
-		 * @return
-		 */
+        /**
+         * returns a block for specific position.
+         * @param x
+         * @param y
+         * @param z
+         * @return
+         */
         std::shared_ptr<Block> getBlock(int x, int y, int z) const;
-		/**
-		 * returns a block for specific position.
-		 * @param x
-		 * @param y
-		 * @param z
-		 * @return
-		 */
+        /**
+         * returns a block for specific position.
+         * @param x
+         * @param y
+         * @param z
+         * @return
+         */
         std::shared_ptr<Block> getBlock(float x, float y, float z) const;
-		/**
-		 * returns a block for specific position.
-		 * @param pos
-		 * @return
-		 */
+        /**
+         * returns a block for specific position.
+         * @param pos
+         * @return
+         */
         std::shared_ptr<Block> getBlock(glm::vec3 pos) const;
-		/**
-		 * returns a block for specific position.
-		 * @param pos
-		 * @return
-		 */
+        /**
+         * returns a block for specific position.
+         * @param pos
+         * @return
+         */
         std::shared_ptr<Block> getBlock(glm::ivec3 pos) const;
 
-		/**
-		 * return true if included in world a specific position.
-		 * @param x
-		 * @param y
-		 * @param z
-		 * @return
-		 */
+        /**
+         * return true if included in world a specific position.
+         * @param x
+         * @param y
+         * @param z
+         * @return
+         */
         bool isContains(int x, int y, int z) const;
-		/**
-		 * return true if included in world a specific position.
-		 * @param v
-		 * @return
-		 */
+        /**
+         * return true if included in world a specific position.
+         * @param v
+         * @return
+         */
         bool isContains(const glm::ivec3& v) const;
-		/**
-		 * return true if included in world a specific position.
-		 * @param v
-		 * @return
-		 */
+        /**
+         * return true if included in world a specific position.
+         * @param v
+         * @return
+         */
         bool isContains(const glm::vec3& v) const;
-		/**
-		 * return true if empty a specified position, or outside from world.
-		 * @param x
-		 * @param y
-		 * @param z
-		 * @return
-		 */
+        /**
+         * return true if empty a specified position, or outside from world.
+         * @param x
+         * @param y
+         * @param z
+         * @return
+         */
         bool isEmpty(int x, int y, int z) const;
 
-		/**
-		 * return true if exists block a specified position, and it block shape is an `Block`.
-		 * @param x
-		 * @param y
-		 * @param z
-		 * @return
-		 */
+        /**
+         * return true if exists block a specified position, and it block shape
+         * is an `Block`.
+         * @param x
+         * @param y
+         * @param z
+         * @return
+         */
         bool isFilled(int x, int y, int z) const;
 
-		/**
-		 * return height visible from top-view for specific position.
-		 * @param x
-		 * @param z
-		 * @return
-		 */
+        /**
+         * return height visible from top-view for specific position.
+         * @param x
+         * @param z
+         * @return
+         */
         int getGroundY(int x, int z) const;
 
-		/**
-		 * returns a physical position in OpenGL for specific block.
-		 * @param x
-		 * @param y
-		 * @param z
-		 */
+        /**
+         * returns a physical position in OpenGL for specific block.
+         * @param x
+         * @param y
+         * @param z
+         */
         glm::vec3 getPhysicalPosition(int x, int y, int z) const;
 
-		/**
-		 * returns a X-axis from world 3D size.
-		 * @return
-		 */
+        /**
+         * returns a X-axis from world 3D size.
+         * @return
+         */
         int getXSize() const;
 
-		/**
-		 * returns a Y-axis from world 3D size.
-		 * @return
-		 */
+        /**
+         * returns a Y-axis from world 3D size.
+         * @return
+         */
         int getYSize() const;
 
-		/**
-		 * returns a Z-axis from world 3D size.
-		 * @return
-		 */
+        /**
+         * returns a Z-axis from world 3D size.
+         * @return
+         */
         int getZSize() const;
 
-		/**
-		 * returns a world 3D size.
-		 * @return
-		 */
+        /**
+         * returns a world 3D size.
+         * @return
+         */
         glm::ivec3 getSize() const;
 
-		/**
-		 * TODO: write at after.
-		 * @param playMode
-		 */
+        /**
+         * TODO: write at after.
+         * @param playMode
+         */
         void setPlayMode(bool playMode);
-		/**
-		 * TODO: write at after.
-		 * @return
-		 */
+        /**
+         * TODO: write at after.
+         * @return
+         */
         bool isPlayMode() const;
 
-		/**
-		 * split a world for specific split count.
-		 * @param splitNum
-		 * @return
-		 */
+        /**
+         * split a world for specific split count.
+         * @param splitNum
+         * @return
+         */
         std::vector<WorldPart> split(int splitNum) const;
 
        private:

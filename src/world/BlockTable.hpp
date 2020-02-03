@@ -27,30 +27,30 @@ class BlockArea {
        public:
         explicit BlockArea();
 
-		/**
-		 * add point.
-		 * @param point
-		 */
+        /**
+         * add point.
+         * @param point
+         */
         void addPoint(glm::ivec3 point);
-		/**
-		 * returns point from index.
-		 * @param i
-		 * @return
-		 */
+        /**
+         * returns point from index.
+         * @param i
+         * @return
+         */
         glm::ivec3 getPoint(int i) const;
-		/**
-		 * returns count of points.
-		 * @return
-		 */
+        /**
+         * returns count of points.
+         * @return
+         */
         int getPointCount() const;
-		/**
-		 * returns points.
-		 * @return
-		 */
+        /**
+         * returns points.
+         * @return
+         */
         std::vector<glm::ivec3> getPoints() const;
-		/**
-		 * compute a 2D size.
-		 */
+        /**
+         * compute a 2D size.
+         */
         glm::ivec3 compute2DSize() const;
 
        private:
@@ -64,59 +64,60 @@ class BlockTable {
        public:
         explicit BlockTable(int xSize, int ySize, int zSize);
         BlockTable();
-		/**
-		 * overwrite BlockPrefab for specific position.
-		 * @param x
-		 * @param y
-		 * @param z
-		 * @param block
-		 */
+        /**
+         * overwrite BlockPrefab for specific position.
+         * @param x
+         * @param y
+         * @param z
+         * @param block
+         */
         void set(int x, int y, int z, const BlockPrefab& block);
 
-		/**
-		 * returns BlockPrefab for specific position.
-		 * @param x
-		 * @param y
-		 * @param z
-		 * @return
-		 */
+        /**
+         * returns BlockPrefab for specific position.
+         * @param x
+         * @param y
+         * @param z
+         * @return
+         */
         BlockPrefab& get(int x, int y, int z);
 
-		/**
-		 * returns BlockPrefab for specific position.
-		 * @param x
-		 * @param y
-		 * @param z
-		 * @return
-		 */
+        /**
+         * returns BlockPrefab for specific position.
+         * @param x
+         * @param y
+         * @param z
+         * @return
+         */
         const BlockPrefab& get(int x, int y, int z) const;
 
-		/**
-		 * returns a generation points for specific structure at specific position.
-		 * @param baseX
-		 * @param baseY
-		 * @param baseZ
-		 * @param mb
-		 * @return
-		 */
+        /**
+         * returns a generation points for specific structure at specific
+         * position.
+         * @param baseX
+         * @param baseY
+         * @param baseZ
+         * @param mb
+         * @return
+         */
         std::vector<std::tuple<glm::ivec3, int> > expandTargets(
             int baseX, int baseY, int baseZ, const MultiBlock& mb) const;
-		/**
-		 * generate structure at specific position.
-		 * @param baseX
-		 * @param baseY
-		 * @param baseZ
-		 * @param mb
-		 */
+        /**
+         * generate structure at specific position.
+         * @param baseX
+         * @param baseY
+         * @param baseZ
+         * @param mb
+         */
         void expand(int baseX, int baseY, int baseZ, const MultiBlock& mb);
 
-		/**
-		 * return true if can generate structure at specific position.
-		 * @param baseX
-		 * @param baseY
-		 * @param baseZ
-		 * @param mb
-		 */
+        /**
+         * return true if can generate structure at specific position.
+         * @param baseX
+         * @param baseY
+         * @param baseZ
+         * @param mb
+         */
         bool canExpand(int baseX, int baseY, int baseZ,
                        const MultiBlock& mb) const;
 
@@ -136,43 +137,43 @@ class BlockTable {
          */
         int getTopYForXZ(int x, int z) const;
         /**
-		 * returns a list of area for top-view.
+         * returns a list of area for top-view.
          * @return
          */
         std::vector<BlockArea> getAllBlockAreaForTop() const;
 
         /**
-		 * returns a stackable height for area.
+         * returns a stackable height for area.
          * @param blockArea
          * @return
          */
         int getStackableHeight(const BlockArea& blockArea) const;
 
-		/**
-		 * returns x-axis from table size.
-		 * @return
-		 */
+        /**
+         * returns x-axis from table size.
+         * @return
+         */
         int getXSize() const;
-		/**
-		 * returns y-axis from table size.
-		 * @return
-		 */
+        /**
+         * returns y-axis from table size.
+         * @return
+         */
         int getYSize() const;
-		/**
-		 * returns z-axis from table size.
-		 * @return
-		 */
+        /**
+         * returns z-axis from table size.
+         * @return
+         */
         int getZSize() const;
 
-		/**
-		 * overwrite terrain.
-		 * @param terrain
-		 */
+        /**
+         * overwrite terrain.
+         * @param terrain
+         */
         void setTerrain(const Terrain terrain);
-		/**
-		 * returns terrain.
-		 * @return
-		 */
+        /**
+         * returns terrain.
+         * @return
+         */
         Terrain getTerrain() const;
 
        private:
