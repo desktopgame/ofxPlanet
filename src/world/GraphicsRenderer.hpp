@@ -70,7 +70,7 @@ class GraphicsRenderer {
 		 */
         void clear();
 		/**
-		 * update all plane.
+		 * update all primitive.
 		 */
         void update();
 		/**
