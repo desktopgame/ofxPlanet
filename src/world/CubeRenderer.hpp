@@ -10,6 +10,9 @@
 namespace ofxPlanet {
 
 class Camera;
+/**
+ * CubeRenderer is implement GraphicsRenderer ufor rendering Planes.
+ */
 class CubeRenderer : public GraphicsRenderer {
        public:
         explicit CubeRenderer(const World& world, ofShader& shader,

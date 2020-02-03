@@ -13,6 +13,9 @@
 namespace ofxPlanet {
 class World;
 class Camera;
+/**
+ * CubeRenderer is implement GraphicsBatch ufor rendering Planes.
+ */
 class CubeBatch : public GraphicsBatch {
        public:
         explicit CubeBatch(const World& world, ofShader& shader,
