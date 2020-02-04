@@ -203,6 +203,10 @@ std::vector<WorldPart> World::split(int splitNum) const {
         return ret;
 }
 
+std::shared_ptr<Chunk> World::getChunk() const {
+	return chunk;
+}
+
 ofShader & World::getShader() {
 	return shader;
 }

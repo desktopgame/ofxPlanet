@@ -237,6 +237,12 @@ class World : public std::enable_shared_from_this<World> {
         std::vector<WorldPart> split(int splitNum) const;
 
 		/**
+		 * returns chunk.
+		 * @return
+		 */
+		std::shared_ptr<Chunk> getChunk() const;
+
+		/**
 		 * returns shader.
 		 * @return
 		 */
