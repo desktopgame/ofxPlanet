@@ -8,6 +8,7 @@
 #include "world/TexturePack.hpp"
 #include "world/World.hpp"
 #include "world/WorldIO.hpp"
+#include "world/Chunk.hpp"
 #include "world/biome/BasicBiome.hpp"
 #include "world/biome/Biome.hpp"
 #endif
