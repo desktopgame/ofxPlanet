@@ -27,6 +27,7 @@ class WorldPart {
 
 class Entity;
 class Block;
+class Chunk;
 /**
  * World is three dimenstional world composed cube.
  */
@@ -80,15 +81,6 @@ class World : public std::enable_shared_from_this<World> {
          * draw frame buffer object to screen.
          */
         void render();
-
-        /**
-         * mark as`taint` state.
-         */
-        void invalidate();
-        /**
-         * create verticies if marked as `taint` state.
-         */
-        void rehash();
 
         /**
          * overwrite block for specific position.
@@ -255,13 +247,11 @@ class World : public std::enable_shared_from_this<World> {
         explicit World(ofShader& shader, const glm::ivec3& size);
         explicit World(ofShader& shader, int xSize, int ySize, int zSize);
         std::vector<std::vector<std::vector<std::shared_ptr<Block> > > > blocks;
-        std::vector<glm::ivec3> notBlockPositionsVec;
-        bool isInvalid;
         int xSize, ySize, zSize;
         int fboW, fboH;
-        BlockRenderer renderer;
+		ofShader& shader;
+		std::shared_ptr<Chunk> chunk;
         ofFbo fbo;
-        ofShader& shader;
         bool bIsPlayMode;
 };
 

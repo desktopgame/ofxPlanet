@@ -29,7 +29,7 @@ class Block {
          * @param y
          * @param z
          */
-        void batch(std::shared_ptr<World> world, BlockRenderer& renderer, int x,
+        void batch(const World& world, BlockRenderer& renderer, int x,
                    int y, int z);
         /**
          * returns TextureSet for rendering this block.

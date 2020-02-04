@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <string>
 
+#include "Chunk.hpp"
 #include "Block.hpp"
 #include "BlockPack.hpp"
 #include "BlockRenderer.hpp"
@@ -68,6 +69,7 @@ void World::clear() {
                         }
                 }
         }
+		chunk->invalidate();
 }
 
 void World::update() {
@@ -77,8 +79,8 @@ void World::update() {
 }
 
 void World::drawToBuffer() {
-        rehash();
         checkFBO();
+		chunk->rehash();
         fbo.begin();
         glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ZERO,
                             GL_ONE);
@@ -86,7 +88,7 @@ void World::drawToBuffer() {
         fbo.clear();
         ofEnableAlphaBlending();
         ofSetBackgroundColor(0, 0, 0, 0);
-        renderer.render();
+		chunk->draw();
         fbo.end();
 }
 
@@ -94,30 +96,6 @@ void World::render() {
         glDisable(GL_DEPTH_TEST);
         glDisable(GL_CULL_FACE);
         fbo.draw(0, 0, ofGetWidth(), ofGetHeight());
-}
-
-void World::invalidate() { this->isInvalid = true; }
-
-void World::rehash() {
-        if (!isInvalid) {
-                return;
-        }
-        this->isInvalid = false;
-        checkFBO();
-        renderer.clear();
-        auto w = std::const_pointer_cast<World>(shared_from_this());
-        for (int x = 0; x < xSize; x++) {
-                for (int y = 0; y < ySize; y++) {
-                        for (int z = 0; z < zSize; z++) {
-                                auto block = getBlock(x, y, z);
-                                if (!block) {
-                                        continue;
-                                }
-                                block->batch(w, renderer, x, y, z);
-                        }
-                }
-        }
-        renderer.update();
 }
 
 void World::setBlock(glm::vec3 pos, std::shared_ptr<Block> block) {
@@ -134,18 +112,8 @@ void World::setBlock(float x, float y, float z, std::shared_ptr<Block> block) {
 }
 
 void World::setBlock(int x, int y, int z, std::shared_ptr<Block> block) {
-        // �ȑO�������W�Ƀu���b�N���u����Ă����Ȃ�폜
-        glm::ivec3 pos(x, y, z);
-        auto iter = std::remove_if(
-            notBlockPositionsVec.begin(), notBlockPositionsVec.end(),
-            [pos](glm::ivec3 e) -> bool { return e == pos; });
-        notBlockPositionsVec.erase(iter, notBlockPositionsVec.end());
-        //�u���b�N�̃T�C�Y���f�t�H���g�łȂ��Ȃ�L�^����
-        if (block && block->getShape() != BlockShape::Block) {
-                notBlockPositionsVec.emplace_back(pos);
-        }
         blocks[x][y][z] = block;
-        this->isInvalid = true;
+		chunk->invalidate(x, y, z);
 }
 
 std::shared_ptr<Block> World::getBlock(int x, int y, int z) const {
@@ -196,15 +164,7 @@ int World::getGroundY(int x, int z) const {
         return ySize;
 }
 glm::vec3 World::getPhysicalPosition(int x, int y, int z) const {
-        // �܂��͑S�Ẵu���b�N���ʏ�u���b�N�ł���O��Ōv�Z����
         glm::vec3 pos(x * 2, y * 2, z * 2);
-        /*
-        for (auto e : notBlockPositionsVec) {
-                glm::vec3 size = glm::vec3(2, 2, 2) - getBlock(e.x, e.y,
-        e.z)->getSize(); if (e.x <= x && e.y <= y && e.z <= z) { pos.x -=
-        size.x; pos.y -= size.y; pos.z -= size.z;
-                }
-        }*/
         return pos;
 }
 int World::getXSize() const { return xSize; }
@@ -262,15 +222,13 @@ World::World(ofShader& shader, const glm::ivec3& size)
     : World(shader, size.x, size.y, size.z) {}
 
 World::World(ofShader& shader, int xSize, int ySize, int zSize)
-    : notBlockPositionsVec(),
-      blocks(),
+    : blocks(),
       xSize(xSize),
       ySize(ySize),
       zSize(zSize),
-      renderer(*this, shader),
-      isInvalid(true),
       bIsPlayMode(false),
       fbo(),
+	  chunk(Chunk::create(*this, 0, 0, xSize, zSize)),
       shader(shader),
       fboW(-1),
       fboH(-1) {}

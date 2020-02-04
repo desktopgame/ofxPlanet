@@ -8,8 +8,24 @@ BlockRenderer::BlockRenderer(const World& world, ofShader& shader)
       backSlabRenderer(world, shader, glm::vec3(1, 1, 0.5f), 1),
       topSlabRenderer(world, shader, glm::vec3(1, 0.5f, 1), 1),
       bottomSlabRenderer(world, shader, glm::vec3(1, 0.5f, 1), -1) {}
-void BlockRenderer::clear() { cubeRenderer.clear(); }
-void BlockRenderer::update() { cubeRenderer.update(); }
+void BlockRenderer::clear() {
+	cubeRenderer.clear();
+	leftSlabRenderer.clear();
+	rightSlabRenderer.clear();
+	frontSlabRenderer.clear();
+	backSlabRenderer.clear();
+	topSlabRenderer.clear();
+	bottomSlabRenderer.clear();
+}
+void BlockRenderer::update() {
+	cubeRenderer.update();
+	leftSlabRenderer.update();
+	rightSlabRenderer.update();
+	frontSlabRenderer.update();
+	backSlabRenderer.update();
+	topSlabRenderer.update();
+	bottomSlabRenderer.update();
+}
 void BlockRenderer::render() {
         cubeRenderer.render();
         leftSlabRenderer.render();
