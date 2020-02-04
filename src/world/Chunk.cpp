@@ -86,19 +86,14 @@ void Chunk::split(int splitSize) {
 	if (this->type == ChunkType::Split) {
 		throw std::logic_error("this chunks is already split");
 	}
-	int xSplit = xSize / splitSize;
-	int zSplit = zSize / splitSize;
-	int xSplitM = xSize % splitSize;
-	int zSplitM = zSize % splitSize;
 	auto self = std::const_pointer_cast<Chunk>(shared_from_this());
-	for (int x = 0; x < xSize; x += xSplit) {
-		for (int z = 0; z < zSize; z += zSplit) {
-			auto subChunk = Instance(new Chunk(self, world, x, z, xSplit, zSplit));
+	int x = 0;
+	int z = 0;
+	for (x = 0; x < xSize; x += splitSize) {
+		for (z = 0; z < zSize; z += splitSize) {
+			auto subChunk = Instance(new Chunk(self, world, x, z, splitSize, splitSize));
 			subchunks.emplace_back(subChunk);
 		}
-	}
-	if (xSplitM > 0 || zSplitM > 0) {
-		throw std::logic_error("invalid split size");
 	}
 	deleteRenderer();
 	this->type = ChunkType::Split;
