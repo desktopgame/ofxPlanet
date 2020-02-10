@@ -48,6 +48,13 @@ class Plane {
          */
         const ofVbo& getVAO() const;
 
+		static glm::vec3 TOP_NORMAL;
+		static glm::vec3 BOTTOM_NORMAL;
+		static glm::vec3 LEFT_NORMAL;
+		static glm::vec3 RIGHT_NORMAL;
+		static glm::vec3 FRONT_NORMAL;
+		static glm::vec3 BACK_NORMAL;
+
        private:
         void setupOfVboData(std::vector<float> vertex,
                             std::vector<float> normal, std::vector<float> uv);

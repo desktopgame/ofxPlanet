@@ -1,6 +1,12 @@
 #include "Plane.hpp"
 
 namespace ofxPlanet {
+glm::vec3 Plane::TOP_NORMAL = glm::vec3(0, 1, 0);
+glm::vec3 Plane::BOTTOM_NORMAL = glm::vec3(0, -1, 0);
+glm::vec3 Plane::LEFT_NORMAL = glm::vec3(-1, 0, 0);
+glm::vec3 Plane::RIGHT_NORMAL = glm::vec3(1, 0, 0);
+glm::vec3 Plane::FRONT_NORMAL = glm::vec3(0, 0, 1);
+glm::vec3 Plane::BACK_NORMAL = glm::vec3(0, 0, -1);
 
 Plane::Plane(ofShader& shader, PlaneType type, const glm::vec3 size)
     : shader(shader), type(type), ofVAO() {
