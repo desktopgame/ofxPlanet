@@ -24,6 +24,14 @@ class WorldPart {
         std::shared_ptr<World> world;
         glm::ivec3 offset;
 };
+/**
+ * RaycastResult.
+ */
+struct RaycastResult {
+	glm::vec3 normal;
+	glm::ivec3 position;
+	bool hit;
+};
 
 class Entity;
 class Block;
@@ -76,6 +84,17 @@ class World : public std::enable_shared_from_this<World> {
          * draw frame buffer object to screen.
          */
         void render();
+
+		/**
+		 * porting from stackexchange.
+		 * @param origin
+		 * @param direction
+		 * @param length
+		 * @param scale
+		 * @return
+		 * @see https://gamedev.stackexchange.com/questions/47362/cast-ray-to-select-block-in-voxel-game
+		 */
+		RaycastResult raycast(glm::vec3 origin, glm::vec3 direction, float length, float scale = 2.0f) const;
 
         /**
          * overwrite block for specific position.

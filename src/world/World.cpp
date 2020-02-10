@@ -95,6 +95,95 @@ void World::render() {
         fbo.draw(0, 0, ofGetWidth(), ofGetHeight());
 }
 
+RaycastResult World::raycast(glm::vec3 origin, glm::vec3 direction, float length, float scale) const {
+	origin /= scale;
+	int x = (Math::floatToInt(origin.x));
+	int y = (Math::floatToInt(origin.y));
+	int z = (Math::floatToInt(origin.z));
+	float dx = direction.x;
+	float dy = direction.y;
+	float dz = direction.z;
+	float stepX = Math::signum(dx);
+	float stepY = Math::signum(dy);
+	float stepZ = Math::signum(dz);
+	float tMaxX = Math::intbound(origin.x, dx);
+	float tMaxY = Math::intbound(origin.y, dy);
+	float tMaxZ = Math::intbound(origin.z, dz);
+	float tDeltaX = stepX / dx;
+	float tDeltaY = stepY / dy;
+	float tDeltaZ = stepZ / dz;
+	int wx = (this->xSize);
+	int wy = (this->ySize);
+	int wz = (this->zSize);
+	glm::vec3 normal(0, 0, 0);
+	RaycastResult res;
+	res.hit = false;
+	if (Math::isZero(dx) && Math::isZero(dy) && Math::isZero(dz)) {
+		return res;
+	}
+	length /= std::sqrt(dx*dx + dy * dy + dz * dz);
+
+	while (/* ray has not gone past bounds of world */
+		(stepX > 0 ? x < wx : x >= 0) &&
+		(stepY > 0 ? y < wy : y >= 0) &&
+		(stepZ > 0 ? z < wz : z >= 0)) {
+		res.hit = false;
+		// Invoke the callback, unless we are not *yet* within the bounds of the
+		// world.
+		if (!(x < 0 || y < 0 || z < 0 || x >= wx || y >= wy || z >= wz)) {
+			res.position = glm::vec3(x, y, z);
+			res.normal = normal;
+			res.hit = true;
+			if (isContains(res.position) && getBlock(res.position) != nullptr) {
+				break;
+			}
+		}
+		// tMaxX stores the t-value at which we cross a cube boundary along the
+		// X axis, and similarly for Y and Z. Therefore, choosing the least tMax
+		// chooses the closest cube boundary. Only the first case of the four
+		// has been commented in detail.
+		if (tMaxX < tMaxY) {
+			if (tMaxX < tMaxZ) {
+				if (tMaxX > length) break;
+				// Update which cube we are now in.
+				x += stepX;
+				// Adjust tMaxX to the next X-oriented boundary crossing.
+				tMaxX += tDeltaX;
+				// Record the normal vector of the cube face we entered.
+				normal.x = -stepX;
+				normal.y = 0;
+				normal.z = 0;
+			} else {
+				if (tMaxZ > length) break;
+				z += stepZ;
+				tMaxZ += tDeltaZ;
+				normal.x = 0;
+				normal.y = 0;
+				normal.z = -stepZ;
+			}
+		} else {
+			if (tMaxY < tMaxZ) {
+				if (tMaxY > length) break;
+				y += stepY;
+				tMaxY += tDeltaY;
+				normal.x = 0;
+				normal.y = -stepY;
+				normal.z = 0;
+			} else {
+				// Identical to the second case, repeated for simplicity in
+				// the conditionals.
+				if (tMaxZ > length) break;
+				z += stepZ;
+				tMaxZ += tDeltaZ;
+				normal.x = 0;
+				normal.y = 0;
+				normal.z = -stepZ;
+			}
+		}
+	}
+	return res;
+}
+
 void World::setBlock(glm::vec3 pos, std::shared_ptr<Block> block) {
         setBlock(pos.x, pos.y, pos.z, block);
 }
