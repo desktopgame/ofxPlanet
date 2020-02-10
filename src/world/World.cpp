@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <string>
 
+#include "Math.hpp"
 #include "Chunk.hpp"
 #include "Block.hpp"
 #include "BlockPack.hpp"
@@ -40,7 +41,6 @@ std::shared_ptr<World> World::create(ofShader& shader, int xSize, int ySize,
         return ret;
 }
 
-int World::floatToInt(float f) { return static_cast<int>(std::round(f)); }
 
 void World::load(const BlockTable& table) {
         auto bp = BlockPack::getCurrent();
@@ -104,8 +104,8 @@ void World::setBlock(glm::ivec3 pos, std::shared_ptr<Block> block) {
 }
 
 void World::setBlock(float x, float y, float z, std::shared_ptr<Block> block) {
-        setBlock(World::floatToInt(x), World::floatToInt(y),
-                 World::floatToInt(z), block);
+        setBlock(Math::floatToInt(x), Math::floatToInt(y),
+			Math::floatToInt(z), block);
 }
 
 void World::setBlock(int x, int y, int z, std::shared_ptr<Block> block) {
@@ -123,8 +123,8 @@ std::shared_ptr<Block> World::getBlock(int x, int y, int z) const {
         return blocks[x][y][z];
 }
 std::shared_ptr<Block> World::getBlock(float x, float y, float z) const {
-        return getBlock(World::floatToInt(x), World::floatToInt(y),
-                        World::floatToInt(z));
+        return getBlock(Math::floatToInt(x), Math::floatToInt(y),
+			Math::floatToInt(z));
 }
 std::shared_ptr<Block> World::getBlock(glm::vec3 pos) const {
         return getBlock(pos.x, pos.y, pos.z);
@@ -143,7 +143,7 @@ bool World::isContains(const glm::ivec3& v) const {
         return isContains(v.x, v.y, v.z);
 }
 bool World::isContains(const glm::vec3& v) const {
-        return isContains(floatToInt(v.x), floatToInt(v.y), floatToInt(v.z));
+        return isContains(Math::floatToInt(v.x), Math::floatToInt(v.y), Math::floatToInt(v.z));
 }
 bool World::isEmpty(int x, int y, int z) const {
         if (!isContains(x, y, z)) {

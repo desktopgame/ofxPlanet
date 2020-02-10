@@ -52,11 +52,6 @@ class World : public std::enable_shared_from_this<World> {
          */
         static std::shared_ptr<World> create(ofShader& shader, int xSize,
                                              int ySize, int zSize);
-        /**
-         * @param f
-         * @return
-         */
-        static int floatToInt(float f);
 
         /**
          * overwrite blocks by specified table.
