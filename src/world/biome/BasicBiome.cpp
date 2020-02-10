@@ -51,6 +51,7 @@ void BasicBiome::generate(BlockTable& blockTable) {
                     Cell(cellSrc.x, cellSrc.z, onFixHeight(cellSrc.noise));
                 int y = YSIZE_H + World::floatToInt(cell.noise * (YSIZE_H - 1));
                 y = std::min(YSIZE - 1, y);
+				y = std::max(0, y);
                 heightMap->insert_or_assign(glm::ivec2(cell.x, cell.z), y);
                 onGenerateTerrain(blockTable, cell.x, y, cell.z);
         }
