@@ -73,9 +73,6 @@ void World::clear() {
 }
 
 void World::update() {
-        if (!isPlayMode()) {
-                return;
-        }
 }
 
 void World::drawToBuffer() {
@@ -177,8 +174,6 @@ int World::getXSize() const { return xSize; }
 int World::getYSize() const { return ySize; }
 int World::getZSize() const { return zSize; }
 glm::ivec3 World::getSize() const { return glm::ivec3(xSize, ySize, zSize); }
-void World::setPlayMode(bool playMode) { this->bIsPlayMode = playMode; }
-bool World::isPlayMode() const { return bIsPlayMode; }
 
 std::vector<WorldPart> World::split(int splitNum) const {
         int sx = xSize / splitNum;
@@ -236,7 +231,6 @@ World::World(ofShader& shader, int xSize, int ySize, int zSize)
       xSize(xSize),
       ySize(ySize),
       zSize(zSize),
-      bIsPlayMode(false),
       fbo(),
 	  chunk(Chunk::create(*this, 0, 0, xSize, zSize)),
       shader(shader),

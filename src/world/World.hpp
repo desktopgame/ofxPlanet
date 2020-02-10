@@ -219,17 +219,6 @@ class World : public std::enable_shared_from_this<World> {
         glm::ivec3 getSize() const;
 
         /**
-         * TODO: write at after.
-         * @param playMode
-         */
-        void setPlayMode(bool playMode);
-        /**
-         * TODO: write at after.
-         * @return
-         */
-        bool isPlayMode() const;
-
-        /**
          * split a world for specific split count.
          * @param splitNum
          * @return
@@ -258,7 +247,6 @@ class World : public std::enable_shared_from_this<World> {
 		ofShader& shader;
 		std::shared_ptr<Chunk> chunk;
         ofFbo fbo;
-        bool bIsPlayMode;
 };
 
 }  // namespace ofxPlanet
