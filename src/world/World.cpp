@@ -113,6 +113,12 @@ void World::setBlock(float x, float y, float z, std::shared_ptr<Block> block) {
 
 void World::setBlock(int x, int y, int z, std::shared_ptr<Block> block) {
         blocks[x][y][z] = block;
+		chunk->invalidate(x+1, y, z);
+		chunk->invalidate(x, y+1, z);
+		chunk->invalidate(x, y, z+1);
+		chunk->invalidate(x - 1, y, z);
+		chunk->invalidate(x, y - 1, z);
+		chunk->invalidate(x, y, z - 1);
 		chunk->invalidate(x, y, z);
 }
 
