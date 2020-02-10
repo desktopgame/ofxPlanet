@@ -4,7 +4,7 @@
 
 #include "Block.hpp"
 namespace ofxPlanet {
-
+int CubeBatch::POSITION_INDEX = 4;
 CubeBatch::CubeBatch(const World& world, ofShader& shader,
                      const glm::vec3& size, int direction)
     : GraphicsBatch(world, shader),
@@ -99,11 +99,11 @@ void CubeBatch::updatePlane(PlaneType type) {
         shader.begin();
         vao.bind();
         // vertex Attributes
-        vao.setAttributeBuffer(4, v, 3, 0);
+        vao.setAttributeBuffer(POSITION_INDEX, v, 3, 0);
         vao.setAttributeDivisor(0, 0);
         vao.setAttributeDivisor(2, 0);
         vao.setAttributeDivisor(3, 0);
-        vao.setAttributeDivisor(4, 1);
+        vao.setAttributeDivisor(POSITION_INDEX, 1);
 
         vao.unbind();
         shader.end();

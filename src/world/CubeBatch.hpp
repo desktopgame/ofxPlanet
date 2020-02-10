@@ -32,6 +32,8 @@ class CubeBatch : public GraphicsBatch {
         void update() override;
         void render(GLuint texture) override;
 
+		static int POSITION_INDEX;
+
        private:
         void put(PlaneType type, int x, int y, int z);
         void updatePlane(PlaneType type);
