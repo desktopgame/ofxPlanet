@@ -6,6 +6,7 @@
 #include "world/Planet.hpp"
 #include "world/TextureInfoCollection.hpp"
 #include "world/TexturePack.hpp"
+#include "world/Block.hpp"
 #include "world/World.hpp"
 #include "world/WorldIO.hpp"
 #include "world/Chunk.hpp"
