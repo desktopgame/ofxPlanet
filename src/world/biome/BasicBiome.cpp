@@ -4,6 +4,7 @@
 
 #include <random>
 
+#include "../Math.hpp"
 #include "../Block.hpp"
 #include "../BlockPack.hpp"
 #include "../World.hpp"
@@ -49,7 +50,7 @@ void BasicBiome::generate(BlockTable& blockTable) {
                 Cell cellSrc = terrain.getCellAt(i);
                 Cell cell =
                     Cell(cellSrc.x, cellSrc.z, onFixHeight(cellSrc.noise));
-                int y = YSIZE_H + World::floatToInt(cell.noise * (YSIZE_H - 1));
+                int y = YSIZE_H + Math::floatToInt(cell.noise * (YSIZE_H - 1));
                 y = std::min(YSIZE - 1, y);
 				y = std::max(0, y);
                 heightMap->insert_or_assign(glm::ivec2(cell.x, cell.z), y);
