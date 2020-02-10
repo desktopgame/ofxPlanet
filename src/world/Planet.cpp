@@ -15,6 +15,10 @@ void Planet::generate(glm::vec3 size, std::shared_ptr<Biome> biome) {
         world->load(blockTable);
 }
 
+void Planet::allocate(glm::ivec3 size) {
+	this->world = World::create(shader, size);
+}
+
 void Planet::update() {
         if (world) {
                 world->update();
