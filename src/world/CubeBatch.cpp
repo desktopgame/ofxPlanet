@@ -1,6 +1,7 @@
 #include "CubeBatch.hpp"
 
 #include <glm/glm.hpp>
+#include <ofAppRunner.h>
 
 #include "Block.hpp"
 namespace ofxPlanet {
@@ -76,8 +77,8 @@ void CubeBatch::render(GLuint texture) {
         update();
         glBindTexture(GL_TEXTURE_2D, texture);
 		for (int b = LightTable::BRIGHTNESS_MIN; b < LightTable::BRIGHTNESS_MAX; b++) {
-			float f = (static_cast<float>(b) / static_cast<float>(LightTable::BRIGHTNESS_MAX));
-			f = f / LightTable::BLACK;
+			float f = 1.0f - (static_cast<float>(b) / static_cast<float>(LightTable::BRIGHTNESS_MAX));
+			f = LightTable::BLACK / f;
 			shader.begin();
 			shader.setUniform1f(LightTable::BRIGHTNAME_UNIFORM_NAME, f);
 			auto& planeA = this->planes[b];

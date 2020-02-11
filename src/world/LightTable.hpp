@@ -53,7 +53,7 @@ public:
 	static constexpr int BRIGHTNESS_MIN = 0;
 	static constexpr int BRIGHTNESS_MAX = 15;
 	static constexpr char* BRIGHTNAME_UNIFORM_NAME = "uBrightness";
-	static constexpr float BLACK = 0.8f;
+	static constexpr float BLACK = 0.6f;
 private:
 	int xSize, ySize, zSize;
 	std::vector<std::vector<std::vector<int> > > vec;
