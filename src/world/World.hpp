@@ -9,6 +9,7 @@
 
 #include "BlockRenderer.hpp"
 #include "BlockTable.hpp"
+#include "LightTable.hpp"
 namespace ofxPlanet {
 
 class Camera;
@@ -84,6 +85,16 @@ class World : public std::enable_shared_from_this<World> {
          * draw frame buffer object to screen.
          */
         void render();
+
+		/**
+		 * recompute light table if marked as `taint`.
+		 */
+		void computeBrightness();
+
+		/**
+		 * mark as `taint` a light table.
+		 */
+		void invalidateBrightness();
 
 		/**
 		 * porting from stackexchange.
@@ -251,6 +262,16 @@ class World : public std::enable_shared_from_this<World> {
 		 */
 		ofShader& getShader();
 
+		/**
+		 * @return
+		 */
+		const LightTable& getLightTable() const;
+
+		/**
+		 * @return
+		 */
+		LightTable& getLightTable();
+
        private:
         void checkFBO();
         explicit World(ofShader& shader, const glm::ivec3& size);
@@ -259,9 +280,12 @@ class World : public std::enable_shared_from_this<World> {
         int xSize, ySize, zSize;
         int fboW, fboH;
 		ofShader& shader;
+		LightTable lightTable;
 		std::shared_ptr<Chunk> chunk;
         ofFbo fbo;
-};
 
+		std::vector<std::vector<std::vector<int > > > brightCache;
+		bool invalidBrightCache;
+};
 }  // namespace ofxPlanet
 #endif

@@ -37,6 +37,7 @@ void Chunk::rehash() {
 	if (!this->invalid) {
 		return;
 	}
+	this->world.computeBrightness();
 	if (this->type == ChunkType::Single) {
 		renderer->clear();
 		for (int x = xOffset; x < xOffset + xSize; x++) {
@@ -44,7 +45,8 @@ void Chunk::rehash() {
 				for (int y = 0; y < world.getYSize(); y++) {
 					auto block = world.getBlock(x, y, z);
 					if (block != nullptr) {
-						block->batch(this->world, *renderer, x, y, z);
+						int brightness = world.getLightTable().getLight(x, y, z);
+						block->batch(this->world, *renderer, brightness, x, y, z);
 					}
 				}
 			}

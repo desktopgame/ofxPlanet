@@ -28,15 +28,20 @@ std::shared_ptr<World> World::create(ofShader& shader, int xSize, int ySize,
         World* world = new World(shader, xSize, ySize, zSize);
         std::shared_ptr<World> ret = std::shared_ptr<World>(world);
         for (int i = 0; i < xSize; i++) {
-                std::vector<std::vector<std::shared_ptr<Block> > > yline;
+                std::vector<std::vector<std::shared_ptr<Block> > > yBlockLine;
+				std::vector<std::vector<int> > yBrightLine;
                 for (int j = 0; j < ySize; j++) {
-                        std::vector<std::shared_ptr<Block> > zline;
+                        std::vector<std::shared_ptr<Block> > zBlockLine;
+						std::vector<int> zBrightLine;
                         for (int k = 0; k < zSize; k++) {
-                                zline.emplace_back(nullptr);
+							zBlockLine.emplace_back(nullptr);
+							zBrightLine.emplace_back(0);
                         }
-                        yline.emplace_back(zline);
+						yBlockLine.emplace_back(zBlockLine);
+						yBrightLine.emplace_back(zBrightLine);
                 }
-                ret->blocks.emplace_back(yline);
+                ret->blocks.emplace_back(yBlockLine);
+				ret->brightCache.emplace_back(yBrightLine);
         }
         return ret;
 }
@@ -93,6 +98,26 @@ void World::render() {
         glDisable(GL_DEPTH_TEST);
         glDisable(GL_CULL_FACE);
         fbo.draw(0, 0, ofGetWidth(), ofGetHeight());
+}
+
+void World::computeBrightness() {
+	if (!this->invalidBrightCache) {
+		return;
+	}
+	for (int x = 0; x < xSize; x++) {
+		for (int y = 0; y < ySize; y++) {
+			for (int z = 0; z < zSize; z++) {
+				auto block = getBlock(x, y, z);
+				this->brightCache[x][y][z] = (block == nullptr ? -1 : block->getID());
+				this->lightTable.setLight(x, y, z, 0);
+			}
+		}
+	}
+	this->invalidBrightCache = false;
+}
+
+void World::invalidateBrightness() {
+	this->invalidBrightCache = true;
 }
 
 RaycastResult World::raycast(glm::vec3 origin, glm::vec3 direction, float length, float scale) const {
@@ -198,6 +223,7 @@ void World::setBlock(float x, float y, float z, std::shared_ptr<Block> block) {
 }
 
 void World::setBlock(int x, int y, int z, std::shared_ptr<Block> block) {
+		this->invalidateBrightness();
         blocks[x][y][z] = block;
 		chunk->invalidate(x+1, y, z);
 		chunk->invalidate(x, y+1, z);
@@ -301,6 +327,14 @@ ofShader & World::getShader() {
 	return shader;
 }
 
+const LightTable & World::getLightTable() const {
+	return lightTable;
+}
+
+LightTable & World::getLightTable() {
+	return lightTable;
+}
+
 void World::checkFBO() {
         int newW = ofGetWidth();
         int newH = ofGetHeight();
@@ -323,6 +357,9 @@ World::World(ofShader& shader, int xSize, int ySize, int zSize)
       fbo(),
 	  chunk(Chunk::create(*this, 0, 0, xSize, zSize)),
       shader(shader),
+	  lightTable(xSize,ySize,zSize),
       fboW(-1),
-      fboH(-1) {}
+      fboH(-1),
+	  brightCache(),
+      invalidBrightCache(true){}
 }  // namespace ofxPlanet
