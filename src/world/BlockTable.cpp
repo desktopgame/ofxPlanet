@@ -47,13 +47,13 @@ BlockTable::BlockTable(int xSize, int ySize, int zSize)
 
 BlockTable::BlockTable() : xSize(-1), ySize(-1), zSize(-1), terrain() {}
 
-void BlockTable::set(int x, int y, int z, const BlockPrefab& block) {
+void BlockTable::setBlock(int x, int y, int z, const BlockPrefab& block) {
         vec[x][y][z] = block;
 }
 
-BlockPrefab& BlockTable::get(int x, int y, int z) { return vec[x][y][z]; }
+BlockPrefab& BlockTable::getBlock(int x, int y, int z) { return vec[x][y][z]; }
 
-const BlockPrefab& BlockTable::get(int x, int y, int z) const {
+const BlockPrefab& BlockTable::getBlock(int x, int y, int z) const {
         return vec.at(x).at(y).at(z);
 }
 
@@ -82,9 +82,9 @@ void BlockTable::expand(int baseX, int baseY, int baseZ, const MultiBlock& mb) {
                 }
                 int id = std::get<1>(point);
                 if (id < 0) {
-                        set(pos.x, pos.y, pos.z, BlockPrefab(-1, false));
+                        setBlock(pos.x, pos.y, pos.z, BlockPrefab(-1, false));
                 } else {
-                        set(pos.x, pos.y, pos.z, BlockPrefab(id, false));
+                        setBlock(pos.x, pos.y, pos.z, BlockPrefab(id, false));
                 }
         }
 }
@@ -97,7 +97,7 @@ bool BlockTable::canExpand(int baseX, int baseY, int baseZ,
                 if (!contains(pos.x, pos.y, pos.z)) {
                         return false;
                 }
-                int oldId = get(pos.x, pos.y, pos.z).id;
+                int oldId = getBlock(pos.x, pos.y, pos.z).id;
                 int newId = std::get<1>(point);
                 if (newId < 0) {
                         continue;
@@ -113,7 +113,7 @@ bool BlockTable::canExpand(int baseX, int baseY, int baseZ,
                                     return std::get<0>(e) == bottom;
                             });
                         if (iter == points.end()) {
-                                if (get(bottom.x, bottom.y, bottom.z).id ==
+                                if (getBlock(bottom.x, bottom.y, bottom.z).id ==
                                     -1) {
                                         return false;
                                 }
@@ -131,7 +131,7 @@ bool BlockTable::contains(int x, int y, int z) const {
 
 int BlockTable::getTopYForXZ(int x, int z) const {
         for (int i = ySize - 1; i >= 0; i--) {
-                if (get(x, i, z).id != -1) {
+                if (getBlock(x, i, z).id != -1) {
                         return i;
                 }
         }
@@ -167,7 +167,7 @@ int BlockTable::getStackableHeight(const BlockArea& blockArea) const {
                         auto pos = *iter;
                         pos.y += stack;
                         if (pos.y >= getYSize() ||
-                            get(pos.x, pos.y, pos.z).id != -1) {
+                            getBlock(pos.x, pos.y, pos.z).id != -1) {
                                 exit = true;
                                 break;
                         }

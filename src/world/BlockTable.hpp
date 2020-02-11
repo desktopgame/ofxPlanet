@@ -71,7 +71,7 @@ class BlockTable {
          * @param z
          * @param block
          */
-        void set(int x, int y, int z, const BlockPrefab& block);
+        void setBlock(int x, int y, int z, const BlockPrefab& block);
 
         /**
          * returns BlockPrefab for specific position.
@@ -80,7 +80,7 @@ class BlockTable {
          * @param z
          * @return
          */
-        BlockPrefab& get(int x, int y, int z);
+        BlockPrefab& getBlock(int x, int y, int z);
 
         /**
          * returns BlockPrefab for specific position.
@@ -89,7 +89,7 @@ class BlockTable {
          * @param z
          * @return
          */
-        const BlockPrefab& get(int x, int y, int z) const;
+        const BlockPrefab& getBlock(int x, int y, int z) const;
 
         /**
          * returns a generation points for specific structure at specific

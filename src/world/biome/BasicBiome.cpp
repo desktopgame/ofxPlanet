@@ -92,10 +92,10 @@ void BasicBiome::onBeginGenerateTerrain(BlockTable& blockTable) {}
 
 void BasicBiome::onGenerateTerrain(BlockTable& blockTable, int x, int y,
                                    int z) {
-        blockTable.set(x, y, z, createTopBlock(blockTable, x, y, z));
+        blockTable.setBlock(x, y, z, createTopBlock(blockTable, x, y, z));
         int startY = y;
         while (y-- > 0) {
-                blockTable.set(x, y, z,
+                blockTable.setBlock(x, y, z,
                                createFillBlock(blockTable, startY, x, y, z));
         }
 }
@@ -108,7 +108,7 @@ void BasicBiome::onGenerateCave(BlockTable& blockTable, int x, int y, int z,
                                 float noise) {
         if (noise > 0.1f) {
                 BlockPrefab pref(-1, false);
-                blockTable.set(x, y, z, pref);
+                blockTable.setBlock(x, y, z, pref);
         }
 }
 
