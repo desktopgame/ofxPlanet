@@ -43,6 +43,12 @@ public:
 	 * @param brightness
 	 * @return
 	 */
+	static float computeShaderBrightness(int brightness);
+
+	/**
+	 * @param brightness
+	 * @return
+	 */
 	static bool testBrightness(int brightness);
 
 	/**
