@@ -16,46 +16,52 @@ class GraphicsBatch {
         virtual ~GraphicsBatch() {}
         /**
          * add position for specific side.
+		 * @param brightness
          * @param x
          * @param y
          * @param z
          */
-        virtual void putFront(int x, int y, int z) = 0;
+        virtual void putFront(int brightness, int x, int y, int z) = 0;
         /**
          * add position for specific side.
+		 * @param brightness
          * @param x
          * @param y
          * @param z
          */
-        virtual void putBack(int x, int y, int z) = 0;
+        virtual void putBack(int brightness, int x, int y, int z) = 0;
         /**
          * add position for specific side.
+		 * @param brightness
          * @param x
          * @param y
          * @param z
          */
-        virtual void putLeft(int x, int y, int z) = 0;
+        virtual void putLeft(int brightness, int x, int y, int z) = 0;
         /**
          * add position for specific side.
+		 * @param brightness
          * @param x
          * @param y
          * @param z
          */
-        virtual void putRight(int x, int y, int z) = 0;
+        virtual void putRight(int brightness, int x, int y, int z) = 0;
         /**
          * add position for specific side.
+		 * @param brightness
          * @param x
          * @param y
          * @param z
          */
-        virtual void putTop(int x, int y, int z) = 0;
+        virtual void putTop(int brightness, int x, int y, int z) = 0;
         /**
          * add position for specific side.
+		 * @param brightness
          * @param x
          * @param y
          * @param z
          */
-        virtual void putBottom(int x, int y, int z) = 0;
+        virtual void putBottom(int brightness, int x, int y, int z) = 0;
         /**
          * clear all vertex.
          */

@@ -19,51 +19,57 @@ class GraphicsRenderer {
         /**
          * add position to GraphicsBatch.
          * @param texture
+		 * @param brightness
          * @param x
          * @param y
          * @param z
          */
-        void putFront(GLuint texture, int x, int y, int z);
+        void putFront(GLuint texture, int brightness, int x, int y, int z);
         /**
          * add position to GraphicsBatch.
          * @param texture
+		 * @param brightness
          * @param x
          * @param y
          * @param z
          */
-        void putBack(GLuint texture, int x, int y, int z);
+        void putBack(GLuint texture, int brightness, int x, int y, int z);
         /**
          * add position to GraphicsBatch.
          * @param texture
+		 * @param brightness
          * @param x
          * @param y
          * @param z
          */
-        void putLeft(GLuint texture, int x, int y, int z);
+        void putLeft(GLuint texture, int brightness, int x, int y, int z);
         /**
          * add position to GraphicsBatch.
          * @param texture
+		 * @param brightness
          * @param x
          * @param y
          * @param z
          */
-        void putRight(GLuint texture, int x, int y, int z);
+        void putRight(GLuint texture, int brightness, int x, int y, int z);
         /**
          * add position to GraphicsBatch.
          * @param texture
+		 * @param brightness
          * @param x
          * @param y
          * @param z
          */
-        void putTop(GLuint texture, int x, int y, int z);
+        void putTop(GLuint texture, int brightness, int x, int y, int z);
         /**
          * add position to GraphicsBatch.
          * @param texture
+		 * @param brightness
          * @param x
          * @param y
          * @param z
          */
-        void putBottom(GLuint texture, int x, int y, int z);
+        void putBottom(GLuint texture, int brightness, int x, int y, int z);
 
         /**
          * clear all vertex.
