@@ -47,9 +47,9 @@ class CubeBatch : public GraphicsBatch {
         int direction;
 
         bool isInvalid;
-        std::array<PlaneArray, LightTable::BRIGHTNESS_MAX> planes;
-        std::array<PosArray, LightTable::BRIGHTNESS_MAX> posVec;
-		std::array<VboArray, LightTable::BRIGHTNESS_MAX> vbo;
+        std::array<PlaneArray, LightTable::BRIGHTNESS_MAX+1> planes;
+        std::array<PosArray, LightTable::BRIGHTNESS_MAX+1> posVec;
+		std::array<VboArray, LightTable::BRIGHTNESS_MAX+1> vbo;
 };
 }  // namespace ofxPlanet
 #endif

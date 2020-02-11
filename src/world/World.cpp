@@ -113,6 +113,19 @@ void World::computeBrightness() {
 			}
 		}
 	}
+	for (int x = 0; x < xSize; x++) {
+		for (int z = 0; z < zSize; z++) {
+			int y = getTopYForXZ(x, z);
+			int sunpower = 15;
+			this->lightTable.setLight(x, y, z, sunpower--);
+			for (; y >= 0 && sunpower > 0; y--) {
+				auto block = getBlock(x, y, z);
+				if (block != nullptr) {
+					lightTable.setLight(x, y, z, sunpower--);
+				}
+			}
+		}
+	}
 	this->invalidBrightCache = false;
 }
 
@@ -231,6 +244,16 @@ std::shared_ptr<Block> World::getBlock(int x, int y, int z) const {
 }
 std::shared_ptr<Block> World::getBlock(glm::ivec3 pos) const {
         return getBlock(pos.x, pos.y, pos.z);
+}
+
+int World::getTopYForXZ(int x, int z) const {
+	for (int y = ySize - 1; y >= 0; y--) {
+		auto block = getBlock(x, y, z);
+		if (block) {
+			return y;
+		}
+	}
+	return 0;
 }
 
 bool World::isContains(int x, int y, int z) const {

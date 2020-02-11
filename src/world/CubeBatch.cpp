@@ -15,7 +15,7 @@ CubeBatch::CubeBatch(const World& world, ofShader& shader,
       planes(),
       posVec(),
       vbo() {
-		for (int b = LightTable::BRIGHTNESS_MIN; b < LightTable::BRIGHTNESS_MAX; b++) {
+		for (int b = LightTable::BRIGHTNESS_MIN; b < LightTable::BRIGHTNESS_MAX+1; b++) {
 			PlaneArray planeA;
 			PosArray posA;
 			VboArray vboA;
@@ -52,7 +52,7 @@ void CubeBatch::putBottom(int brightness, int x, int y, int z) {
 }
 
 void CubeBatch::clear() {
-	for (int b = LightTable::BRIGHTNESS_MIN; b < LightTable::BRIGHTNESS_MAX; b++) {
+	for (int b = LightTable::BRIGHTNESS_MIN; b < LightTable::BRIGHTNESS_MAX+1; b++) {
 		auto& posA = this->posVec[b];
 		for (int i = 0; i < static_cast<int>(PlaneType::Count); i++) {
 			posA.at(i).clear();
@@ -65,7 +65,7 @@ void CubeBatch::update() {
         if (!isInvalid) {
                 return;
         }
-		for (int b = LightTable::BRIGHTNESS_MIN; b < LightTable::BRIGHTNESS_MAX; b++) {
+		for (int b = LightTable::BRIGHTNESS_MIN; b < LightTable::BRIGHTNESS_MAX+1; b++) {
 			for (int i = 0; i < static_cast<int>(PlaneType::Count); i++) {
 				updatePlane(static_cast<PlaneType>(i), b);
 			}
@@ -76,7 +76,7 @@ void CubeBatch::update() {
 void CubeBatch::render(GLuint texture) {
         update();
         glBindTexture(GL_TEXTURE_2D, texture);
-		for (int b = LightTable::BRIGHTNESS_MIN; b < LightTable::BRIGHTNESS_MAX; b++) {
+		for (int b = LightTable::BRIGHTNESS_MIN; b < LightTable::BRIGHTNESS_MAX+1; b++) {
 			float f = LightTable::computeShaderBrightness(b);
 			shader.begin();
 			shader.setUniform1f(LightTable::BRIGHTNAME_UNIFORM_NAME, f);

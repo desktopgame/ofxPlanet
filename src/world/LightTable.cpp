@@ -33,7 +33,7 @@ int LightTable::getZSize() const {
 }
 float LightTable::computeShaderBrightness(int brightness) {
 	float f = 1.0f - (static_cast<float>(brightness) / static_cast<float>(LightTable::BRIGHTNESS_MAX));
-	f = LightTable::BLACK / f;
+	f = f * LightTable::BLACK;
 	return f;
 }
 bool LightTable::testBrightness(int brightness) {

@@ -136,6 +136,13 @@ class World : public std::enable_shared_from_this<World> {
          */
         std::shared_ptr<Block> getBlock(glm::ivec3 pos) const;
 
+		/**
+		 * @param x
+		 * @param z
+		 * @return
+		 */
+		int getTopYForXZ(int x, int z) const;
+
         /**
          * return true if included in world a specific position.
          * @param x
