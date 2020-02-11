@@ -74,7 +74,7 @@ void MyBiome::onEndGenerateTerrain(ofxPlanet::BlockTable& blockTable) {
 	for (int x = 0; x < worldSize.x; x++) {
 		for (int z = 0; z < worldSize.z; z++) {
 			for (int i = 0; i < y; i++) {
-				blockTable.set(x, i, z, ofxPlanet::BlockPrefab(id, false));
+				blockTable.setBlock(x, i, z, ofxPlanet::BlockPrefab(id, false));
 			}
 		}
 	}
