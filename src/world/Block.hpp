@@ -24,12 +24,13 @@ class Block {
         /**
          * write position data to renderer.
          * @param world
+		 * @param brightness
          * @param renderer
          * @parma x
          * @param y
          * @param z
          */
-        void batch(const World& world, BlockRenderer& renderer, int x,
+        void batch(const World& world, BlockRenderer& renderer, int brightness, int x,
                    int y, int z);
         /**
          * returns TextureSet for rendering this block.

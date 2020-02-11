@@ -10,7 +10,7 @@ namespace ofxPlanet {
 Block::Block(BlockShape shape, const std::string& name,
              const std::string& textureReference, int id)
     : shape(shape), name(name), textureReference(textureReference), id(id) {}
-void Block::batch(const World& world, BlockRenderer& renderer, int x,
+void Block::batch(const World& world, BlockRenderer& renderer, int brightness, int x,
                   int y, int z) {
         TextureSet set = getTextureSet();
         std::reference_wrapper<GraphicsRenderer> target =
@@ -29,22 +29,22 @@ void Block::batch(const World& world, BlockRenderer& renderer, int x,
                 target = renderer.getBottomSlabRenderer();
         }
         if (!world.isFilled(x - 1, y, z)) {
-                target.get().putLeft(set.getLeftImage()->getName(), x, y, z);
+                target.get().putLeft(set.getLeftImage()->getName(), brightness, x, y, z);
         }
         if (!world.isFilled(x + 1, y, z)) {
-                target.get().putRight(set.getRightImage()->getName(), x, y, z);
+                target.get().putRight(set.getRightImage()->getName(), brightness, x, y, z);
         }
         if (!world.isFilled(x, y, z - 1)) {
-                target.get().putBack(set.getBackImage()->getName(), x, y, z);
+                target.get().putBack(set.getBackImage()->getName(), brightness, x, y, z);
         }
         if (!world.isFilled(x, y, z + 1)) {
-                target.get().putFront(set.getFrontImage()->getName(), x, y, z);
+                target.get().putFront(set.getFrontImage()->getName(), brightness, x, y, z);
         }
         if (!world.isFilled(x, y + 1, z)) {
-                target.get().putTop(set.getTopImage()->getName(), x, y, z);
+                target.get().putTop(set.getTopImage()->getName(), brightness, x, y, z);
         }
         if (!world.isFilled(x, y - 1, z)) {
-                target.get().putBottom(set.getBottomImage()->getName(), x, y,
+                target.get().putBottom(set.getBottomImage()->getName(), brightness, x, y,
                                        z);
         }
 }
