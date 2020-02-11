@@ -10,6 +10,7 @@
 
 #include "GraphicsBatch.hpp"
 #include "Plane.hpp"
+#include "LightTable.hpp"
 namespace ofxPlanet {
 class World;
 class Camera;
@@ -18,16 +19,20 @@ class Camera;
  */
 class CubeBatch : public GraphicsBatch {
        public:
+		using PlaneArray = std::array<std::shared_ptr<Plane>, static_cast<int>(PlaneType::Count)>;
+		using PosVec = std::vector<float>;
+		using PosArray = std::array<PosVec, static_cast<int>(PlaneType::Count)>;
+		using VboArray = std::array<ofBufferObject, static_cast<int>(PlaneType::Count)>;
         explicit CubeBatch(const World& world, ofShader& shader,
                            const glm::vec3& size, int direction);
         ~CubeBatch();
 
-        void putFront(int x, int y, int z) override;
-        void putBack(int x, int y, int z) override;
-        void putLeft(int x, int y, int z) override;
-        void putRight(int x, int y, int z) override;
-        void putTop(int x, int y, int z) override;
-        void putBottom(int x, int y, int z) override;
+        void putFront(int brightness, int x, int y, int z) override;
+        void putBack(int brightness, int x, int y, int z) override;
+        void putLeft(int brightness, int x, int y, int z) override;
+        void putRight(int brightness, int x, int y, int z) override;
+        void putTop(int brightness, int x, int y, int z) override;
+        void putBottom(int brightness, int x, int y, int z) override;
         void clear() override;
         void update() override;
         void render(GLuint texture) override;
@@ -35,19 +40,16 @@ class CubeBatch : public GraphicsBatch {
 		static int POSITION_INDEX;
 
        private:
-        void put(PlaneType type, int x, int y, int z);
-        void updatePlane(PlaneType type);
-        std::vector<float>& getPosVec(PlaneType type);
+        void put(PlaneType type, int brightness, int x, int y, int z);
+        void updatePlane(PlaneType type, int brightness);
+        std::vector<float>& getPosVec(PlaneType type, int brightness);
         glm::vec3 size;
         int direction;
 
         bool isInvalid;
-        std::array<std::shared_ptr<Plane>, static_cast<int>(PlaneType::Count)>
-            planes;
-        std::array<std::vector<float>, static_cast<int>(PlaneType::Count)>
-            posVec;
-        ofBufferObject vbo[static_cast<int>(PlaneType::Count)];
-        // ofShader& shader;
+        std::array<PlaneArray, LightTable::BRIGHTNESS_MAX> planes;
+        std::array<PosArray, LightTable::BRIGHTNESS_MAX> posVec;
+		std::array<VboArray, LightTable::BRIGHTNESS_MAX> vbo;
 };
 }  // namespace ofxPlanet
 #endif
