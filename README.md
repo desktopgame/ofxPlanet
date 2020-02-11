@@ -3,7 +3,7 @@ ofxPlanet
 
 ofxPlanet is terrain generator.
 
-![スクリーンショット](ss.png)
+![スクリーンショット](mov.gif)
 
 Introduction
 ------------
@@ -40,3 +40,10 @@ Version history
 ### Version 0.1 (2020/02/03):
 first release
 
+### Version 0.2 (2020/02/011):
+* implemented lighting system
+  * in now, supported only sun light
+* add raycasting function
+  * interface: world.raycast(origin, dir, length) -> RaycastResult
+* implemented chunk system
+  * interface: world.getChunk() -> Chunk

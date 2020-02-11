@@ -2,7 +2,7 @@ ofxPlanet
 =====================================
 
 ofxPlanetは地形生成ライブラリです。  
-![スクリーンショット](ss.png)
+![スクリーンショット](mov.gif)
 
 Introduction
 ------------
@@ -39,3 +39,10 @@ Version history
 ### Version 0.1 (2020/02/03):
 最初のリリースです。
 
+### Version 0.2 (2020/02/011):
+* ライティングシステムを実装
+  * 現在のところ太陽光のみをサポート
+* レイキャスト関数を追加
+  * インターフェイス: world.raycast(origin, dir, length) -> RaycastResult
+* チャンクシステムを実装
+  * インターフェイス: world.getChunk() -> Chunk
