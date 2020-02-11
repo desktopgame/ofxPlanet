@@ -209,18 +209,10 @@ RaycastResult World::raycast(glm::vec3 origin, glm::vec3 direction, float length
 	return res;
 }
 
-void World::setBlock(glm::vec3 pos, std::shared_ptr<Block> block) {
-        setBlock(pos.x, pos.y, pos.z, block);
-}
-
 void World::setBlock(glm::ivec3 pos, std::shared_ptr<Block> block) {
         setBlock(pos.x, pos.y, pos.z, block);
 }
 
-void World::setBlock(float x, float y, float z, std::shared_ptr<Block> block) {
-        setBlock(Math::floatToInt(x), Math::floatToInt(y),
-			Math::floatToInt(z), block);
-}
 
 void World::setBlock(int x, int y, int z, std::shared_ptr<Block> block) {
 		this->invalidateBrightness();
@@ -237,13 +229,6 @@ void World::setBlock(int x, int y, int z, std::shared_ptr<Block> block) {
 std::shared_ptr<Block> World::getBlock(int x, int y, int z) const {
         return blocks[x][y][z];
 }
-std::shared_ptr<Block> World::getBlock(float x, float y, float z) const {
-        return getBlock(Math::floatToInt(x), Math::floatToInt(y),
-			Math::floatToInt(z));
-}
-std::shared_ptr<Block> World::getBlock(glm::vec3 pos) const {
-        return getBlock(pos.x, pos.y, pos.z);
-}
 std::shared_ptr<Block> World::getBlock(glm::ivec3 pos) const {
         return getBlock(pos.x, pos.y, pos.z);
 }
@@ -257,9 +242,7 @@ bool World::isContains(int x, int y, int z) const {
 bool World::isContains(const glm::ivec3& v) const {
         return isContains(v.x, v.y, v.z);
 }
-bool World::isContains(const glm::vec3& v) const {
-        return isContains(Math::floatToInt(v.x), Math::floatToInt(v.y), Math::floatToInt(v.z));
-}
+
 bool World::isEmpty(int x, int y, int z) const {
         if (!isContains(x, y, z)) {
                 return true;

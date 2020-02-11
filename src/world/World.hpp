@@ -112,21 +112,7 @@ class World : public std::enable_shared_from_this<World> {
          * @param pos
          * @param block
          */
-        void setBlock(glm::vec3 pos, std::shared_ptr<Block> block);
-        /**
-         * overwrite block for specific position.
-         * @param pos
-         * @param block
-         */
         void setBlock(glm::ivec3 pos, std::shared_ptr<Block> block);
-        /**
-         * overwrite block for specific position.
-         * @param x
-         * @param y
-         * @param z
-         * @param block
-         */
-        void setBlock(float x, float y, float z, std::shared_ptr<Block> block);
         /**
          * overwrite block for specific position.
          * @param x
@@ -143,20 +129,6 @@ class World : public std::enable_shared_from_this<World> {
          * @return
          */
         std::shared_ptr<Block> getBlock(int x, int y, int z) const;
-        /**
-         * returns a block for specific position.
-         * @param x
-         * @param y
-         * @param z
-         * @return
-         */
-        std::shared_ptr<Block> getBlock(float x, float y, float z) const;
-        /**
-         * returns a block for specific position.
-         * @param pos
-         * @return
-         */
-        std::shared_ptr<Block> getBlock(glm::vec3 pos) const;
         /**
          * returns a block for specific position.
          * @param pos
@@ -178,12 +150,6 @@ class World : public std::enable_shared_from_this<World> {
          * @return
          */
         bool isContains(const glm::ivec3& v) const;
-        /**
-         * return true if included in world a specific position.
-         * @param v
-         * @return
-         */
-        bool isContains(const glm::vec3& v) const;
         /**
          * return true if empty a specified position, or outside from world.
          * @param x
