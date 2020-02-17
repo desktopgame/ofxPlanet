@@ -9,7 +9,7 @@
 namespace ofxPlanet {
 Block::Block(BlockShape shape, const std::string& name,
              const std::string& textureReference, int id)
-    : shape(shape), name(name), textureReference(textureReference), id(id) {}
+    : shape(shape), name(name), textureReference(textureReference), id(id),textureSetIndex(-1) {}
 void Block::batch(const World& world, BlockRenderer& renderer, int brightness, int x,
                   int y, int z) {
         TextureSet set = getTextureSet();
