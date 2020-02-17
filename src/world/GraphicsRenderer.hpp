@@ -15,6 +15,7 @@ class GraphicsBatch;
 class GraphicsRenderer {
        public:
         GraphicsRenderer(const World& world, ofShader& shader);
+		virtual ~GraphicsRenderer(){}
 
         /**
          * add position to GraphicsBatch.
