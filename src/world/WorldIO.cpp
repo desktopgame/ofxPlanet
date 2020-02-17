@@ -14,6 +14,8 @@
 #include "World.hpp"
 #include "picojson/picojson.h"
 
+#define _CRT_SECURE_NO_WARNINGS
+
 namespace ofxPlanet {
 // Progress
 Progress::Progress() : value(0.0f) {}
