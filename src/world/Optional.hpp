@@ -70,7 +70,7 @@ inline T& Optional<T>::getValue() {
 template <typename T>
 inline T Optional<T>::getOrDefault(T defaultValue) const {
         if (empty) {
-                return defaultValuevalue;
+                return defaultValue;
         }
         return value;
 }
