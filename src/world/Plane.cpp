@@ -54,7 +54,7 @@ void Plane::setupOfVbo(PlaneType type, const glm::vec3 size) {
                         break;
                 case PlaneType::Left:
                         setupOfVboData(createLeftVertex(size),
-                                       createBackNormal(size), createBackUV());
+                                       createLeftNormal(size), createLeftUV());
                         break;
                 case PlaneType::Right:
                         setupOfVboData(createRightVertex(size),
