@@ -2,6 +2,7 @@
 #ifndef WORLD_TEXTURE_HPP
 #define WORLD_TEXTURE_HPP
 #include <ofTypes.h>
+#include <ofImage.h>
 
 #include <string>
 
@@ -59,9 +60,8 @@ class Texture {
         Texture(const Texture& obj) = delete;
         Texture& operator=(const Texture&) = delete;
         std::string path;
-        int width, height, ch;
-        unsigned char* data;
-        GLuint name;
+		int width, height;
+		GLuint name;
 };
 }  // namespace ofxPlanet
 #endif
