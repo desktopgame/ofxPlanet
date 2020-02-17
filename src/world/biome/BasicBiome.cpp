@@ -21,7 +21,8 @@ BasicBiome::BasicBiome()
       fillHardBlock("HardStone"),
       waterBlock("Water"),
       multiBlockMap(),
-      weightTableMap() {}
+      weightTableMap(),
+	 generateCave(true) {}
 
 BasicBiome::~BasicBiome() {}
 
