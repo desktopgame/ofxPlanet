@@ -89,10 +89,8 @@ void Chunk::split(int splitSize) {
 		throw std::logic_error("this chunks is already split");
 	}
 	auto self = std::const_pointer_cast<Chunk>(shared_from_this());
-	int x = 0;
-	int z = 0;
-	for (x = 0; x < xSize; x += splitSize) {
-		for (z = 0; z < zSize; z += splitSize) {
+	for (int x = 0; x < xSize; x += splitSize) {
+		for (int z = 0; z < zSize; z += splitSize) {
 			auto subChunk = Instance(new Chunk(self, world, x, z, splitSize, splitSize));
 			subchunks.emplace_back(subChunk);
 		}
