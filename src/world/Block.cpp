@@ -106,7 +106,7 @@ BlockShape stringToBlockShape(const std::string& str) {
         if (str == "TopSlab" || str == "TOPSLAB") {
                 return BlockShape::TopSlab;
         }
-        if (str == "BottomSlab" || str == "BottomSLAB") {
+        if (str == "BottomSlab" || str == "BOTTOMSLAB") {
                 return BlockShape::BottomSlab;
         }
         return BlockShape::Block;
