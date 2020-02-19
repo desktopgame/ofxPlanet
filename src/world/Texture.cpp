@@ -20,7 +20,7 @@ void Texture::load(const std::string& path) {
 			cp = cp.substr(5);
 		}
 		ofPixels pix;
-		ofLoadImage(pix, path);
+		ofLoadImage(pix, cp);
 		this->width = pix.getWidth();
 		this->height = pix.getHeight();
 		/*
