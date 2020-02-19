@@ -45,7 +45,7 @@ BlockTable::BlockTable(int xSize, int ySize, int zSize)
         }
 }
 
-BlockTable::BlockTable() : xSize(-1), ySize(-1), zSize(-1), terrain() {}
+BlockTable::BlockTable() : xSize(-1), ySize(-1), zSize(-1), terrain(),vec() {}
 
 void BlockTable::setBlock(int x, int y, int z, const BlockPrefab& block) {
         vec[x][y][z] = block;
