@@ -15,10 +15,10 @@ class Generator {
         explicit Generator(int xSize, int ySize, int zSize);
         Terrain generate(unsigned int seed);
 
-        glm::ivec3 size;
 
        private:
         siv::PerlinNoise sivPerlin;
+		glm::ivec3 size;
 };
 }  // namespace ofxPlanet
 #endif
