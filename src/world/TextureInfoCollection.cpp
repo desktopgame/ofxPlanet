@@ -140,4 +140,7 @@ std::string TextureInfoCollection::getBasePath() const {
 TextureMappingRule::TextureMappingRule()
  : all(), top(), bottom(), left(), right(), front(), back() {
 }
+TextureInfo::TextureInfo()
+ : baseFileName(), reference(), mappingRule() {
+}
 }  // namespace ofxPlanet

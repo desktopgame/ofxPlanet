@@ -18,7 +18,7 @@ struct TextureMappingRule {
  * TextureInfo is texture information for one blocks.
  */
 struct TextureInfo {
-        explicit TextureInfo() = default;
+        explicit TextureInfo();
         std::string baseFileName;
         std::string reference;
         TextureMappingRule mappingRule;
