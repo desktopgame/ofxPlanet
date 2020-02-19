@@ -137,4 +137,7 @@ std::string TextureInfoCollection::getBaseDirectory() const {
 std::string TextureInfoCollection::getBasePath() const {
         return ofToDataPath(baseDirectory);
 }
+TextureMappingRule::TextureMappingRule()
+ : all(), top(), bottom(), left(), right(), front(), back() {
+}
 }  // namespace ofxPlanet

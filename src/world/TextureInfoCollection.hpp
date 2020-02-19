@@ -11,7 +11,7 @@ namespace ofxPlanet {
  * TextureMappingRule is sides in block mapped texture.
  */
 struct TextureMappingRule {
-        explicit TextureMappingRule() = default;
+        explicit TextureMappingRule();
         Optional<std::string> all, top, bottom, left, right, front, back;
 };
 /**

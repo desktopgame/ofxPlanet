@@ -9,7 +9,7 @@ namespace ofxPlanet {
  * BlockInfo is block information for one block.
  */
 struct BlockInfo {
-        explicit BlockInfo() = default;
+        explicit BlockInfo();
         std::string textue;
         std::string reference;
         std::string shape;

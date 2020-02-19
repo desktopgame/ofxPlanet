@@ -69,4 +69,6 @@ bool BlockInfoCollection::tryGetBlockInfo(const std::string& reference,
 int BlockInfoCollection::getBlockInfoCount() const {
         return static_cast<int>(blockInfoVec.size());
 }
+BlockInfo::BlockInfo() : textue(), reference(), shape() {
+}
 }  // namespace ofxPlanet
