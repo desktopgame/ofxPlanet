@@ -31,7 +31,7 @@ glm::ivec3 BlockArea::compute2DSize() const {
 }
 // BlockTable
 BlockTable::BlockTable(int xSize, int ySize, int zSize)
-    : xSize(xSize), ySize(ySize), zSize(zSize), terrain() {
+    : xSize(xSize), ySize(ySize), zSize(zSize), terrain(), vec() {
         for (int x = 0; x < xSize; x++) {
                 std::vector<std::vector<BlockPrefab>> xline;
                 for (int y = 0; y < ySize; y++) {
