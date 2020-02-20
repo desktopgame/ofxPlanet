@@ -165,15 +165,19 @@ void CubeBatch::updatePlane(PlaneType type, int brightness) {
         }
         // update vbo
         ofBufferObject& v = vbo[brightness][index];
+		v.bind(GL_ARRAY_BUFFER);
         v.setData(posVec, GL_STATIC_DRAW);
+		v.unbind(GL_ARRAY_BUFFER);
         // update vao
         ofVbo& vao = planes[brightness][index]->getVAO();
         // vertex Attributes
+		vao.bind();
         vao.setAttributeBuffer(POSITION_INDEX, v, 3, 0);
         vao.setAttributeDivisor(0, 0);
         vao.setAttributeDivisor(2, 0);
         vao.setAttributeDivisor(3, 0);
         vao.setAttributeDivisor(POSITION_INDEX, 1);
+		vao.unbind();
 }
 
 std::vector<float>& CubeBatch::getPosVec(PlaneType type, int brightness) {
