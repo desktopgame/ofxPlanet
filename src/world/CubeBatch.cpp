@@ -12,22 +12,75 @@ CubeBatch::CubeBatch(const World& world, ofShader& shader,
       isInvalid(true),
       size(size),
       direction(direction),
-      planes(),
-      posVec(),
-      vbo() {
+	planes({
+	PlaneArray{},
+	PlaneArray{},
+	PlaneArray{},
+
+	PlaneArray{},
+	PlaneArray{},
+	PlaneArray{},
+	PlaneArray{},
+	PlaneArray{},
+	PlaneArray{},
+	PlaneArray{},
+	PlaneArray{},
+
+	PlaneArray{},
+	PlaneArray{},
+	PlaneArray{},
+	PlaneArray{},
+	PlaneArray{},
+	}),
+	posVec({
+		PosArray{},
+		PosArray{},
+		PosArray{},
+
+		PosArray{},
+		PosArray{},
+		PosArray{},
+		PosArray{},
+		PosArray{},
+		PosArray{},
+		PosArray{},
+		PosArray{},
+
+		PosArray{},
+		PosArray{},
+		PosArray{},
+		PosArray{},
+		PosArray{},
+	}),
+	vbo({
+		VboArray{},
+		VboArray{},
+		VboArray{},
+
+		VboArray{},
+		VboArray{},
+		VboArray{},
+		VboArray{},
+		VboArray{},
+		VboArray{},
+		VboArray{},
+		VboArray{},
+
+		VboArray{},
+		VboArray{},
+		VboArray{},
+		VboArray{},
+		VboArray{},
+	}) {
 		for (int b = LightTable::BRIGHTNESS_MIN; b < LightTable::BRIGHTNESS_MAX+1; b++) {
-			PlaneArray planeA;
-			PosArray posA;
-			VboArray vboA;
 			for (int i = 0; i < static_cast<int>(PlaneType::Count); i++) {
 				std::vector<float> v;
-				planeA[i] = std::make_shared<Plane>(shader, static_cast<PlaneType>(i), size);
-				posA[i] = v;
-				vboA[i].allocate();
+				ofBufferObject ob;
+				ob.allocate();
+				planes[b][i] = std::make_shared<Plane>(shader, static_cast<PlaneType>(i), size);
+				posVec[b][i] = v;
+				vbo[b][i] = ob;
 			}
-			planes[b] = planeA;
-			posVec[b] = posA;
-			vbo[b] = vboA;
 		}
 }
 
@@ -112,22 +165,15 @@ void CubeBatch::updatePlane(PlaneType type, int brightness) {
         }
         // update vbo
         ofBufferObject& v = vbo[brightness][index];
-        v.bind(GL_ARRAY_BUFFER);
         v.setData(posVec, GL_STATIC_DRAW);
-        v.unbind(GL_ARRAY_BUFFER);
         // update vao
         ofVbo& vao = planes[brightness][index]->getVAO();
-        shader.begin();
-        vao.bind();
         // vertex Attributes
         vao.setAttributeBuffer(POSITION_INDEX, v, 3, 0);
         vao.setAttributeDivisor(0, 0);
         vao.setAttributeDivisor(2, 0);
         vao.setAttributeDivisor(3, 0);
         vao.setAttributeDivisor(POSITION_INDEX, 1);
-
-        vao.unbind();
-        shader.end();
 }
 
 std::vector<float>& CubeBatch::getPosVec(PlaneType type, int brightness) {

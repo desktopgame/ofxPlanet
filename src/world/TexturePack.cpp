@@ -9,7 +9,7 @@
 #include "Plane.hpp"
 namespace ofxPlanet {
 
-std::vector<std::shared_ptr<TexturePack> > TexturePack::texturePacks;
+std::vector<std::shared_ptr<TexturePack> > TexturePack::texturePacks{};
 
 std::shared_ptr<TexturePack> TexturePack::load(
     const TextureInfoCollection& textureInfoCollection) {

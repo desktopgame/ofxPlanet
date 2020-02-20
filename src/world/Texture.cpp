@@ -23,6 +23,7 @@ void Texture::load(const std::string& path) {
 		ofLoadImage(pix, cp);
 		this->width = pix.getWidth();
 		this->height = pix.getHeight();
+		this->path = cp;
 		/*
         ofxSOIL::Image img = ofxSOIL::loadImage(path, ofxSOIL::RGBA);
         this->path = path;

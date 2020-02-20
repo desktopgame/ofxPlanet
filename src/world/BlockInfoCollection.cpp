@@ -34,7 +34,7 @@ void BlockInfoCollection::deserialize(const std::string& json) {
                 auto blockO = blockV.get<picojson::object>();
                 auto textureV = blockO["texture"];
                 auto referenceV = blockO["reference"];
-                // Shape�����͕K�{�ł͂Ȃ��̂Ńf�t�H���g�l������
+                // 
                 std::string shape("Block");
                 if (blockO.count("shape")) {
                         shape = blockO["shape"].get<std::string>();

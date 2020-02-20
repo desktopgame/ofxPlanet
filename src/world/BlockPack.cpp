@@ -3,7 +3,7 @@
 #include "Block.hpp"
 
 namespace ofxPlanet {
-std::vector<std::shared_ptr<BlockPack> > BlockPack::blockPacks;
+std::vector<std::shared_ptr<BlockPack> > BlockPack::blockPacks{};
 
 std::shared_ptr<BlockPack> BlockPack::load(
     const BlockInfoCollection& blockInfoCollection) {
