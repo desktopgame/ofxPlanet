@@ -13,7 +13,8 @@ MtlElement::MtlElement(const std::string& name)
       _ks(0.5f, 0.5f, 0.5f),
       _ke(0, 0, 0),
       _ni(1.45f),
-      _d(1) {}
+      _d(1),
+	  _illum(0) {}
 MtlElement& MtlElement::ns(float _ns) {
         this->_ns = _ns;
         return *this;
