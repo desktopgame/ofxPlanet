@@ -29,6 +29,7 @@ class WorldPart {
  * RaycastResult.
  */
 struct RaycastResult {
+	explicit RaycastResult();
 	glm::vec3 normal;
 	glm::ivec3 position;
 	bool hit;

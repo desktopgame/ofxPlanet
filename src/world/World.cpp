@@ -368,4 +368,6 @@ World::World(ofShader& shader, int xSize, int ySize, int zSize)
       fboH(-1),
 	  brightCache(),
       invalidBrightCache(true){}
+RaycastResult::RaycastResult() : normal(0,0,0), position(0,0,0), hit(false) {
+}
 }  // namespace ofxPlanet
