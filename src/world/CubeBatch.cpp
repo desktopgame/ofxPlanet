@@ -171,6 +171,7 @@ void CubeBatch::updatePlane(PlaneType type, int brightness) {
         // update vao
         ofVbo& vao = planes[brightness][index]->getVAO();
         // vertex Attributes
+		shader.begin();
 		vao.bind();
         vao.setAttributeBuffer(POSITION_INDEX, v, 3, 0);
         vao.setAttributeDivisor(0, 0);
@@ -178,6 +179,7 @@ void CubeBatch::updatePlane(PlaneType type, int brightness) {
         vao.setAttributeDivisor(3, 0);
         vao.setAttributeDivisor(POSITION_INDEX, 1);
 		vao.unbind();
+		shader.end();
 }
 
 std::vector<float>& CubeBatch::getPosVec(PlaneType type, int brightness) {

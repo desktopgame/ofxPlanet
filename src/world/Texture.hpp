@@ -62,6 +62,7 @@ class Texture {
         std::string path;
 		int width, height;
 		GLuint name;
+		unsigned char* data;
 };
 }  // namespace ofxPlanet
 #endif
