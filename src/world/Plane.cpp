@@ -34,14 +34,13 @@ const ofVbo& Plane::getVAO() const { return ofVAO; }
 
 void Plane::setupOfVboData(std::vector<float> vertex, std::vector<float> normal,
                            std::vector<float> uv) {
-		ofVAO.bind();
         ofVAO.setVertexData(vertex.data(), 3, vertex.size(), GL_STATIC_DRAW);
-        ofVAO.setNormalData(normal.data(), normal.size(), GL_STATIC_DRAW);
+        //ofVAO.setNormalData(normal.data(), normal.size(), GL_STATIC_DRAW);
         ofVAO.setTexCoordData(uv.data(), uv.size(), GL_STATIC_DRAW);
-		ofVAO.unbind();
 }
 
 void Plane::setupOfVbo(PlaneType type, const glm::vec3 size) {
+		ofVAO.bind();
         switch (type) {
                 case PlaneType::Front:
                         setupOfVboData(createFrontVertex(size),
@@ -75,6 +74,7 @@ void Plane::setupOfVbo(PlaneType type, const glm::vec3 size) {
         }
         auto indexData = std::vector<ofIndexType>{0, 1, 2, 2, 3, 0};
         ofVAO.setIndexData(indexData.data(), indexData.size(), GL_STATIC_DRAW);
+		ofVAO.unbind();
 }
 
 std::vector<float> Plane::createFrontVertex(glm::vec3 size) {
