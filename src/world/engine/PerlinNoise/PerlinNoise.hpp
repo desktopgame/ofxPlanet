@@ -57,13 +57,13 @@ class PerlinNoise {
 
        public:
         explicit PerlinNoise(
-            std::uint32_t seed = std::default_random_engine::default_seed) {
+			std::uint32_t seed = std::default_random_engine::default_seed) : p() {
                 reseed(seed);
         }
 
         template <class URNG,
                   std::enable_if_t<!std::is_arithmetic_v<URNG>>* = nullptr>
-        explicit PerlinNoise(URNG& urng) {
+        explicit PerlinNoise(URNG& urng) : p() {
                 reseed(urng);
         }
 
