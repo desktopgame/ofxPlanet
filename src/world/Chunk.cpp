@@ -41,7 +41,13 @@ void Chunk::rehash() {
 	if (this->type == ChunkType::Single) {
 		renderer->clear();
 		for (int x = xOffset; x < xOffset + xSize; x++) {
+			if (x >= world.getXSize() || x < 0) {
+				continue;
+			}
 			for (int z = zOffset; z < zOffset + zSize; z++) {
+				if (z >= world.getZSize() || z < 0) {
+					continue;
+				}
 				for (int y = 0; y < world.getYSize(); y++) {
 					auto block = world.getBlock(x, y, z);
 					if (block != nullptr) {
