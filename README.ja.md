@@ -46,3 +46,6 @@ Version history
   * インターフェイス: world.raycast(origin, dir, length) -> RaycastResult
 * チャンクシステムを実装
   * インターフェイス: world.getChunk() -> Chunk
+
+### Version 1.1 (2020/02/23):
+インテルのグラフィックスドライバ固有の問題に対するワークアラウンドを実装

@@ -47,3 +47,6 @@ first release
   * interface: world.raycast(origin, dir, length) -> RaycastResult
 * implemented chunk system
   * interface: world.getChunk() -> Chunk
+
+### Version 1.1 (2020/02/23):
+implemented workaround for bug of intel graphics driver
