@@ -210,8 +210,17 @@ void BasicBiome::setWeightRange(const std::string& name, glm::ivec3 min,
                                 glm::ivec3 max, int weight) {
         auto& wt = getWeightTable(name);
         for (int x = min.x; x <= max.x; x++) {
+				if (x < 0 || x >= wt.getXSize()) {
+					continue;
+				}
                 for (int y = min.y; y <= max.y; y++) {
+						if (y < 0 || y >= wt.getYSize()) {
+							continue;
+						}
                         for (int z = min.z; z <= max.z; z++) {
+								if (z < 0 || z >= wt.getZSize()) {
+									continue;
+								}
                                 wt.setWeight(x, y, z, weight);
                         }
                 }
