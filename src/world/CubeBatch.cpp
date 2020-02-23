@@ -75,16 +75,24 @@ CubeBatch::CubeBatch(const World& world, ofShader& shader,
 		for (int b = LightTable::BRIGHTNESS_MIN; b < LightTable::BRIGHTNESS_MAX+1; b++) {
 			for (int i = 0; i < static_cast<int>(PlaneType::Count); i++) {
 				std::vector<float> v;
-				ofBufferObject ob;
-				ob.allocate();
+				GLuint buf;
+				glGenBuffers(1, &buf);
 				planes[b][i] = std::make_shared<Plane>(shader, static_cast<PlaneType>(i), size);
 				posVec[b][i] = v;
-				vbo[b][i] = ob;
+				vbo[b][i] = buf;
+				planes[b][i]->init();
 			}
 		}
 }
 
-CubeBatch::~CubeBatch() {}
+CubeBatch::~CubeBatch() {
+	for (int b = LightTable::BRIGHTNESS_MIN; b < LightTable::BRIGHTNESS_MAX + 1; b++) {
+		for (int i = 0; i < static_cast<int>(PlaneType::Count); i++) {
+			GLuint buf = vbo[b][i];
+			glDeleteBuffers(1, &buf);
+		}
+	}
+}
 
 void CubeBatch::putFront(int brightness, int x, int y, int z) {
         put(PlaneType::Front, brightness, x, y, z);
@@ -135,8 +143,11 @@ void CubeBatch::render(GLuint texture) {
 			shader.setUniform1f(LightTable::BRIGHTNAME_UNIFORM_NAME, f);
 			auto& planeA = this->planes[b];
 			for (int i = 0; i < static_cast<int>(PlaneType::Count); i++) {
-				auto& vao = planeA[i]->getVAO();
-				vao.drawElementsInstanced(GL_TRIANGLES, 6, getPosVec(static_cast<PlaneType>(i), b).size());
+				GLuint vao = planeA[i]->getVAO();
+				GLuint index = planeA[i]->getIndex();
+				glBindVertexArray(vao);
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index);
+				glDrawElementsInstanced(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr,getPosVec(static_cast<PlaneType>(i), b).size());
 				//planeA[i]->drawInstanced(
 				//	getPosVec(static_cast<PlaneType>(i), b).size());
 			}
@@ -164,22 +175,36 @@ void CubeBatch::updatePlane(PlaneType type, int brightness) {
                 return;
         }
         // update vbo
-        ofBufferObject& v = vbo[brightness][index];
-		v.bind(GL_ARRAY_BUFFER);
-        v.setData(posVec, GL_STATIC_DRAW);
-		v.unbind(GL_ARRAY_BUFFER);
+        GLuint buf = vbo[brightness][index];
+		glBindBuffer(GL_ARRAY_BUFFER, buf);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(ofIndexType) * posVec.size(), posVec.data(), GL_STATIC_DRAW);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		//v.bind(GL_ARRAY_BUFFER);
+        //v.setData(posVec, GL_STATIC_DRAW);
+		//v.unbind(GL_ARRAY_BUFFER);
         // update vao
-        ofVbo& vao = planes[brightness][index]->getVAO();
+        GLuint vao = planes[brightness][index]->getVAO();
         // vertex Attributes
-		shader.begin();
-		vao.bind();
-        vao.setAttributeBuffer(POSITION_INDEX, v, 3, 0);
-        vao.setAttributeDivisor(0, 0);
-        vao.setAttributeDivisor(2, 0);
-        vao.setAttributeDivisor(3, 0);
-        vao.setAttributeDivisor(POSITION_INDEX, 1);
-		vao.unbind();
-		shader.end();
+		//shader.begin();
+		//vao.bind();
+		glBindVertexArray(vao);
+		glBindBuffer(GL_ARRAY_BUFFER, buf);
+		glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+		glEnableVertexAttribArray(4);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+		glVertexAttribDivisor(0, 0);
+		glVertexAttribDivisor(2, 0);
+		glVertexAttribDivisor(3, 0);
+		glVertexAttribDivisor(4, 1);
+		glBindVertexArray(0);
+        //vao.setAttributeBuffer(POSITION_INDEX, v, 3, 0);
+        //vao.setAttributeDivisor(0, 0);
+        //vao.setAttributeDivisor(2, 0);
+        //vao.setAttributeDivisor(3, 0);
+        //vao.setAttributeDivisor(POSITION_INDEX, 1);
+		//vao.unbind();
+		//shader.end();
 }
 
 std::vector<float>& CubeBatch::getPosVec(PlaneType type, int brightness) {

@@ -12,8 +12,24 @@ int Plane::NORMAL_INDEX = 2;
 int Plane::TEXCOORD_INDEX = 3;
 
 Plane::Plane(ofShader& shader, PlaneType type, const glm::vec3 size)
-    : shader(shader), type(type), ofVAO() {
-        setupOfVbo(type, size);
+    : shader(shader), type(type), ofVAO(), size(size) {
+	glGenVertexArrays(1, &vao);
+	glGenBuffers(1, &vertexBuf);
+	glGenBuffers(1, &texcoordBuf);
+	glGenBuffers(1, &indexBuf);
+}
+
+Plane::~Plane() {
+	glDeleteVertexArrays(1, &vao);
+	glDeleteBuffers(1, &vertexBuf);
+	glDeleteBuffers(1, &texcoordBuf);
+	glDeleteBuffers(1, &indexBuf);
+}
+
+void Plane::init() {
+	shader.begin();
+	setupOfVbo(type, size);
+	shader.end();
 }
 
 void Plane::draw() {
@@ -28,19 +44,31 @@ void Plane::drawInstanced(int count) {
         shader.end();
 }
 
-ofVbo& Plane::getVAO() { return ofVAO; }
+GLuint Plane::getVAO() const { return vao; }
 
-const ofVbo& Plane::getVAO() const { return ofVAO; }
+GLuint Plane::getIndex() const { return indexBuf; }
 
 void Plane::setupOfVboData(std::vector<float> vertex, std::vector<float> normal,
                            std::vector<float> uv) {
-        ofVAO.setVertexData(vertex.data(), 3, vertex.size(), GL_STATIC_DRAW);
+		glBindBuffer(GL_ARRAY_BUFFER, vertexBuf);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertex.size(), vertex.data(), GL_STATIC_DRAW);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+		glEnableVertexAttribArray(0);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+		glBindBuffer(GL_ARRAY_BUFFER, texcoordBuf);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * uv.size(), uv.data(), GL_STATIC_DRAW);
+		glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
+		glEnableVertexAttribArray(3);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+        //ofVAO.setVertexData(vertex.data(), 3, vertex.size(), GL_STATIC_DRAW);
         //ofVAO.setNormalData(normal.data(), normal.size(), GL_STATIC_DRAW);
-        ofVAO.setTexCoordData(uv.data(), uv.size(), GL_STATIC_DRAW);
+        //ofVAO.setTexCoordData(uv.data(), uv.size(), GL_STATIC_DRAW);
 }
 
 void Plane::setupOfVbo(PlaneType type, const glm::vec3 size) {
-		ofVAO.bind();
+		glBindVertexArray(vao);
+		//ofVAO.bind();
         switch (type) {
                 case PlaneType::Front:
                         setupOfVboData(createFrontVertex(size),
@@ -73,8 +101,12 @@ void Plane::setupOfVbo(PlaneType type, const glm::vec3 size) {
 					throw std::logic_error("");
         }
         auto indexData = std::vector<ofIndexType>{0, 1, 2, 2, 3, 0};
-        ofVAO.setIndexData(indexData.data(), indexData.size(), GL_STATIC_DRAW);
-		ofVAO.unbind();
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuf);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(ofIndexType) * indexData.size(), indexData.data(), GL_STATIC_DRAW);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+        //ofVAO.setIndexData(indexData.data(), indexData.size(), GL_STATIC_DRAW);
+		//ofVAO.unbind();
+		glBindVertexArray(0);
 }
 
 std::vector<float> Plane::createFrontVertex(glm::vec3 size) {

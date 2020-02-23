@@ -28,6 +28,9 @@ class Shader;
 class Plane {
        public:
         explicit Plane(ofShader& shader, PlaneType type, const glm::vec3 size);
+		~Plane();
+
+		void init();
         /**
          * draw plane.
          */
@@ -37,16 +40,17 @@ class Plane {
          */
         void drawInstanced(int count);
 
-        /**
-         * returns vertex array object.
-         * @return
-         */
-        ofVbo& getVAO();
+		/**
+		 * returns vao.
+		 * @return
+		 */
+		GLuint getVAO() const;
 
-        /**
-         * returns vertex array object.
-         */
-        const ofVbo& getVAO() const;
+		/**
+		 * returns index.
+		 * @return
+		 */
+		GLuint getIndex() const;
 
 		static glm::vec3 TOP_NORMAL;
 		static glm::vec3 BOTTOM_NORMAL;
@@ -93,6 +97,8 @@ class Plane {
         PlaneType type;
         ofVbo ofVAO;
         ofShader& shader;
+		glm::vec3 size;
+		GLuint vao, vertexBuf, texcoordBuf, indexBuf;
 };
 }  // namespace ofxPlanet
 #endif  // !SHADER_PLANE_HPP
