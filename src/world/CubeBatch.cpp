@@ -12,66 +12,9 @@ CubeBatch::CubeBatch(const World& world, ofShader& shader,
       isInvalid(true),
       size(size),
       direction(direction),
-	planes({
-	PlaneArray{},
-	PlaneArray{},
-	PlaneArray{},
-
-	PlaneArray{},
-	PlaneArray{},
-	PlaneArray{},
-	PlaneArray{},
-	PlaneArray{},
-	PlaneArray{},
-	PlaneArray{},
-	PlaneArray{},
-
-	PlaneArray{},
-	PlaneArray{},
-	PlaneArray{},
-	PlaneArray{},
-	PlaneArray{},
-	}),
-	posVec({
-		PosArray{},
-		PosArray{},
-		PosArray{},
-
-		PosArray{},
-		PosArray{},
-		PosArray{},
-		PosArray{},
-		PosArray{},
-		PosArray{},
-		PosArray{},
-		PosArray{},
-
-		PosArray{},
-		PosArray{},
-		PosArray{},
-		PosArray{},
-		PosArray{},
-	}),
-	vbo({
-		VboArray{},
-		VboArray{},
-		VboArray{},
-
-		VboArray{},
-		VboArray{},
-		VboArray{},
-		VboArray{},
-		VboArray{},
-		VboArray{},
-		VboArray{},
-		VboArray{},
-
-		VboArray{},
-		VboArray{},
-		VboArray{},
-		VboArray{},
-		VboArray{},
-	}) {
+	planes(),
+	posVec(),
+	vbo() {
 		for (int b = LightTable::BRIGHTNESS_MIN; b < LightTable::BRIGHTNESS_MAX+1; b++) {
 			for (int i = 0; i < static_cast<int>(PlaneType::Count); i++) {
 				std::vector<float> v;
