@@ -19,18 +19,11 @@ void Texture::load(const std::string& path) {
 		if (cp.substr(0, 5) == "data\\" || cp.substr(0, 5) == "data/") {
 			cp = cp.substr(5);
 		}
-		//ofPixels pix;
-		//ofLoadImage(pix, cp);
-		//this->width = pix.getWidth();
-		//this->height = pix.getHeight();
-		//this->path = cp;
-		//*
         ofxSOIL::Image img = ofxSOIL::loadImage(path, ofxSOIL::RGBA);
         this->path = path;
         this->data = img.data;
         this->width = img.width;
         this->height = img.height;
-		//*/
         glBindTexture(GL_TEXTURE_2D, name);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
