@@ -30,16 +30,6 @@ class Plane {
         explicit Plane(ofShader& shader, PlaneType type, const glm::vec3 size);
 		~Plane();
 
-		void init();
-        /**
-         * draw plane.
-         */
-        void draw();
-        /**
-         * draw planes.
-         */
-        void drawInstanced(int count);
-
 		/**
 		 * returns vao.
 		 * @return
@@ -95,7 +85,6 @@ class Plane {
         static std::vector<float> createBottomUV();
 
         PlaneType type;
-        ofVbo ofVAO;
         ofShader& shader;
 		glm::vec3 size;
 		GLuint vao, vertexBuf, texcoordBuf, indexBuf;

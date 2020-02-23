@@ -80,7 +80,6 @@ CubeBatch::CubeBatch(const World& world, ofShader& shader,
 				planes[b][i] = std::make_shared<Plane>(shader, static_cast<PlaneType>(i), size);
 				posVec[b][i] = v;
 				vbo[b][i] = buf;
-				planes[b][i]->init();
 			}
 		}
 }

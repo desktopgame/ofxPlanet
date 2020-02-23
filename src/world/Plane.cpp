@@ -12,11 +12,12 @@ int Plane::NORMAL_INDEX = 2;
 int Plane::TEXCOORD_INDEX = 3;
 
 Plane::Plane(ofShader& shader, PlaneType type, const glm::vec3 size)
-    : shader(shader), type(type), ofVAO(), size(size) {
+    : shader(shader), type(type), size(size) {
 	glGenVertexArrays(1, &vao);
 	glGenBuffers(1, &vertexBuf);
 	glGenBuffers(1, &texcoordBuf);
 	glGenBuffers(1, &indexBuf);
+	setupOfVbo(type, size);
 }
 
 Plane::~Plane() {
@@ -24,24 +25,6 @@ Plane::~Plane() {
 	glDeleteBuffers(1, &vertexBuf);
 	glDeleteBuffers(1, &texcoordBuf);
 	glDeleteBuffers(1, &indexBuf);
-}
-
-void Plane::init() {
-	shader.begin();
-	setupOfVbo(type, size);
-	shader.end();
-}
-
-void Plane::draw() {
-        shader.begin();
-        ofVAO.drawElements(GL_TRIANGLES, 6);
-        shader.end();
-}
-
-void Plane::drawInstanced(int count) {
-        shader.begin();
-        ofVAO.drawElementsInstanced(GL_TRIANGLES, 6, count);
-        shader.end();
 }
 
 GLuint Plane::getVAO() const { return vao; }
@@ -61,14 +44,10 @@ void Plane::setupOfVboData(std::vector<float> vertex, std::vector<float> normal,
 		glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
 		glEnableVertexAttribArray(3);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
-        //ofVAO.setVertexData(vertex.data(), 3, vertex.size(), GL_STATIC_DRAW);
-        //ofVAO.setNormalData(normal.data(), normal.size(), GL_STATIC_DRAW);
-        //ofVAO.setTexCoordData(uv.data(), uv.size(), GL_STATIC_DRAW);
 }
 
 void Plane::setupOfVbo(PlaneType type, const glm::vec3 size) {
 		glBindVertexArray(vao);
-		//ofVAO.bind();
         switch (type) {
                 case PlaneType::Front:
                         setupOfVboData(createFrontVertex(size),
@@ -104,8 +83,6 @@ void Plane::setupOfVbo(PlaneType type, const glm::vec3 size) {
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuf);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(ofIndexType) * indexData.size(), indexData.data(), GL_STATIC_DRAW);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-        //ofVAO.setIndexData(indexData.data(), indexData.size(), GL_STATIC_DRAW);
-		//ofVAO.unbind();
 		glBindVertexArray(0);
 }
 
