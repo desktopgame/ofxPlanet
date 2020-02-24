@@ -56,7 +56,6 @@ std::vector<MultiBlockCell> toCellVec(const MultiBlock& block) {
                                 auto& blockName = line.at(x);
                                 int blockIndex =
                                     blockPack->getBlockIndexForName(blockName);
-                                // TODO:�u���b�N���Ȃ������ꍇ
                                 MultiBlockCell cell(glm::ivec3(x, y, z),
                                                     blockIndex);
                                 ret.emplace_back(cell);
