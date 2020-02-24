@@ -341,6 +341,53 @@ LightTable & World::getLightTable() {
 	return lightTable;
 }
 
+void World::setChunkLoadStyle(ChunkLoadStyle chunkLoadStyle) {
+	this->chunkLoadStyle = chunkLoadStyle;
+	chunk->invalidate();
+}
+
+ChunkLoadStyle World::getChunkLoadStyle() const {
+	return this->chunkLoadStyle;
+}
+
+std::shared_ptr<Chunk> World::getCurrentChunk() {
+	if (this->currentChunk == nullptr) {
+		this->viewPosition.x = std::max(0.0f, std::min(static_cast<float>(xSize) - 1, viewPosition.x));
+		this->viewPosition.y = std::max(0.0f, std::min(static_cast<float>(ySize) - 1, viewPosition.y));
+		this->viewPosition.z = std::max(0.0f, std::min(static_cast<float>(zSize) - 1, viewPosition.z));
+		this->currentChunk = chunk->lookup(this->viewPosition);
+	}
+	return this->currentChunk;
+}
+
+void World::setViewPosition(const glm::vec3 & viewPosition) {
+	this->viewPosition = viewPosition;
+	this->viewPosition.x = std::max(0.0f, std::min(static_cast<float>(xSize)-1, viewPosition.x));
+	this->viewPosition.y = std::max(0.0f, std::min(static_cast<float>(ySize)-1, viewPosition.y));
+	this->viewPosition.z = std::max(0.0f, std::min(static_cast<float>(zSize)-1, viewPosition.z));
+	auto newChunk = this->chunk->lookup(this->viewPosition);
+	if (this->currentChunk != newChunk) {
+		this->currentChunk = newChunk;
+		this->chunk->invalidate();
+	}
+}
+
+glm::vec3 World::getViewPosition() const {
+	return viewPosition;
+}
+
+void World::setViewRange(int viewRange) {
+	bool changed = this->viewRange != viewRange;
+	this->viewRange = viewRange;
+	if (changed) {
+		this->chunk->invalidate();
+	}
+}
+
+int World::getViewRange() const {
+	return this->viewRange;
+}
+
 void World::checkFBO() {
         int newW = ofGetWidth();
         int newH = ofGetHeight();
@@ -361,6 +408,10 @@ World::World(ofShader& shader, int xSize, int ySize, int zSize)
       ySize(ySize),
       zSize(zSize),
       fbo(),
+	  chunkLoadStyle(ChunkLoadStyle::All),
+	  viewPosition(),
+	  viewRange(1),
+      currentChunk(nullptr),
 	  chunk(Chunk::create(*this, 0, 0, xSize, zSize)),
       shader(shader),
 	  lightTable(xSize,ySize,zSize),

@@ -61,6 +61,13 @@ public:
 	 * @return
 	 */
 	bool isContains(int x, int y, int z) const;
+
+	/**
+	 * @param pos
+	 * @return
+	 */
+	bool isContains(const glm::ivec3& pos) const;
+
 	/**
 	 * return true if marked as `taint`.
 	 * @return
@@ -89,9 +96,27 @@ public:
 	 * @return
 	 */
 	Instance getParent() const;
+
+	/**
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @return
+	 */
+	Instance lookup(int x, int y, int z) const;
+
+	/**
+	 * @param pos
+	 * @return
+	 */
+	Instance lookup(const glm::ivec3& pos) const;
 private:
 	explicit Chunk(Reference parent, World& world, int xOffset, int zOffset, int xSize, int zSize);
+	void allocateRenderer();
 	void deleteRenderer();
+	void batch();
+	void rehashAll();
+	void rehashVisible();
 
 	ChunkType type;
 	bool invalid;

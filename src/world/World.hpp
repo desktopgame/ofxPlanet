@@ -15,6 +15,13 @@ namespace ofxPlanet {
 class Camera;
 class World;
 /**
+ * ChunkLoadStyle.
+ */
+enum class ChunkLoadStyle {
+	All,
+	VisibleChunk,
+};
+/**
  * WorldPart is part from world.
  */
 class WorldPart {
@@ -246,6 +253,41 @@ class World : public std::enable_shared_from_this<World> {
 		 */
 		LightTable& getLightTable();
 
+		/**
+		 * @param chunkLoadStyle
+		 */
+		void setChunkLoadStyle(ChunkLoadStyle chunkLoadStyle);
+
+		/**
+		 * @return
+		 */
+		ChunkLoadStyle getChunkLoadStyle() const;
+
+		/**
+		 * @return
+		 */
+		std::shared_ptr<Chunk> getCurrentChunk();
+
+		/**
+		 * @param viewPosition
+		 */
+		void setViewPosition(const glm::vec3& viewPosition);
+
+		/**
+		 * @return
+		 */
+		glm::vec3 getViewPosition() const;
+
+		/**
+		 * @param viewRange
+		 */
+		void setViewRange(int viewRange);
+
+		/**
+		 * @return
+		 */
+		int getViewRange() const;
+
        private:
         void checkFBO();
         explicit World(ofShader& shader, const glm::ivec3& size);
@@ -257,6 +299,10 @@ class World : public std::enable_shared_from_this<World> {
 		LightTable lightTable;
 		std::shared_ptr<Chunk> chunk;
         ofFbo fbo;
+		ChunkLoadStyle chunkLoadStyle;
+		glm::vec3 viewPosition;
+		int viewRange;
+		std::shared_ptr<Chunk> currentChunk;
 
 		std::vector<std::vector<std::vector<int > > > brightCache;
 		bool invalidBrightCache;

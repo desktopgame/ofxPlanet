@@ -208,6 +208,7 @@ void BlockTable::addPos(glm::ivec3 pos, glm::ivec3 newPos,
                         std::set<glm::ivec3, IntVec3Compare>& set,
                         BlockArea& area) const {
         if (!set.count(newPos) && contains(newPos.x, newPos.y, newPos.z)) {
+			set.insert(newPos);
                 int y = getTopYForXZ(newPos.x, newPos.z);
                 if (y == pos.y) {
                         getAllBlockAreaForTopImpl(newPos, set, area);

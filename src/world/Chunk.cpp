@@ -38,37 +38,20 @@ void Chunk::rehash() {
 		return;
 	}
 	this->world.computeBrightness();
-	if (this->type == ChunkType::Single) {
-		renderer->clear();
-		for (int x = xOffset; x < xOffset + xSize; x++) {
-			if (x >= world.getXSize() || x < 0) {
-				continue;
-			}
-			for (int z = zOffset; z < zOffset + zSize; z++) {
-				if (z >= world.getZSize() || z < 0) {
-					continue;
-				}
-				for (int y = 0; y < world.getYSize(); y++) {
-					auto block = world.getBlock(x, y, z);
-					if (block != nullptr) {
-						int brightness = world.getLightTable().getLight(x, y, z);
-						block->batch(this->world, *renderer, brightness, x, y, z);
-					}
-				}
-			}
-		}
-		renderer->update();
+	ChunkLoadStyle style = world.getChunkLoadStyle();
+	if (style == ChunkLoadStyle::VisibleChunk) {
+		rehashVisible();
 	} else {
-		for (auto subchunk : subchunks) {
-			subchunk->rehash();
-		}
+		rehashAll();
 	}
 	this->invalid = false;
 }
 void Chunk::draw() {
 	rehash();
 	if (this->type == ChunkType::Single) {
-		renderer->render();
+		if (this->renderer != nullptr) {
+			renderer->render();
+		}
 	} else {
 		for (auto subchunk : subchunks) {
 			subchunk->draw();
@@ -83,6 +66,9 @@ bool Chunk::isContains(int x, int y, int z) const {
 		return false;
 	}
 	return true;
+}
+bool ofxPlanet::Chunk::isContains(const glm::ivec3 & pos) const {
+	return isContains(pos.x, pos.y, pos.z);
 }
 bool Chunk::isInvalid() const {
 	return invalid;
@@ -110,6 +96,28 @@ ChunkType Chunk::getType() const {
 Chunk::Instance Chunk::getParent() const {
 	return parent.lock();
 }
+Chunk::Instance Chunk::lookup(int x, int y, int z) const {
+	if (!isContains(x, y, z)) {
+		return nullptr;
+	}
+	auto e = std::const_pointer_cast<Chunk>(this->shared_from_this());
+	while (e) {
+		if (e->subchunks.empty()) {
+			break;
+		}
+		for (auto subchunk : e->subchunks) {
+			auto c = subchunk->lookup(x, y, z);
+			if (c) {
+				e = c;
+				break;
+			}
+		}
+	}
+	return e;
+}
+Chunk::Instance Chunk::lookup(const glm::ivec3 & pos) const {
+	return lookup(pos.x, pos.y, pos.z);
+}
 // private
 Chunk::Chunk(Reference parent, World& world, int xOffset, int zOffset, int xSize, int zSize)
 	:
@@ -124,10 +132,67 @@ Chunk::Chunk(Reference parent, World& world, int xOffset, int zOffset, int xSize
 	parent(parent),
 	subchunks() {
 }
+void Chunk::allocateRenderer() {
+	if (this->renderer == nullptr) {
+		this->renderer = new BlockRenderer(world, world.getShader());
+	}
+}
 void Chunk::deleteRenderer() {
 	if (this->renderer != nullptr) {
 		delete renderer;
 		this->renderer = nullptr;
+	}
+}
+void Chunk::batch() {
+	renderer->clear();
+	for (int x = xOffset; x < xOffset + xSize; x++) {
+		if (x >= world.getXSize() || x < 0) {
+			continue;
+		}
+		for (int z = zOffset; z < zOffset + zSize; z++) {
+			if (z >= world.getZSize() || z < 0) {
+				continue;
+			}
+			for (int y = 0; y < world.getYSize(); y++) {
+				auto block = world.getBlock(x, y, z);
+				if (block != nullptr) {
+					int brightness = world.getLightTable().getLight(x, y, z);
+					block->batch(this->world, *renderer, brightness, x, y, z);
+				}
+			}
+		}
+	}
+	renderer->update();
+}
+void Chunk::rehashAll() {
+	if (this->type == ChunkType::Single) {
+		this->batch();
+	}
+	else {
+		for (auto subchunk : subchunks) {
+			subchunk->rehash();
+		}
+	}
+}
+void Chunk::rehashVisible() {
+	this->invalid = false;
+	glm::vec3 viewPosition = world.getViewPosition();
+	int viewRange = world.getViewRange();
+	auto curChunk = world.getCurrentChunk();
+	int diffX = std::max(curChunk->xOffset, this->xOffset) - std::min(curChunk->xOffset, this->xOffset);
+	int diffZ = std::max(curChunk->zOffset, this->zOffset) - std::min(curChunk->zOffset, this->zOffset);
+	bool isIncludedViewRange = diffX < viewRange && diffZ < viewRange;
+	if(!isIncludedViewRange) {
+		deleteRenderer();
+		return;
+	}
+	if (this->type == ChunkType::Single) {
+		this->allocateRenderer();
+		this->batch();
+	} else {
+		for (auto subchunk : subchunks) {
+			subchunk->rehashVisible();
+		}
 	}
 }
 }
