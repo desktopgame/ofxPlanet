@@ -4,7 +4,7 @@
 #include <glm/glm.hpp>
 
 namespace ofxPlanet {
-struct KeyCompare {
+struct IntVec3Compare {
         bool operator()(const glm::ivec3& a, const glm::ivec3& b) const;
 };
 }  // namespace ofxPlanet

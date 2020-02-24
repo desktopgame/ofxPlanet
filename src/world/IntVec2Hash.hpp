@@ -4,7 +4,7 @@
 #include <glm/glm.hpp>
 
 namespace ofxPlanet {
-struct Vec2HashFunc {
+struct IntVec2Hash {
         size_t operator()(const glm::ivec2& k) const;
         bool operator()(const glm::ivec2& a, const glm::ivec2& b) const;
 };

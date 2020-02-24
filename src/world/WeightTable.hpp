@@ -58,7 +58,7 @@ class WeightTable {
 
        private:
         void addWeight(int x, int y, int z, int weight,
-                       std::set<glm::ivec3, KeyCompare>& set);
+                       std::set<glm::ivec3, IntVec3Compare>& set);
         int xSize, ySize, zSize;
         std::vector<std::vector<std::vector<int> > > vec;
 };

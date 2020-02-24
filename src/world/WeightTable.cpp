@@ -16,7 +16,7 @@ WeightTable::WeightTable(int xSize, int ySize, int zSize)
 }
 
 void WeightTable::addWeight(int x, int y, int z, int weight) {
-        std::set<glm::ivec3, KeyCompare> set;
+        std::set<glm::ivec3, IntVec3Compare> set;
         addWeight(x, y, z, weight, set);
 }
 
@@ -29,7 +29,7 @@ int WeightTable::getYSize() const { return ySize; }
 int WeightTable::getZSize() const { return zSize; }
 // private
 void WeightTable::addWeight(int x, int y, int z, int weight,
-                            std::set<glm::ivec3, KeyCompare>& set) {
+                            std::set<glm::ivec3, IntVec3Compare>& set) {
         glm::ivec3 pos(x, y, z);
         if (set.count(pos)) {
                 return;

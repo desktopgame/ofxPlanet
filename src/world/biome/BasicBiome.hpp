@@ -13,7 +13,7 @@
 #include "Biome.hpp"
 namespace ofxPlanet {
 using HeightMap =
-    std::unordered_map<glm::ivec2, int, Vec2HashFunc, Vec2HashFunc>;
+    std::unordered_map<glm::ivec2, int, IntVec2Hash, IntVec2Hash>;
 using MultiBlockMap = std::unordered_map<std::string, MultiBlock>;
 using WeightTableMap = std::unordered_map<std::string, WeightTable>;
 

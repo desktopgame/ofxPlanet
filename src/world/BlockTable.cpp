@@ -140,7 +140,7 @@ int BlockTable::getTopYForXZ(int x, int z) const {
 
 std::vector<BlockArea> BlockTable::getAllBlockAreaForTop() const {
         std::vector<BlockArea> ret;
-        std::set<glm::ivec3, KeyCompare> set;
+        std::set<glm::ivec3, IntVec3Compare> set;
         for (int x = 0; x < xSize; x++) {
                 for (int z = 0; z < zSize; z++) {
                         int topY = getTopYForXZ(x, z);
@@ -186,7 +186,7 @@ void BlockTable::setTerrain(const Terrain terrain) { this->terrain = terrain; }
 Terrain BlockTable::getTerrain() const { return terrain; }
 // private
 void BlockTable::getAllBlockAreaForTopImpl(
-    glm::ivec3 pos, std::set<glm::ivec3, KeyCompare>& set,
+    glm::ivec3 pos, std::set<glm::ivec3, IntVec3Compare>& set,
     BlockArea& area) const {
         set.insert(pos);
         area.addPoint(pos);
@@ -205,7 +205,7 @@ void BlockTable::getAllBlockAreaForTopImpl(
         addPos(pos, zn, set, area);
 }
 void BlockTable::addPos(glm::ivec3 pos, glm::ivec3 newPos,
-                        std::set<glm::ivec3, KeyCompare>& set,
+                        std::set<glm::ivec3, IntVec3Compare>& set,
                         BlockArea& area) const {
         if (!set.count(newPos) && contains(newPos.x, newPos.y, newPos.z)) {
                 int y = getTopYForXZ(newPos.x, newPos.z);
