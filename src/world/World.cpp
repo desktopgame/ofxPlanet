@@ -366,7 +366,7 @@ void World::setViewPosition(const glm::vec3 & viewPosition) {
 	this->viewPosition.y = std::max(0.0f, std::min(static_cast<float>(ySize)-1, viewPosition.y));
 	this->viewPosition.z = std::max(0.0f, std::min(static_cast<float>(zSize)-1, viewPosition.z));
 	auto newChunk = this->chunk->lookup(this->viewPosition);
-	if (this->currentChunk != newChunk) {
+	if (this->currentChunk != newChunk && this->chunkLoadStyle == ChunkLoadStyle::VisibleChunk) {
 		this->currentChunk = newChunk;
 		this->chunk->invalidate();
 	}
@@ -379,7 +379,7 @@ glm::vec3 World::getViewPosition() const {
 void World::setViewRange(int viewRange) {
 	bool changed = this->viewRange != viewRange;
 	this->viewRange = viewRange;
-	if (changed) {
+	if (changed && this->chunkLoadStyle == ChunkLoadStyle::VisibleChunk) {
 		this->chunk->invalidate();
 	}
 }
