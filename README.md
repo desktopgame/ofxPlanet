@@ -51,5 +51,8 @@ first release
 ### Version 1.1 (2020/02/23):
 implemented workaround for bug of intel graphics driver
 
-### Version 1.1.2 (2020/02/24):
+### Version 1.1.1 (2020/02/24):
 implemented split loading for chunk
+
+### Version 1.1.2 (2020/02/24):
+minor fix
