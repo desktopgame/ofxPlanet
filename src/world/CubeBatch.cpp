@@ -4,8 +4,8 @@
 #include <ofAppRunner.h>
 
 #include "Block.hpp"
+#include "VertexLayout.hpp"
 namespace ofxPlanet {
-int CubeBatch::POSITION_INDEX = 4;
 CubeBatch::CubeBatch(const World& world, ofShader& shader,
                      const glm::vec3& size, int direction)
     : GraphicsBatch(world, shader),
@@ -123,14 +123,14 @@ void CubeBatch::updatePlane(PlaneType type, int brightness) {
 		GLuint vao = planes[brightness][index]->getVAO();
 		glBindVertexArray(vao);
 		glBindBuffer(GL_ARRAY_BUFFER, buf);
-		glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
-		glEnableVertexAttribArray(4);
+		glVertexAttribPointer(VertexLayout::POSITION_POSITION, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+		glEnableVertexAttribArray(VertexLayout::POSITION_POSITION);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-		glVertexAttribDivisor(0, 0);
+		glVertexAttribDivisor(VertexLayout::VERTEX_POSITION, 0);
 		glVertexAttribDivisor(2, 0);
-		glVertexAttribDivisor(3, 0);
-		glVertexAttribDivisor(4, 1);
+		glVertexAttribDivisor(VertexLayout::TEXCOORD_POSITION, 0);
+		glVertexAttribDivisor(VertexLayout::POSITION_POSITION, 1);
 		glBindVertexArray(0);
 }
 

@@ -49,10 +49,6 @@ class Plane {
 		static glm::vec3 FRONT_NORMAL;
 		static glm::vec3 BACK_NORMAL;
 
-		static int VERTEX_INDEX;
-		static int NORMAL_INDEX;
-		static int TEXCOORD_INDEX;
-
        private:
         void setupOfVboData(std::vector<float> vertex,
                             std::vector<float> normal, std::vector<float> uv);

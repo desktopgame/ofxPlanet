@@ -1,4 +1,5 @@
 #include "Plane.hpp"
+#include "VertexLayout.hpp"
 
 namespace ofxPlanet {
 glm::vec3 Plane::TOP_NORMAL = glm::vec3(0, 1, 0);
@@ -7,9 +8,6 @@ glm::vec3 Plane::LEFT_NORMAL = glm::vec3(-1, 0, 0);
 glm::vec3 Plane::RIGHT_NORMAL = glm::vec3(1, 0, 0);
 glm::vec3 Plane::FRONT_NORMAL = glm::vec3(0, 0, 1);
 glm::vec3 Plane::BACK_NORMAL = glm::vec3(0, 0, -1);
-int Plane::VERTEX_INDEX = 0;
-int Plane::NORMAL_INDEX = 2;
-int Plane::TEXCOORD_INDEX = 3;
 
 Plane::Plane(ofShader& shader, PlaneType type, const glm::vec3 size)
     : shader(shader), type(type), size(size) {
@@ -35,14 +33,14 @@ void Plane::setupOfVboData(std::vector<float> vertex, std::vector<float> normal,
                            std::vector<float> uv) {
 		glBindBuffer(GL_ARRAY_BUFFER, vertexBuf);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertex.size(), vertex.data(), GL_STATIC_DRAW);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
-		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(VertexLayout::VERTEX_POSITION, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+		glEnableVertexAttribArray(VertexLayout::VERTEX_POSITION);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 		glBindBuffer(GL_ARRAY_BUFFER, texcoordBuf);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * uv.size(), uv.data(), GL_STATIC_DRAW);
-		glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
-		glEnableVertexAttribArray(3);
+		glVertexAttribPointer(VertexLayout::TEXCOORD_POSITION, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
+		glEnableVertexAttribArray(VertexLayout::TEXCOORD_POSITION);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
