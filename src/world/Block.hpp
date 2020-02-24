@@ -11,7 +11,15 @@ namespace ofxPlanet {
 
 class World;
 class BlockRenderer;
+/**
+ * @param shape
+ * @return
+ */
 glm::vec3 sizeFromShape(BlockShape shape);
+/**
+ * @param str
+ * @return
+ */
 BlockShape stringToBlockShape(const std::string& str);
 /**
  * Block.
