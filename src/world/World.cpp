@@ -230,6 +230,26 @@ void World::setBlock(glm::ivec3 pos, std::shared_ptr<Block> block) {
 void World::setBlock(int x, int y, int z, std::shared_ptr<Block> block) {
 		this->invalidateBrightness();
         blocks[x][y][z] = block;
+		//* *
+		// +
+		//* *
+		chunk->invalidate(x + 1, y, z + 1);
+		chunk->invalidate(x - 1, y, z - 1);
+		chunk->invalidate(x - 1, y, z + 1);
+		chunk->invalidate(x + 1, y, z - 1);
+
+		chunk->invalidate(x + 1, y+1, z + 1);
+		chunk->invalidate(x - 1, y+1, z - 1);
+		chunk->invalidate(x - 1, y+1, z + 1);
+		chunk->invalidate(x + 1, y+1, z - 1);
+
+		chunk->invalidate(x + 1, y - 1, z + 1);
+		chunk->invalidate(x - 1, y - 1, z - 1);
+		chunk->invalidate(x - 1, y - 1, z + 1);
+		chunk->invalidate(x + 1, y - 1, z - 1);
+		// *
+		//*+*
+		// *
 		chunk->invalidate(x+1, y, z);
 		chunk->invalidate(x, y+1, z);
 		chunk->invalidate(x, y, z+1);

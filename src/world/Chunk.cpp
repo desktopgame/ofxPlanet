@@ -2,6 +2,7 @@
 #include "World.hpp"
 #include "Block.hpp"
 #include "Chunk.hpp"
+#include <ofGraphics.h>
 
 namespace ofxPlanet {
 Chunk::~Chunk() {
@@ -23,7 +24,7 @@ void Chunk::invalidate() {
 }
 
 void Chunk::invalidate(int x, int y, int z) {
-	if (!isContains(x, y, z) || invalid) {
+	if (!isContains(x, y, z)) {
 		return;
 	}
 	if (this->type == ChunkType::Split) {
@@ -56,6 +57,18 @@ void Chunk::draw() {
 		for (auto subchunk : subchunks) {
 			subchunk->draw();
 		}
+	}
+}
+void Chunk::debugDraw() {
+	float scale = 2.0f;
+	glm::vec3 vscale = glm::vec3(1, scale, 1);
+	ofDrawLine(glm::vec3(xOffset, 0, zOffset)*vscale, glm::vec3(xOffset, world.getYSize(), zOffset)*vscale);
+	ofDrawLine(glm::vec3(xOffset+xSize, 0, zOffset)*vscale, glm::vec3(xOffset+xSize, world.getYSize(), zOffset)*vscale);
+	ofDrawLine(glm::vec3(xOffset, 0, zOffset+zSize)*vscale, glm::vec3(xOffset, world.getYSize(), zOffset+zSize)*vscale);
+	ofDrawLine(glm::vec3(xOffset + xSize, 0, zOffset + zSize)*vscale, glm::vec3(xOffset + xSize, world.getYSize(), zOffset + zSize)*vscale);
+
+	for (auto subchunk : subchunks) {
+		subchunk->draw();
 	}
 }
 bool Chunk::isContains(int x, int y, int z) const {

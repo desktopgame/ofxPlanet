@@ -54,6 +54,11 @@ public:
 	void draw();
 
 	/**
+	 * draw chunk range.
+	 */
+	void debugDraw();
+
+	/**
 	 * return true if included in chunk for specific position.
 	 * @param x
 	 * @param y
