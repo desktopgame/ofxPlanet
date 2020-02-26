@@ -7,6 +7,8 @@
 #include "world/TextureInfoCollection.hpp"
 #include "world/TexturePack.hpp"
 #include "world/Block.hpp"
+#include "world/VertexLayout.hpp"
+#include "world/UniformLayout.hpp"
 #include "world/World.hpp"
 #include "world/WorldIO.hpp"
 #include "world/Chunk.hpp"

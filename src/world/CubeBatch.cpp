@@ -5,6 +5,7 @@
 
 #include "Block.hpp"
 #include "VertexLayout.hpp"
+#include "UniformLayout.hpp"
 namespace ofxPlanet {
 CubeBatch::CubeBatch(const World& world, ofShader& shader,
                      const glm::vec3& size, int direction)
@@ -82,7 +83,7 @@ void CubeBatch::render(GLuint texture) {
 		for (int b = LightTable::BRIGHTNESS_MIN; b < LightTable::BRIGHTNESS_MAX+1; b++) {
 			float f = LightTable::computeShaderBrightness(b);
 			shader.begin();
-			shader.setUniform1f(LightTable::BRIGHTNAME_UNIFORM_NAME, f);
+			shader.setUniform1f(UniformLayout::BRIGHTNESSS_NAME, f);
 			auto& planeA = this->planes[b];
 			for (int i = 0; i < static_cast<int>(PlaneType::Count); i++) {
 				GLuint vao = planeA[i]->getVAO();
