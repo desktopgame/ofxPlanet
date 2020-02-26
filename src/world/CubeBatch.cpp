@@ -8,9 +8,9 @@
 #include "UniformLayout.hpp"
 #include "VertexLayout.hpp"
 namespace ofxPlanet {
-CubeBatch::CubeBatch(const World& world, ofShader& shader,
+CubeBatch::CubeBatch(ofShader& shader,
                      const glm::vec3& size, int direction)
-    : GraphicsBatch(world, shader),
+    : GraphicsBatch(shader),
       isInvalid(true),
       size(size),
       direction(direction),
@@ -113,7 +113,7 @@ void CubeBatch::render(GLuint texture) {
 // private
 
 void CubeBatch::put(PlaneType type, int brightness, int x, int y, int z) {
-        glm::vec3 pos = getPhysicalPosition(x, y, z);
+        glm::vec3 pos = glm::vec3(x, y, z) * 2.0f;
         glm::vec3 baseSize = sizeFromShape(BlockShape::Block);
         glm::vec3 offset = ((baseSize - (this->size * 2.0f)) / 2.0f) *
                            static_cast<float>(direction);

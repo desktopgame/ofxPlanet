@@ -12,7 +12,7 @@ class World;
  */
 class GraphicsBatch {
        public:
-        GraphicsBatch(const World& world, ofShader& shader);
+        GraphicsBatch(ofShader& shader);
         virtual ~GraphicsBatch() {}
         /**
          * add position for specific side.
@@ -77,8 +77,6 @@ class GraphicsBatch {
         virtual void render(GLuint texture) = 0;
 
        protected:
-        glm::vec3 getPhysicalPosition(int x, int y, int z) const;
-        const World& world;
         ofShader& shader;
 };
 }  // namespace ofxPlanet

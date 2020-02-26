@@ -14,7 +14,7 @@ class GraphicsBatch;
  */
 class GraphicsRenderer {
        public:
-        GraphicsRenderer(const World& world, ofShader& shader);
+        GraphicsRenderer(ofShader& shader);
         virtual ~GraphicsRenderer() {}
 
         /**
@@ -86,11 +86,9 @@ class GraphicsRenderer {
         void render();
 
        protected:
-        virtual std::shared_ptr<GraphicsBatch> createBatch(
-            const World& world, ofShader& shader) = 0;
+        virtual std::shared_ptr<GraphicsBatch> createBatch(ofShader& shader) = 0;
 
        private:
-        const World& world;
         ofShader& shader;
         std::unordered_map<GLuint, std::shared_ptr<GraphicsBatch> > map;
         std::shared_ptr<GraphicsBatch> ref(GLuint texture);

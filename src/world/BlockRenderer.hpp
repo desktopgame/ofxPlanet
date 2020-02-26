@@ -10,7 +10,7 @@ class World;
  */
 class BlockRenderer {
        public:
-        explicit BlockRenderer(const World& world, ofShader& shader);
+        explicit BlockRenderer(ofShader& shader);
 
         /**
          * clear all renderer.

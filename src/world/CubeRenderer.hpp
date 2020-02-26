@@ -15,12 +15,11 @@ class Camera;
  */
 class CubeRenderer : public GraphicsRenderer {
        public:
-        explicit CubeRenderer(const World& world, ofShader& shader,
+        explicit CubeRenderer(ofShader& shader,
                               const glm::vec3& size, int direction);
 
        protected:
-        std::shared_ptr<GraphicsBatch> createBatch(const World& world,
-                                                   ofShader& shader) override;
+        std::shared_ptr<GraphicsBatch> createBatch(ofShader& shader) override;
 
        private:
         glm::vec3 size;

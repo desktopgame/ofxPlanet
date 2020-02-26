@@ -3,8 +3,8 @@
 #include "GraphicsBatch.hpp"
 
 namespace ofxPlanet {
-GraphicsRenderer::GraphicsRenderer(const World& world, ofShader& shader)
-    : world(world), shader(shader), map() {}
+GraphicsRenderer::GraphicsRenderer(ofShader& shader)
+    : shader(shader), map() {}
 void GraphicsRenderer::putFront(GLuint texture, int brightness, int x, int y,
                                 int z) {
         ref(texture)->putFront(brightness, x, y, z);
@@ -48,7 +48,7 @@ void GraphicsRenderer::render() {
 std::shared_ptr<GraphicsBatch> GraphicsRenderer::ref(GLuint texture) {
         if (!map.count(texture)) {
                 map.insert_or_assign(texture,
-                                     createBatch(this->world, this->shader));
+                                     createBatch(this->shader));
         }
         return map.at(texture);
 }

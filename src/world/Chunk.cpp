@@ -141,7 +141,7 @@ Chunk::Chunk(Reference parent, World& world, int xOffset, int zOffset,
     : type(ChunkType::Single),
       invalid(true),
       world(world),
-      renderer(new BlockRenderer(world, world.getShader())),
+      renderer(new BlockRenderer(world.getShader())),
       xOffset(xOffset),
       zOffset(zOffset),
       xSize(xSize),
@@ -150,7 +150,7 @@ Chunk::Chunk(Reference parent, World& world, int xOffset, int zOffset,
       subchunks() {}
 void Chunk::allocateRenderer() {
         if (this->renderer == nullptr) {
-                this->renderer = new BlockRenderer(world, world.getShader());
+                this->renderer = new BlockRenderer(world.getShader());
         }
 }
 void Chunk::deleteRenderer() {
