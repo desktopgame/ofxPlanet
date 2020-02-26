@@ -11,6 +11,7 @@
 #include "world/UniformLayout.hpp"
 #include "world/VertexLayout.hpp"
 #include "world/World.hpp"
+#include "world/FlexibleWorld.hpp"
 #include "world/WorldIO.hpp"
 #include "world/biome/BasicBiome.hpp"
 #include "world/biome/Biome.hpp"

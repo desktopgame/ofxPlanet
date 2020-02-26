@@ -51,6 +51,7 @@ void Chunk::rehash() {
 }
 void Chunk::draw() {
         rehash();
+		tidyResource();
         if (this->type == ChunkType::Single) {
                 if (this->renderer != nullptr) {
                         renderer->render();
@@ -171,13 +172,6 @@ int Chunk::getZSize() const {
 }
 
 void Chunk::setVisible(bool visible) {
-	if (this->visible != visible) {
-		if (visible) {
-			allocateRenderer();
-		} else {
-			deleteRenderer();
-		}
-	}
 	this->visible = visible;
 }
 
@@ -193,11 +187,21 @@ void Chunk::hide() {
 	Chunk::setVisibleRecursive(std::const_pointer_cast<Chunk>(shared_from_this()), false);
 }
 
+void Chunk::tidyResource() {
+	if (!this->visible) {
+		deleteRenderer();
+	}
+	for (auto subchunk : this->subchunks) {
+		subchunk->tidyResource();
+	}
+}
+
 // private
 Chunk::Chunk(Reference parent, IWorld& world, int xOffset, int zOffset,
              int xSize, int zSize)
     : type(ChunkType::Single),
       invalid(true),
+	  visible(false),
       world(world),
       renderer(new BlockRenderer(world.getShader())),
       xOffset(xOffset),
@@ -230,9 +234,7 @@ void Chunk::batch() {
                         for (int y = 0; y < world.getYSize(); y++) {
                                 auto block = world.getBlock(x, y, z);
                                 if (block != nullptr) {
-                                        int brightness =
-                                            world.getLightTable().getLight(x, y,
-                                                                           z);
+										int brightness = 15;
                                         block->batch(this->world, *renderer,
                                                      brightness, x, y, z);
                                 }

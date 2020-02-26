@@ -186,6 +186,8 @@ AsyncOperation WorldIO::saveObj(const std::string& outputDir,
 
 AsyncOperation WorldIO::saveBmp(const std::string& outputFile,
                                 const std::shared_ptr<Planet>& planet) {
+	return nullptr;
+	/*
         auto ret = std::make_shared<Progress>();
         auto w = planet->getWorld();
         std::thread([outputFile, planet, w, ret]() -> void {
@@ -200,6 +202,7 @@ AsyncOperation WorldIO::saveBmp(const std::string& outputFile,
                 ret->setValue(1.0f);
         }).detach();
         return ret;
+		*/
 }
 
 glm::vec3 WorldIO::asVec3(int x, int y, int z) { return glm::vec3(x, y, z); }

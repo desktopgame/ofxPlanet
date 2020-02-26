@@ -176,6 +176,8 @@ class Chunk : public std::enable_shared_from_this<Chunk> {
 		 */
 		void hide();
 
+		void tidyResource();
+
        private:
         explicit Chunk(Reference parent, IWorld& world, int xOffset, int zOffset,
                        int xSize, int zSize);
