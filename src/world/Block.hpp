@@ -7,9 +7,9 @@
 
 #include "BlockShape.hpp"
 #include "TextureSet.hpp"
+#include "IWorld.hpp"
 namespace ofxPlanet {
 
-class World;
 class BlockRenderer;
 /**
  * @param shape
@@ -38,7 +38,7 @@ class Block {
          * @param y
          * @param z
          */
-        void batch(const World& world, BlockRenderer& renderer, int brightness,
+        void batch(const IWorld& world, BlockRenderer& renderer, int brightness,
                    int x, int y, int z);
         /**
          * returns TextureSet for rendering this block.

@@ -6,9 +6,9 @@
 #include <vector>
 
 #include "BlockRenderer.hpp"
+#include "IWorld.hpp"
 
 namespace ofxPlanet {
-class World;
 /**
  * ChunkType.
  */
@@ -33,7 +33,7 @@ class Chunk : public std::enable_shared_from_this<Chunk> {
          * @param zSize
          * @return
          */
-        static Instance create(World& world, int xOffset, int zOffset,
+        static Instance create(IWorld& world, int xOffset, int zOffset,
                                int xSize, int zSize);
         /**
          * this chunk mark as `taint`.
@@ -84,7 +84,7 @@ class Chunk : public std::enable_shared_from_this<Chunk> {
          * returns world.
          * @return
          */
-        const World& getWorld() const;
+        const IWorld& getWorld() const;
 
         /**
          * split chunks.
@@ -119,7 +119,7 @@ class Chunk : public std::enable_shared_from_this<Chunk> {
         Instance lookup(const glm::ivec3& pos) const;
 
        private:
-        explicit Chunk(Reference parent, World& world, int xOffset, int zOffset,
+        explicit Chunk(Reference parent, IWorld& world, int xOffset, int zOffset,
                        int xSize, int zSize);
         void allocateRenderer();
         void deleteRenderer();
@@ -129,7 +129,7 @@ class Chunk : public std::enable_shared_from_this<Chunk> {
 
         ChunkType type;
         bool invalid;
-        World& world;
+        IWorld& world;
         BlockRenderer* renderer;
         int xOffset;
         int zOffset;

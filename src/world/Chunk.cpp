@@ -8,7 +8,7 @@
 
 namespace ofxPlanet {
 Chunk::~Chunk() { deleteRenderer(); }
-Chunk::Instance Chunk::create(World& world, int xOffset, int zOffset, int xSize,
+Chunk::Instance Chunk::create(IWorld& world, int xOffset, int zOffset, int xSize,
                               int zSize) {
         return Instance(
             new Chunk(Reference(), world, xOffset, zOffset, xSize, zSize));
@@ -95,7 +95,7 @@ bool ofxPlanet::Chunk::isContains(const glm::ivec3& pos) const {
         return isContains(pos.x, pos.y, pos.z);
 }
 bool Chunk::isInvalid() const { return invalid; }
-const World& Chunk::getWorld() const { return world; }
+const IWorld& Chunk::getWorld() const { return world; }
 void Chunk::split(int splitSize) {
         if (this->type == ChunkType::Split) {
                 throw std::logic_error("this chunks is already split");
@@ -136,7 +136,7 @@ Chunk::Instance Chunk::lookup(const glm::ivec3& pos) const {
         return lookup(pos.x, pos.y, pos.z);
 }
 // private
-Chunk::Chunk(Reference parent, World& world, int xOffset, int zOffset,
+Chunk::Chunk(Reference parent, IWorld& world, int xOffset, int zOffset,
              int xSize, int zSize)
     : type(ChunkType::Single),
       invalid(true),
@@ -162,13 +162,7 @@ void Chunk::deleteRenderer() {
 void Chunk::batch() {
         renderer->clear();
         for (int x = xOffset; x < xOffset + xSize; x++) {
-                if (x >= world.getXSize() || x < 0) {
-                        continue;
-                }
                 for (int z = zOffset; z < zOffset + zSize; z++) {
-                        if (z >= world.getZSize() || z < 0) {
-                                continue;
-                        }
                         for (int y = 0; y < world.getYSize(); y++) {
                                 auto block = world.getBlock(x, y, z);
                                 if (block != nullptr) {

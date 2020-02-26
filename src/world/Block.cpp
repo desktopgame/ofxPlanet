@@ -14,7 +14,7 @@ Block::Block(BlockShape shape, const std::string& name,
       textureReference(textureReference),
       id(id),
       textureSetIndex(-1) {}
-void Block::batch(const World& world, BlockRenderer& renderer, int brightness,
+void Block::batch(const IWorld& world, BlockRenderer& renderer, int brightness,
                   int x, int y, int z) {
         TextureSet set = getTextureSet();
         std::reference_wrapper<GraphicsRenderer> target =

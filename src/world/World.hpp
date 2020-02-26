@@ -10,17 +10,11 @@
 #include "BlockRenderer.hpp"
 #include "BlockTable.hpp"
 #include "LightTable.hpp"
+#include "IWorld.hpp"
 namespace ofxPlanet {
 
 class Camera;
 class World;
-/**
- * ChunkLoadStyle.
- */
-enum class ChunkLoadStyle {
-        All,
-        VisibleChunk,
-};
 /**
  * WorldPart is part from world.
  */
@@ -48,7 +42,7 @@ class Chunk;
 /**
  * World is three dimenstional world composed cube.
  */
-class World : public std::enable_shared_from_this<World> {
+class World : public IWorld {
        public:
         /**
          * returns a new world.
