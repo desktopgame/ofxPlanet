@@ -232,6 +232,8 @@ class World : public IWorld {
        private:
         explicit World(ofShader& shader, const glm::ivec3& size);
         explicit World(ofShader& shader, int xSize, int ySize, int zSize);
+		void updateNeighborChunks();
+
         std::vector<std::vector<std::vector<std::shared_ptr<Block> > > > blocks;
         int xSize, ySize, zSize;
         ofShader& shader;

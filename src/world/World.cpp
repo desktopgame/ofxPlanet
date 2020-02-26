@@ -113,6 +113,7 @@ std::shared_ptr<Chunk> World::getCurrentChunk() {
 			0.0f,
 			std::min(static_cast<float>(zSize) - 1, viewPosition.z));
 		this->currentChunk = chunk->lookup(this->viewPosition);
+		this->updateNeighborChunks();
 	}
 	return this->currentChunk;
 }
@@ -379,6 +380,7 @@ void World::setViewPosition(const glm::vec3& viewPosition) {
             this->chunkLoadStyle == ChunkLoadStyle::VisibleChunk) {
                 this->currentChunk = newChunk;
                 this->chunk->invalidate();
+				this->updateNeighborChunks();
         }
 }
 
@@ -408,6 +410,13 @@ World::World(ofShader& shader, int xSize, int ySize, int zSize)
       lightTable(xSize, ySize, zSize),
       brightCache(),
       invalidBrightCache(true) {}
+void World::updateNeighborChunks() {
+	this->chunk->hide();
+	auto neighbor = this->chunk->getNeighbor(this->currentChunk, this->viewRange);
+	for (auto nc : neighbor) {
+		nc->setVisible(true);
+	}
+}
 RaycastResult::RaycastResult()
     : normal(0, 0, 0), position(0, 0, 0), hit(false) {}
 }  // namespace ofxPlanet

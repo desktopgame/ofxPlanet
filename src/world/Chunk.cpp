@@ -135,6 +135,28 @@ Chunk::Instance Chunk::lookup(int x, int y, int z) const {
 Chunk::Instance Chunk::lookup(const glm::ivec3& pos) const {
         return lookup(pos.x, pos.y, pos.z);
 }
+std::vector<Chunk::Instance> Chunk::getNeighbor(const Instance & chunk, int viewRange) const {
+	std::vector<Chunk::Instance> v;
+	int diffX = std::max(chunk->xOffset, this->xOffset) - std::min(chunk->xOffset, this->xOffset);
+	int diffZ = std::max(chunk->zOffset, this->zOffset) - std::min(chunk->zOffset, this->zOffset);
+	bool isIncludedViewRange = diffX < viewRange && diffZ < viewRange;
+	if (isIncludedViewRange) {
+		v.emplace_back(std::const_pointer_cast<Chunk>(shared_from_this()));
+	}
+	for (auto subchunk : subchunks) {
+		auto cv = subchunk->getNeighbor(chunk, viewRange);
+		for (auto ce : cv) {
+			v.emplace_back(ce);
+		}
+	}
+	return v;
+}
+Chunk::Instance Chunk::getSubChunk(int index) const {
+	return subchunks.at(index);
+}
+int Chunk::getSubChunkCount() const {
+	return static_cast<int>(subchunks.size());
+}
 int Chunk::getXOffset() const {
 	return this->xOffset;
 }
@@ -147,6 +169,30 @@ int Chunk::getXSize() const {
 int Chunk::getZSize() const {
 	return this->zSize;
 }
+
+void Chunk::setVisible(bool visible) {
+	if (this->visible != visible) {
+		if (visible) {
+			allocateRenderer();
+		} else {
+			deleteRenderer();
+		}
+	}
+	this->visible = visible;
+}
+
+bool Chunk::isVisible() const {
+	return this->visible;
+}
+
+void Chunk::show() {
+	Chunk::setVisibleRecursive(std::const_pointer_cast<Chunk>(shared_from_this()), true);
+}
+
+void Chunk::hide() {
+	Chunk::setVisibleRecursive(std::const_pointer_cast<Chunk>(shared_from_this()), false);
+}
+
 // private
 Chunk::Chunk(Reference parent, IWorld& world, int xOffset, int zOffset,
              int xSize, int zSize)
@@ -160,6 +206,12 @@ Chunk::Chunk(Reference parent, IWorld& world, int xOffset, int zOffset,
       zSize(zSize),
       parent(parent),
       subchunks() {}
+void Chunk::setVisibleRecursive(Instance chunk, bool visible) {
+	chunk->setVisible(visible);
+	for (auto subchunk : chunk->subchunks) {
+		setVisibleRecursive(subchunk, visible);
+	}
+}
 void Chunk::allocateRenderer() {
         if (this->renderer == nullptr) {
                 this->renderer = new BlockRenderer(world.getShader());
@@ -200,15 +252,7 @@ void Chunk::rehashAll() {
 }
 void Chunk::rehashVisible() {
         this->invalid = false;
-        glm::vec3 viewPosition = world.getViewPosition();
-        int viewRange = world.getViewRange();
-        auto curChunk = world.getCurrentChunk();
-        int diffX = std::max(curChunk->xOffset, this->xOffset) -
-                    std::min(curChunk->xOffset, this->xOffset);
-        int diffZ = std::max(curChunk->zOffset, this->zOffset) -
-                    std::min(curChunk->zOffset, this->zOffset);
-        bool isIncludedViewRange = diffX < viewRange && diffZ < viewRange;
-        if (!isIncludedViewRange) {
+        if (!isVisible()) {
                 deleteRenderer();
                 return;
         }

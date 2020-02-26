@@ -119,6 +119,24 @@ class Chunk : public std::enable_shared_from_this<Chunk> {
         Instance lookup(const glm::ivec3& pos) const;
 
 		/**
+		 * @param chunk
+		 * @param viewRange
+		 * @return
+		 */
+		std::vector<Instance> getNeighbor(const Instance& chunk, int viewRange) const;
+
+		/**
+		 * @param index
+		 * @return
+		 */
+		Instance getSubChunk(int index) const;
+
+		/**
+		 * @return
+		 */
+		int getSubChunkCount() const;
+
+		/**
 		 * @return
 		 */
 		int getXOffset() const;
@@ -138,9 +156,30 @@ class Chunk : public std::enable_shared_from_this<Chunk> {
 		 */
 		int getZSize() const;
 
+		/**
+		 * @param enabled
+		 */
+		void setVisible(bool visible);
+
+		/**
+		 * @return
+		 */
+		bool isVisible() const;
+
+		/**
+		 * set visible this chunk, and all sub chunks.
+		 */
+		void show();
+
+		/**
+		 * set not visible this chunk, and all sub chunks.
+		 */
+		void hide();
+
        private:
         explicit Chunk(Reference parent, IWorld& world, int xOffset, int zOffset,
                        int xSize, int zSize);
+		static void setVisibleRecursive(Instance chunk, bool visible);
         void allocateRenderer();
         void deleteRenderer();
         void batch();
@@ -149,6 +188,7 @@ class Chunk : public std::enable_shared_from_this<Chunk> {
 
         ChunkType type;
         bool invalid;
+		bool visible;
         IWorld& world;
         BlockRenderer* renderer;
         int xOffset;
