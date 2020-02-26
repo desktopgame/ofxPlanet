@@ -9,11 +9,11 @@
 #include <algorithm>
 #include <string>
 
-#include "Math.hpp"
-#include "Chunk.hpp"
 #include "Block.hpp"
 #include "BlockPack.hpp"
 #include "BlockRenderer.hpp"
+#include "Chunk.hpp"
+#include "Math.hpp"
 #include "TexturePack.hpp"
 namespace ofxPlanet {
 
@@ -29,23 +29,22 @@ std::shared_ptr<World> World::create(ofShader& shader, int xSize, int ySize,
         std::shared_ptr<World> ret = std::shared_ptr<World>(world);
         for (int i = 0; i < xSize; i++) {
                 std::vector<std::vector<std::shared_ptr<Block> > > yBlockLine;
-				std::vector<std::vector<int> > yBrightLine;
+                std::vector<std::vector<int> > yBrightLine;
                 for (int j = 0; j < ySize; j++) {
                         std::vector<std::shared_ptr<Block> > zBlockLine;
-						std::vector<int> zBrightLine;
+                        std::vector<int> zBrightLine;
                         for (int k = 0; k < zSize; k++) {
-							zBlockLine.emplace_back(nullptr);
-							zBrightLine.emplace_back(0);
+                                zBlockLine.emplace_back(nullptr);
+                                zBrightLine.emplace_back(0);
                         }
-						yBlockLine.emplace_back(zBlockLine);
-						yBrightLine.emplace_back(zBrightLine);
+                        yBlockLine.emplace_back(zBlockLine);
+                        yBrightLine.emplace_back(zBrightLine);
                 }
                 ret->blocks.emplace_back(yBlockLine);
-				ret->brightCache.emplace_back(yBrightLine);
+                ret->brightCache.emplace_back(yBrightLine);
         }
         return ret;
 }
-
 
 void World::load(const BlockTable& table) {
         auto bp = BlockPack::getCurrent();
@@ -74,169 +73,171 @@ void World::clear() {
                         }
                 }
         }
-		chunk->invalidate();
+        chunk->invalidate();
 }
 
-void World::update() {
-}
+void World::update() {}
 
 void World::computeBrightness() {
-	if (!this->invalidBrightCache) {
-		return;
-	}
-	for (int x = 0; x < xSize; x++) {
-		for (int y = 0; y < ySize; y++) {
-			for (int z = 0; z < zSize; z++) {
-				auto block = getBlock(x, y, z);
-				this->brightCache[x][y][z] = (block == nullptr ? -1 : block->getID());
-				this->lightTable.setLight(x, y, z, 0);
-			}
-		}
-	}
-	for (int x = 0; x < xSize; x++) {
-		for (int z = 0; z < zSize; z++) {
-			int y = getTopYForXZ(x, z);
-			int sunpower = 15;
-			this->lightTable.setLight(x, y, z, sunpower--);
-			for (; y >= 0 && sunpower > 0; y--) {
-				auto block = getBlock(x, y, z);
-				if (block != nullptr) {
-					lightTable.setLight(x, y, z, sunpower--);
-				}
-			}
-		}
-	}
-	this->invalidBrightCache = false;
+        if (!this->invalidBrightCache) {
+                return;
+        }
+        for (int x = 0; x < xSize; x++) {
+                for (int y = 0; y < ySize; y++) {
+                        for (int z = 0; z < zSize; z++) {
+                                auto block = getBlock(x, y, z);
+                                this->brightCache[x][y][z] =
+                                    (block == nullptr ? -1 : block->getID());
+                                this->lightTable.setLight(x, y, z, 0);
+                        }
+                }
+        }
+        for (int x = 0; x < xSize; x++) {
+                for (int z = 0; z < zSize; z++) {
+                        int y = getTopYForXZ(x, z);
+                        int sunpower = 15;
+                        this->lightTable.setLight(x, y, z, sunpower--);
+                        for (; y >= 0 && sunpower > 0; y--) {
+                                auto block = getBlock(x, y, z);
+                                if (block != nullptr) {
+                                        lightTable.setLight(x, y, z,
+                                                            sunpower--);
+                                }
+                        }
+                }
+        }
+        this->invalidBrightCache = false;
 }
 
-void World::invalidateBrightness() {
-	this->invalidBrightCache = true;
-}
+void World::invalidateBrightness() { this->invalidBrightCache = true; }
 
-RaycastResult World::raycast(glm::vec3 origin, glm::vec3 direction, float length, float scale) const {
-	origin /= scale;
-	int x = (Math::floatToInt(origin.x));
-	int y = (Math::floatToInt(origin.y));
-	int z = (Math::floatToInt(origin.z));
-	float dx = direction.x;
-	float dy = direction.y;
-	float dz = direction.z;
-	float stepX = Math::signum(dx);
-	float stepY = Math::signum(dy);
-	float stepZ = Math::signum(dz);
-	float tMaxX = Math::intbound(origin.x, dx);
-	float tMaxY = Math::intbound(origin.y, dy);
-	float tMaxZ = Math::intbound(origin.z, dz);
-	float tDeltaX = stepX / dx;
-	float tDeltaY = stepY / dy;
-	float tDeltaZ = stepZ / dz;
-	int wx = (this->xSize);
-	int wy = (this->ySize);
-	int wz = (this->zSize);
-	glm::vec3 normal(0, 0, 0);
-	RaycastResult res;
-	res.hit = false;
-	if (Math::isZero(dx) && Math::isZero(dy) && Math::isZero(dz)) {
-		return res;
-	}
-	length /= std::sqrt(dx*dx + dy * dy + dz * dz);
+RaycastResult World::raycast(glm::vec3 origin, glm::vec3 direction,
+                             float length, float scale) const {
+        origin /= scale;
+        int x = (Math::floatToInt(origin.x));
+        int y = (Math::floatToInt(origin.y));
+        int z = (Math::floatToInt(origin.z));
+        float dx = direction.x;
+        float dy = direction.y;
+        float dz = direction.z;
+        float stepX = Math::signum(dx);
+        float stepY = Math::signum(dy);
+        float stepZ = Math::signum(dz);
+        float tMaxX = Math::intbound(origin.x, dx);
+        float tMaxY = Math::intbound(origin.y, dy);
+        float tMaxZ = Math::intbound(origin.z, dz);
+        float tDeltaX = stepX / dx;
+        float tDeltaY = stepY / dy;
+        float tDeltaZ = stepZ / dz;
+        int wx = (this->xSize);
+        int wy = (this->ySize);
+        int wz = (this->zSize);
+        glm::vec3 normal(0, 0, 0);
+        RaycastResult res;
+        res.hit = false;
+        if (Math::isZero(dx) && Math::isZero(dy) && Math::isZero(dz)) {
+                return res;
+        }
+        length /= std::sqrt(dx * dx + dy * dy + dz * dz);
 
-	while (/* ray has not gone past bounds of world */
-		(stepX > 0 ? x < wx : x >= 0) &&
-		(stepY > 0 ? y < wy : y >= 0) &&
-		(stepZ > 0 ? z < wz : z >= 0)) {
-		res.hit = false;
-		// Invoke the callback, unless we are not *yet* within the bounds of the
-		// world.
-		if (!(x < 0 || y < 0 || z < 0 || x >= wx || y >= wy || z >= wz)) {
-			res.position = glm::vec3(x, y, z);
-			res.normal = normal;
-			res.hit = true;
-			if (isContains(res.position) && getBlock(res.position) != nullptr) {
-				break;
-			}
-		}
-		// tMaxX stores the t-value at which we cross a cube boundary along the
-		// X axis, and similarly for Y and Z. Therefore, choosing the least tMax
-		// chooses the closest cube boundary. Only the first case of the four
-		// has been commented in detail.
-		if (tMaxX < tMaxY) {
-			if (tMaxX < tMaxZ) {
-				if (tMaxX > length) break;
-				// Update which cube we are now in.
-				x += stepX;
-				// Adjust tMaxX to the next X-oriented boundary crossing.
-				tMaxX += tDeltaX;
-				// Record the normal vector of the cube face we entered.
-				normal.x = -stepX;
-				normal.y = 0;
-				normal.z = 0;
-			} else {
-				if (tMaxZ > length) break;
-				z += stepZ;
-				tMaxZ += tDeltaZ;
-				normal.x = 0;
-				normal.y = 0;
-				normal.z = -stepZ;
-			}
-		} else {
-			if (tMaxY < tMaxZ) {
-				if (tMaxY > length) break;
-				y += stepY;
-				tMaxY += tDeltaY;
-				normal.x = 0;
-				normal.y = -stepY;
-				normal.z = 0;
-			} else {
-				// Identical to the second case, repeated for simplicity in
-				// the conditionals.
-				if (tMaxZ > length) break;
-				z += stepZ;
-				tMaxZ += tDeltaZ;
-				normal.x = 0;
-				normal.y = 0;
-				normal.z = -stepZ;
-			}
-		}
-	}
-	return res;
+        while (/* ray has not gone past bounds of world */
+               (stepX > 0 ? x < wx : x >= 0) && (stepY > 0 ? y < wy : y >= 0) &&
+               (stepZ > 0 ? z < wz : z >= 0)) {
+                res.hit = false;
+                // Invoke the callback, unless we are not *yet* within the
+                // bounds of the world.
+                if (!(x < 0 || y < 0 || z < 0 || x >= wx || y >= wy ||
+                      z >= wz)) {
+                        res.position = glm::vec3(x, y, z);
+                        res.normal = normal;
+                        res.hit = true;
+                        if (isContains(res.position) &&
+                            getBlock(res.position) != nullptr) {
+                                break;
+                        }
+                }
+                // tMaxX stores the t-value at which we cross a cube boundary
+                // along the X axis, and similarly for Y and Z. Therefore,
+                // choosing the least tMax chooses the closest cube boundary.
+                // Only the first case of the four has been commented in detail.
+                if (tMaxX < tMaxY) {
+                        if (tMaxX < tMaxZ) {
+                                if (tMaxX > length) break;
+                                // Update which cube we are now in.
+                                x += stepX;
+                                // Adjust tMaxX to the next X-oriented boundary
+                                // crossing.
+                                tMaxX += tDeltaX;
+                                // Record the normal vector of the cube face we
+                                // entered.
+                                normal.x = -stepX;
+                                normal.y = 0;
+                                normal.z = 0;
+                        } else {
+                                if (tMaxZ > length) break;
+                                z += stepZ;
+                                tMaxZ += tDeltaZ;
+                                normal.x = 0;
+                                normal.y = 0;
+                                normal.z = -stepZ;
+                        }
+                } else {
+                        if (tMaxY < tMaxZ) {
+                                if (tMaxY > length) break;
+                                y += stepY;
+                                tMaxY += tDeltaY;
+                                normal.x = 0;
+                                normal.y = -stepY;
+                                normal.z = 0;
+                        } else {
+                                // Identical to the second case, repeated for
+                                // simplicity in the conditionals.
+                                if (tMaxZ > length) break;
+                                z += stepZ;
+                                tMaxZ += tDeltaZ;
+                                normal.x = 0;
+                                normal.y = 0;
+                                normal.z = -stepZ;
+                        }
+                }
+        }
+        return res;
 }
 
 void World::setBlock(glm::ivec3 pos, std::shared_ptr<Block> block) {
         setBlock(pos.x, pos.y, pos.z, block);
 }
 
-
 void World::setBlock(int x, int y, int z, std::shared_ptr<Block> block) {
-		this->invalidateBrightness();
+        this->invalidateBrightness();
         blocks[x][y][z] = block;
-		//* *
-		// +
-		//* *
-		chunk->invalidate(x + 1, y, z + 1);
-		chunk->invalidate(x - 1, y, z - 1);
-		chunk->invalidate(x - 1, y, z + 1);
-		chunk->invalidate(x + 1, y, z - 1);
+        //* *
+        // +
+        //* *
+        chunk->invalidate(x + 1, y, z + 1);
+        chunk->invalidate(x - 1, y, z - 1);
+        chunk->invalidate(x - 1, y, z + 1);
+        chunk->invalidate(x + 1, y, z - 1);
 
-		chunk->invalidate(x + 1, y+1, z + 1);
-		chunk->invalidate(x - 1, y+1, z - 1);
-		chunk->invalidate(x - 1, y+1, z + 1);
-		chunk->invalidate(x + 1, y+1, z - 1);
+        chunk->invalidate(x + 1, y + 1, z + 1);
+        chunk->invalidate(x - 1, y + 1, z - 1);
+        chunk->invalidate(x - 1, y + 1, z + 1);
+        chunk->invalidate(x + 1, y + 1, z - 1);
 
-		chunk->invalidate(x + 1, y - 1, z + 1);
-		chunk->invalidate(x - 1, y - 1, z - 1);
-		chunk->invalidate(x - 1, y - 1, z + 1);
-		chunk->invalidate(x + 1, y - 1, z - 1);
-		// *
-		//*+*
-		// *
-		chunk->invalidate(x+1, y, z);
-		chunk->invalidate(x, y+1, z);
-		chunk->invalidate(x, y, z+1);
-		chunk->invalidate(x - 1, y, z);
-		chunk->invalidate(x, y - 1, z);
-		chunk->invalidate(x, y, z - 1);
-		chunk->invalidate(x, y, z);
+        chunk->invalidate(x + 1, y - 1, z + 1);
+        chunk->invalidate(x - 1, y - 1, z - 1);
+        chunk->invalidate(x - 1, y - 1, z + 1);
+        chunk->invalidate(x + 1, y - 1, z - 1);
+        // *
+        //*+*
+        // *
+        chunk->invalidate(x + 1, y, z);
+        chunk->invalidate(x, y + 1, z);
+        chunk->invalidate(x, y, z + 1);
+        chunk->invalidate(x - 1, y, z);
+        chunk->invalidate(x, y - 1, z);
+        chunk->invalidate(x, y, z - 1);
+        chunk->invalidate(x, y, z);
 }
 
 std::shared_ptr<Block> World::getBlock(int x, int y, int z) const {
@@ -247,13 +248,13 @@ std::shared_ptr<Block> World::getBlock(glm::ivec3 pos) const {
 }
 
 int World::getTopYForXZ(int x, int z) const {
-	for (int y = ySize - 1; y >= 0; y--) {
-		auto block = getBlock(x, y, z);
-		if (block) {
-			return y;
-		}
-	}
-	return 0;
+        for (int y = ySize - 1; y >= 0; y--) {
+                auto block = getBlock(x, y, z);
+                if (block) {
+                        return y;
+                }
+        }
+        return 0;
 }
 
 bool World::isContains(int x, int y, int z) const {
@@ -325,68 +326,64 @@ std::vector<WorldPart> World::split(int splitNum) const {
         return ret;
 }
 
-std::shared_ptr<Chunk> World::getChunk() const {
-	return chunk;
-}
+std::shared_ptr<Chunk> World::getChunk() const { return chunk; }
 
-ofShader & World::getShader() {
-	return shader;
-}
+ofShader& World::getShader() { return shader; }
 
-const LightTable & World::getLightTable() const {
-	return lightTable;
-}
+const LightTable& World::getLightTable() const { return lightTable; }
 
-LightTable & World::getLightTable() {
-	return lightTable;
-}
+LightTable& World::getLightTable() { return lightTable; }
 
 void World::setChunkLoadStyle(ChunkLoadStyle chunkLoadStyle) {
-	this->chunkLoadStyle = chunkLoadStyle;
-	chunk->invalidate();
+        this->chunkLoadStyle = chunkLoadStyle;
+        chunk->invalidate();
 }
 
-ChunkLoadStyle World::getChunkLoadStyle() const {
-	return this->chunkLoadStyle;
-}
+ChunkLoadStyle World::getChunkLoadStyle() const { return this->chunkLoadStyle; }
 
 std::shared_ptr<Chunk> World::getCurrentChunk() {
-	if (this->currentChunk == nullptr) {
-		this->viewPosition.x = std::max(0.0f, std::min(static_cast<float>(xSize) - 1, viewPosition.x));
-		this->viewPosition.y = std::max(0.0f, std::min(static_cast<float>(ySize) - 1, viewPosition.y));
-		this->viewPosition.z = std::max(0.0f, std::min(static_cast<float>(zSize) - 1, viewPosition.z));
-		this->currentChunk = chunk->lookup(this->viewPosition);
-	}
-	return this->currentChunk;
+        if (this->currentChunk == nullptr) {
+                this->viewPosition.x = std::max(
+                    0.0f,
+                    std::min(static_cast<float>(xSize) - 1, viewPosition.x));
+                this->viewPosition.y = std::max(
+                    0.0f,
+                    std::min(static_cast<float>(ySize) - 1, viewPosition.y));
+                this->viewPosition.z = std::max(
+                    0.0f,
+                    std::min(static_cast<float>(zSize) - 1, viewPosition.z));
+                this->currentChunk = chunk->lookup(this->viewPosition);
+        }
+        return this->currentChunk;
 }
 
-void World::setViewPosition(const glm::vec3 & viewPosition) {
-	this->viewPosition = viewPosition;
-	this->viewPosition.x = std::max(0.0f, std::min(static_cast<float>(xSize)-1, viewPosition.x));
-	this->viewPosition.y = std::max(0.0f, std::min(static_cast<float>(ySize)-1, viewPosition.y));
-	this->viewPosition.z = std::max(0.0f, std::min(static_cast<float>(zSize)-1, viewPosition.z));
-	auto newChunk = this->chunk->lookup(this->viewPosition);
-	if (this->currentChunk != newChunk && this->chunkLoadStyle == ChunkLoadStyle::VisibleChunk) {
-		this->currentChunk = newChunk;
-		this->chunk->invalidate();
-	}
+void World::setViewPosition(const glm::vec3& viewPosition) {
+        this->viewPosition = viewPosition;
+        this->viewPosition.x = std::max(
+            0.0f, std::min(static_cast<float>(xSize) - 1, viewPosition.x));
+        this->viewPosition.y = std::max(
+            0.0f, std::min(static_cast<float>(ySize) - 1, viewPosition.y));
+        this->viewPosition.z = std::max(
+            0.0f, std::min(static_cast<float>(zSize) - 1, viewPosition.z));
+        auto newChunk = this->chunk->lookup(this->viewPosition);
+        if (this->currentChunk != newChunk &&
+            this->chunkLoadStyle == ChunkLoadStyle::VisibleChunk) {
+                this->currentChunk = newChunk;
+                this->chunk->invalidate();
+        }
 }
 
-glm::vec3 World::getViewPosition() const {
-	return viewPosition;
-}
+glm::vec3 World::getViewPosition() const { return viewPosition; }
 
 void World::setViewRange(int viewRange) {
-	bool changed = this->viewRange != viewRange;
-	this->viewRange = viewRange;
-	if (changed && this->chunkLoadStyle == ChunkLoadStyle::VisibleChunk) {
-		this->chunk->invalidate();
-	}
+        bool changed = this->viewRange != viewRange;
+        this->viewRange = viewRange;
+        if (changed && this->chunkLoadStyle == ChunkLoadStyle::VisibleChunk) {
+                this->chunk->invalidate();
+        }
 }
 
-int World::getViewRange() const {
-	return this->viewRange;
-}
+int World::getViewRange() const { return this->viewRange; }
 
 // private
 World::World(ofShader& shader, const glm::ivec3& size)
@@ -397,15 +394,15 @@ World::World(ofShader& shader, int xSize, int ySize, int zSize)
       xSize(xSize),
       ySize(ySize),
       zSize(zSize),
-	  chunkLoadStyle(ChunkLoadStyle::All),
-	  viewPosition(),
-	  viewRange(1),
+      chunkLoadStyle(ChunkLoadStyle::All),
+      viewPosition(),
+      viewRange(1),
       currentChunk(nullptr),
-	  chunk(Chunk::create(*this, 0, 0, xSize, zSize)),
+      chunk(Chunk::create(*this, 0, 0, xSize, zSize)),
       shader(shader),
-	  lightTable(xSize,ySize,zSize),
-	  brightCache(),
-      invalidBrightCache(true){}
-RaycastResult::RaycastResult() : normal(0,0,0), position(0,0,0), hit(false) {
-}
+      lightTable(xSize, ySize, zSize),
+      brightCache(),
+      invalidBrightCache(true) {}
+RaycastResult::RaycastResult()
+    : normal(0, 0, 0), position(0, 0, 0), hit(false) {}
 }  // namespace ofxPlanet

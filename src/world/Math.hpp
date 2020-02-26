@@ -10,7 +10,6 @@ namespace Math {
  */
 int floatToInt(float f);
 
-
 /**
  * @param f
  * @return
@@ -29,6 +28,6 @@ float intbound(float s, float ds);
  * @return
  */
 bool isZero(float f, float limit = 0.0001f);
-}
-}
+}  // namespace Math
+}  // namespace ofxPlanet
 #endif

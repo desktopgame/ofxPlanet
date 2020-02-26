@@ -4,12 +4,12 @@
 
 #include <random>
 
-#include "../Math.hpp"
 #include "../Block.hpp"
 #include "../BlockPack.hpp"
+#include "../Math.hpp"
 #include "../World.hpp"
-#include "../engine/Generator.hpp"
 #include "../csvr/Parser.hpp"
+#include "../engine/Generator.hpp"
 
 namespace ofxPlanet {
 
@@ -22,7 +22,7 @@ BasicBiome::BasicBiome()
       waterBlock("Water"),
       multiBlockMap(),
       weightTableMap(),
-	 generateCave(true) {}
+      generateCave(true) {}
 
 BasicBiome::~BasicBiome() {}
 
@@ -53,7 +53,7 @@ void BasicBiome::generate(BlockTable& blockTable) {
                     Cell(cellSrc.x, cellSrc.z, onFixHeight(cellSrc.noise));
                 int y = YSIZE_H + Math::floatToInt(cell.noise * (YSIZE_H - 1));
                 y = std::min(YSIZE - 1, y);
-				y = std::max(0, y);
+                y = std::max(0, y);
                 heightMap->insert_or_assign(glm::ivec2(cell.x, cell.z), y);
                 onGenerateTerrain(blockTable, cell.x, y, cell.z);
         }
@@ -96,8 +96,8 @@ void BasicBiome::onGenerateTerrain(BlockTable& blockTable, int x, int y,
         blockTable.setBlock(x, y, z, createTopBlock(blockTable, x, y, z));
         int startY = y;
         while (y-- > 0) {
-                blockTable.setBlock(x, y, z,
-                               createFillBlock(blockTable, startY, x, y, z));
+                blockTable.setBlock(
+                    x, y, z, createFillBlock(blockTable, startY, x, y, z));
         }
 }
 
@@ -117,26 +117,27 @@ void BasicBiome::registerStruct(const std::string& name, const MultiBlock& mb) {
         this->multiBlockMap->insert_or_assign(name, mb);
 }
 
-void BasicBiome::registerStruct(const std::string & name, const std::string & csvr) {
-	MultiBlock mb;
-	csvr::Parser parser;
-	parser.parse(csvr);
-	for (int i = 0; i < parser.getTableCount(); i++) {
-		auto& table = parser.getTableAt(i);
-		MultiBlockLayer mbLayer;
-		for (int j = 0; j < static_cast<int>(table.size()); j++) {
-			auto& line = table.at(j);
-			MultiBlockLine mbLine;
-			for (int k = 0; k < static_cast<int>(line.size());
-				k++) {
-				auto& col = line.at(k);
-				mbLine.emplace_back(col);
-			}
-			mbLayer.emplace_back(mbLine);
-		}
-		mb.emplace_back(mbLayer);
-	}
-	registerStruct(name, mb);
+void BasicBiome::registerStruct(const std::string& name,
+                                const std::string& csvr) {
+        MultiBlock mb;
+        csvr::Parser parser;
+        parser.parse(csvr);
+        for (int i = 0; i < parser.getTableCount(); i++) {
+                auto& table = parser.getTableAt(i);
+                MultiBlockLayer mbLayer;
+                for (int j = 0; j < static_cast<int>(table.size()); j++) {
+                        auto& line = table.at(j);
+                        MultiBlockLine mbLine;
+                        for (int k = 0; k < static_cast<int>(line.size());
+                             k++) {
+                                auto& col = line.at(k);
+                                mbLine.emplace_back(col);
+                        }
+                        mbLayer.emplace_back(mbLine);
+                }
+                mb.emplace_back(mbLayer);
+        }
+        registerStruct(name, mb);
 }
 
 void BasicBiome::generateStruct(BlockTable& table, const std::string& name,
@@ -209,17 +210,17 @@ void BasicBiome::setWeightRange(const std::string& name, glm::ivec3 min,
                                 glm::ivec3 max, int weight) {
         auto& wt = getWeightTable(name);
         for (int x = min.x; x <= max.x; x++) {
-				if (x < 0 || x >= wt.getXSize()) {
-					continue;
-				}
+                if (x < 0 || x >= wt.getXSize()) {
+                        continue;
+                }
                 for (int y = min.y; y <= max.y; y++) {
-						if (y < 0 || y >= wt.getYSize()) {
-							continue;
-						}
+                        if (y < 0 || y >= wt.getYSize()) {
+                                continue;
+                        }
                         for (int z = min.z; z <= max.z; z++) {
-								if (z < 0 || z >= wt.getZSize()) {
-									continue;
-								}
+                                if (z < 0 || z >= wt.getZSize()) {
+                                        continue;
+                                }
                                 wt.setWeight(x, y, z, weight);
                         }
                 }

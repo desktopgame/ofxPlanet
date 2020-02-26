@@ -18,8 +18,8 @@ class World;
  * ChunkLoadStyle.
  */
 enum class ChunkLoadStyle {
-	All,
-	VisibleChunk,
+        All,
+        VisibleChunk,
 };
 /**
  * WorldPart is part from world.
@@ -36,10 +36,10 @@ class WorldPart {
  * RaycastResult.
  */
 struct RaycastResult {
-	explicit RaycastResult();
-	glm::vec3 normal;
-	glm::ivec3 position;
-	bool hit;
+        explicit RaycastResult();
+        glm::vec3 normal;
+        glm::ivec3 position;
+        bool hit;
 };
 
 class Entity;
@@ -85,26 +85,28 @@ class World : public std::enable_shared_from_this<World> {
          */
         void update();
 
-		/**
-		 * recompute light table if marked as `taint`.
-		 */
-		void computeBrightness();
+        /**
+         * recompute light table if marked as `taint`.
+         */
+        void computeBrightness();
 
-		/**
-		 * mark as `taint` a light table.
-		 */
-		void invalidateBrightness();
+        /**
+         * mark as `taint` a light table.
+         */
+        void invalidateBrightness();
 
-		/**
-		 * porting from stackexchange.
-		 * @param origin
-		 * @param direction
-		 * @param length
-		 * @param scale
-		 * @return
-		 * @see https://gamedev.stackexchange.com/questions/47362/cast-ray-to-select-block-in-voxel-game
-		 */
-		RaycastResult raycast(glm::vec3 origin, glm::vec3 direction, float length, float scale = 2.0f) const;
+        /**
+         * porting from stackexchange.
+         * @param origin
+         * @param direction
+         * @param length
+         * @param scale
+         * @return
+         * @see
+         * https://gamedev.stackexchange.com/questions/47362/cast-ray-to-select-block-in-voxel-game
+         */
+        RaycastResult raycast(glm::vec3 origin, glm::vec3 direction,
+                              float length, float scale = 2.0f) const;
 
         /**
          * overwrite block for specific position.
@@ -135,12 +137,12 @@ class World : public std::enable_shared_from_this<World> {
          */
         std::shared_ptr<Block> getBlock(glm::ivec3 pos) const;
 
-		/**
-		 * @param x
-		 * @param z
-		 * @return
-		 */
-		int getTopYForXZ(int x, int z) const;
+        /**
+         * @param x
+         * @param z
+         * @return
+         */
+        int getTopYForXZ(int x, int z) const;
 
         /**
          * return true if included in world a specific position.
@@ -222,78 +224,78 @@ class World : public std::enable_shared_from_this<World> {
          */
         std::vector<WorldPart> split(int splitNum) const;
 
-		/**
-		 * returns chunk.
-		 * @return
-		 */
-		std::shared_ptr<Chunk> getChunk() const;
+        /**
+         * returns chunk.
+         * @return
+         */
+        std::shared_ptr<Chunk> getChunk() const;
 
-		/**
-		 * returns shader.
-		 * @return
-		 */
-		ofShader& getShader();
+        /**
+         * returns shader.
+         * @return
+         */
+        ofShader& getShader();
 
-		/**
-		 * @return
-		 */
-		const LightTable& getLightTable() const;
+        /**
+         * @return
+         */
+        const LightTable& getLightTable() const;
 
-		/**
-		 * @return
-		 */
-		LightTable& getLightTable();
+        /**
+         * @return
+         */
+        LightTable& getLightTable();
 
-		/**
-		 * @param chunkLoadStyle
-		 */
-		void setChunkLoadStyle(ChunkLoadStyle chunkLoadStyle);
+        /**
+         * @param chunkLoadStyle
+         */
+        void setChunkLoadStyle(ChunkLoadStyle chunkLoadStyle);
 
-		/**
-		 * @return
-		 */
-		ChunkLoadStyle getChunkLoadStyle() const;
+        /**
+         * @return
+         */
+        ChunkLoadStyle getChunkLoadStyle() const;
 
-		/**
-		 * @return
-		 */
-		std::shared_ptr<Chunk> getCurrentChunk();
+        /**
+         * @return
+         */
+        std::shared_ptr<Chunk> getCurrentChunk();
 
-		/**
-		 * @param viewPosition
-		 */
-		void setViewPosition(const glm::vec3& viewPosition);
+        /**
+         * @param viewPosition
+         */
+        void setViewPosition(const glm::vec3& viewPosition);
 
-		/**
-		 * @return
-		 */
-		glm::vec3 getViewPosition() const;
+        /**
+         * @return
+         */
+        glm::vec3 getViewPosition() const;
 
-		/**
-		 * @param viewRange
-		 */
-		void setViewRange(int viewRange);
+        /**
+         * @param viewRange
+         */
+        void setViewRange(int viewRange);
 
-		/**
-		 * @return
-		 */
-		int getViewRange() const;
+        /**
+         * @return
+         */
+        int getViewRange() const;
 
        private:
         explicit World(ofShader& shader, const glm::ivec3& size);
         explicit World(ofShader& shader, int xSize, int ySize, int zSize);
         std::vector<std::vector<std::vector<std::shared_ptr<Block> > > > blocks;
         int xSize, ySize, zSize;
-		ofShader& shader;
-		LightTable lightTable;
-		std::shared_ptr<Chunk> chunk;
-		ChunkLoadStyle chunkLoadStyle;
-		glm::vec3 viewPosition;
-		int viewRange;
-		std::shared_ptr<Chunk> currentChunk;
+        ofShader& shader;
+        LightTable lightTable;
+        std::shared_ptr<Chunk> chunk;
+        ChunkLoadStyle chunkLoadStyle;
+        glm::vec3 viewPosition;
+        int viewRange;
+        std::shared_ptr<Chunk> currentChunk;
 
-		std::vector<std::vector<std::vector<int > > > brightCache;
-		bool invalidBrightCache;
+        std::vector<std::vector<std::vector<int> > > brightCache;
+        bool invalidBrightCache;
 };
 }  // namespace ofxPlanet
 #endif

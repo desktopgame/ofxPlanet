@@ -12,8 +12,7 @@
 #include "../WeightTable.hpp"
 #include "Biome.hpp"
 namespace ofxPlanet {
-using HeightMap =
-    std::unordered_map<glm::ivec2, int, IntVec2Hash, IntVec2Hash>;
+using HeightMap = std::unordered_map<glm::ivec2, int, IntVec2Hash, IntVec2Hash>;
 using MultiBlockMap = std::unordered_map<std::string, MultiBlock>;
 using WeightTableMap = std::unordered_map<std::string, WeightTable>;
 
@@ -25,7 +24,7 @@ class BasicBiome : public Biome {
         void generate(BlockTable& blockTable) override;
 
         void registerStruct(const std::string& name, const MultiBlock& mb);
-		void registerStruct(const std::string& name, const std::string& csvr);
+        void registerStruct(const std::string& name, const std::string& csvr);
         void generateStruct(BlockTable& table, const std::string& name,
                             int addWeight, int limitWeight);
         void setWeightRange(const std::string& name, glm::ivec3 min,
@@ -70,7 +69,7 @@ class BasicBiome : public Biome {
         std::shared_ptr<WeightTableMap> weightTableMap;
 
        protected:
-		glm::ivec3 worldSize;
+        glm::ivec3 worldSize;
 };
 }  // namespace ofxPlanet
 #endif

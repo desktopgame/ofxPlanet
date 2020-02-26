@@ -34,7 +34,7 @@ void BlockInfoCollection::deserialize(const std::string& json) {
                 auto blockO = blockV.get<picojson::object>();
                 auto textureV = blockO["texture"];
                 auto referenceV = blockO["reference"];
-                // 
+                //
                 std::string shape("Block");
                 if (blockO.count("shape")) {
                         shape = blockO["shape"].get<std::string>();
@@ -69,6 +69,5 @@ bool BlockInfoCollection::tryGetBlockInfo(const std::string& reference,
 int BlockInfoCollection::getBlockInfoCount() const {
         return static_cast<int>(blockInfoVec.size());
 }
-BlockInfo::BlockInfo() : textue(), reference(), shape() {
-}
+BlockInfo::BlockInfo() : textue(), reference(), shape() {}
 }  // namespace ofxPlanet

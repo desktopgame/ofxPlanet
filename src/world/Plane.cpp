@@ -1,4 +1,5 @@
 #include "Plane.hpp"
+
 #include "VertexLayout.hpp"
 
 namespace ofxPlanet {
@@ -11,18 +12,18 @@ glm::vec3 Plane::BACK_NORMAL = glm::vec3(0, 0, -1);
 
 Plane::Plane(ofShader& shader, PlaneType type, const glm::vec3 size)
     : shader(shader), type(type), size(size) {
-	glGenVertexArrays(1, &vao);
-	glGenBuffers(1, &vertexBuf);
-	glGenBuffers(1, &texcoordBuf);
-	glGenBuffers(1, &indexBuf);
-	setupOfVbo(type, size);
+        glGenVertexArrays(1, &vao);
+        glGenBuffers(1, &vertexBuf);
+        glGenBuffers(1, &texcoordBuf);
+        glGenBuffers(1, &indexBuf);
+        setupOfVbo(type, size);
 }
 
 Plane::~Plane() {
-	glDeleteVertexArrays(1, &vao);
-	glDeleteBuffers(1, &vertexBuf);
-	glDeleteBuffers(1, &texcoordBuf);
-	glDeleteBuffers(1, &indexBuf);
+        glDeleteVertexArrays(1, &vao);
+        glDeleteBuffers(1, &vertexBuf);
+        glDeleteBuffers(1, &texcoordBuf);
+        glDeleteBuffers(1, &indexBuf);
 }
 
 GLuint Plane::getVAO() const { return vao; }
@@ -31,21 +32,25 @@ GLuint Plane::getIndex() const { return indexBuf; }
 
 void Plane::setupOfVboData(std::vector<float> vertex, std::vector<float> normal,
                            std::vector<float> uv) {
-		glBindBuffer(GL_ARRAY_BUFFER, vertexBuf);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertex.size(), vertex.data(), GL_STATIC_DRAW);
-		glVertexAttribPointer(VertexLayout::VERTEX_POSITION, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
-		glEnableVertexAttribArray(VertexLayout::VERTEX_POSITION);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glBindBuffer(GL_ARRAY_BUFFER, vertexBuf);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertex.size(),
+                     vertex.data(), GL_STATIC_DRAW);
+        glVertexAttribPointer(VertexLayout::VERTEX_POSITION, 3, GL_FLOAT,
+                              GL_FALSE, 0, nullptr);
+        glEnableVertexAttribArray(VertexLayout::VERTEX_POSITION);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-		glBindBuffer(GL_ARRAY_BUFFER, texcoordBuf);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * uv.size(), uv.data(), GL_STATIC_DRAW);
-		glVertexAttribPointer(VertexLayout::TEXCOORD_POSITION, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
-		glEnableVertexAttribArray(VertexLayout::TEXCOORD_POSITION);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glBindBuffer(GL_ARRAY_BUFFER, texcoordBuf);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(float) * uv.size(), uv.data(),
+                     GL_STATIC_DRAW);
+        glVertexAttribPointer(VertexLayout::TEXCOORD_POSITION, 2, GL_FLOAT,
+                              GL_FALSE, 0, nullptr);
+        glEnableVertexAttribArray(VertexLayout::TEXCOORD_POSITION);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 void Plane::setupOfVbo(PlaneType type, const glm::vec3 size) {
-		glBindVertexArray(vao);
+        glBindVertexArray(vao);
         switch (type) {
                 case PlaneType::Front:
                         setupOfVboData(createFrontVertex(size),
@@ -74,14 +79,16 @@ void Plane::setupOfVbo(PlaneType type, const glm::vec3 size) {
                                        createBottomNormal(size),
                                        createBottomUV());
                         break;
-				default:
-					throw std::logic_error("");
+                default:
+                        throw std::logic_error("");
         }
         auto indexData = std::vector<ofIndexType>{0, 1, 2, 2, 3, 0};
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuf);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(ofIndexType) * indexData.size(), indexData.data(), GL_STATIC_DRAW);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-		glBindVertexArray(0);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuf);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER,
+                     sizeof(ofIndexType) * indexData.size(), indexData.data(),
+                     GL_STATIC_DRAW);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+        glBindVertexArray(0);
 }
 
 std::vector<float> Plane::createFrontVertex(glm::vec3 size) {

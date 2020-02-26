@@ -28,26 +28,26 @@ class Shader;
 class Plane {
        public:
         explicit Plane(ofShader& shader, PlaneType type, const glm::vec3 size);
-		~Plane();
+        ~Plane();
 
-		/**
-		 * returns vao.
-		 * @return
-		 */
-		GLuint getVAO() const;
+        /**
+         * returns vao.
+         * @return
+         */
+        GLuint getVAO() const;
 
-		/**
-		 * returns index.
-		 * @return
-		 */
-		GLuint getIndex() const;
+        /**
+         * returns index.
+         * @return
+         */
+        GLuint getIndex() const;
 
-		static glm::vec3 TOP_NORMAL;
-		static glm::vec3 BOTTOM_NORMAL;
-		static glm::vec3 LEFT_NORMAL;
-		static glm::vec3 RIGHT_NORMAL;
-		static glm::vec3 FRONT_NORMAL;
-		static glm::vec3 BACK_NORMAL;
+        static glm::vec3 TOP_NORMAL;
+        static glm::vec3 BOTTOM_NORMAL;
+        static glm::vec3 LEFT_NORMAL;
+        static glm::vec3 RIGHT_NORMAL;
+        static glm::vec3 FRONT_NORMAL;
+        static glm::vec3 BACK_NORMAL;
 
        private:
         void setupOfVboData(std::vector<float> vertex,
@@ -82,8 +82,8 @@ class Plane {
 
         PlaneType type;
         ofShader& shader;
-		glm::vec3 size;
-		GLuint vao, vertexBuf, texcoordBuf, indexBuf;
+        glm::vec3 size;
+        GLuint vao, vertexBuf, texcoordBuf, indexBuf;
 };
 }  // namespace ofxPlanet
 #endif  // !SHADER_PLANE_HPP

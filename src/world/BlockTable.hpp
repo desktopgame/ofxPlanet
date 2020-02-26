@@ -177,9 +177,9 @@ class BlockTable {
         Terrain getTerrain() const;
 
        private:
-        void getAllBlockAreaForTopImpl(glm::ivec3 pos,
-                                       std::set<glm::ivec3, IntVec3Compare>& set,
-                                       BlockArea& area) const;
+        void getAllBlockAreaForTopImpl(
+            glm::ivec3 pos, std::set<glm::ivec3, IntVec3Compare>& set,
+            BlockArea& area) const;
         void addPos(glm::ivec3 pos, glm::ivec3 newPos,
                     std::set<glm::ivec3, IntVec3Compare>& set,
                     BlockArea& area) const;

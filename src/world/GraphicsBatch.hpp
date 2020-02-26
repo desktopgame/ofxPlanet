@@ -16,7 +16,7 @@ class GraphicsBatch {
         virtual ~GraphicsBatch() {}
         /**
          * add position for specific side.
-		 * @param brightness
+         * @param brightness
          * @param x
          * @param y
          * @param z
@@ -24,7 +24,7 @@ class GraphicsBatch {
         virtual void putFront(int brightness, int x, int y, int z) = 0;
         /**
          * add position for specific side.
-		 * @param brightness
+         * @param brightness
          * @param x
          * @param y
          * @param z
@@ -32,7 +32,7 @@ class GraphicsBatch {
         virtual void putBack(int brightness, int x, int y, int z) = 0;
         /**
          * add position for specific side.
-		 * @param brightness
+         * @param brightness
          * @param x
          * @param y
          * @param z
@@ -40,7 +40,7 @@ class GraphicsBatch {
         virtual void putLeft(int brightness, int x, int y, int z) = 0;
         /**
          * add position for specific side.
-		 * @param brightness
+         * @param brightness
          * @param x
          * @param y
          * @param z
@@ -48,7 +48,7 @@ class GraphicsBatch {
         virtual void putRight(int brightness, int x, int y, int z) = 0;
         /**
          * add position for specific side.
-		 * @param brightness
+         * @param brightness
          * @param x
          * @param y
          * @param z
@@ -56,7 +56,7 @@ class GraphicsBatch {
         virtual void putTop(int brightness, int x, int y, int z) = 0;
         /**
          * add position for specific side.
-		 * @param brightness
+         * @param brightness
          * @param x
          * @param y
          * @param z

@@ -35,7 +35,7 @@ void multiBlock3DSize(const MultiBlock& multiBlock, glm::ivec3& destSize) {
                 multiBlock2DSize(layer, temp);
                 if (first) {
                         size = temp;
-						first = false;
+                        first = false;
                 } else if (size != temp) {
                         size.x = std::max(size.x, temp.x);
                         size.z = std::max(size.z, temp.z);

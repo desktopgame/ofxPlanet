@@ -9,8 +9,8 @@
 #include <vector>
 
 #include "GraphicsBatch.hpp"
-#include "Plane.hpp"
 #include "LightTable.hpp"
+#include "Plane.hpp"
 namespace ofxPlanet {
 class World;
 class Camera;
@@ -19,10 +19,11 @@ class Camera;
  */
 class CubeBatch : public GraphicsBatch {
        public:
-		using PlaneArray = std::array<std::shared_ptr<Plane>, static_cast<int>(PlaneType::Count)>;
-		using PosVec = std::vector<float>;
-		using PosArray = std::array<PosVec, static_cast<int>(PlaneType::Count)>;
-		using VboArray = std::array<GLuint, static_cast<int>(PlaneType::Count)>;
+        using PlaneArray = std::array<std::shared_ptr<Plane>,
+                                      static_cast<int>(PlaneType::Count)>;
+        using PosVec = std::vector<float>;
+        using PosArray = std::array<PosVec, static_cast<int>(PlaneType::Count)>;
+        using VboArray = std::array<GLuint, static_cast<int>(PlaneType::Count)>;
         explicit CubeBatch(const World& world, ofShader& shader,
                            const glm::vec3& size, int direction);
         ~CubeBatch();
@@ -45,9 +46,9 @@ class CubeBatch : public GraphicsBatch {
         int direction;
 
         bool isInvalid;
-        std::array<PlaneArray, LightTable::BRIGHTNESS_MAX+1> planes;
-        std::array<PosArray, LightTable::BRIGHTNESS_MAX+1> posVec;
-		std::array<VboArray, LightTable::BRIGHTNESS_MAX+1> vbo;
+        std::array<PlaneArray, LightTable::BRIGHTNESS_MAX + 1> planes;
+        std::array<PosArray, LightTable::BRIGHTNESS_MAX + 1> posVec;
+        std::array<VboArray, LightTable::BRIGHTNESS_MAX + 1> vbo;
 };
 }  // namespace ofxPlanet
 #endif

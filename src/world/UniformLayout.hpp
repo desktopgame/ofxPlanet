@@ -4,11 +4,12 @@
 
 namespace ofxPlanet {
 class UniformLayout {
-public:
-	static std::string BRIGHTNESSS_NAME;
-private:
-	UniformLayout() = delete;
-	~UniformLayout() = delete;
+       public:
+        static std::string BRIGHTNESSS_NAME;
+
+       private:
+        UniformLayout() = delete;
+        ~UniformLayout() = delete;
 };
-}
+}  // namespace ofxPlanet
 #endif

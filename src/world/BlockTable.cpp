@@ -45,7 +45,7 @@ BlockTable::BlockTable(int xSize, int ySize, int zSize)
         }
 }
 
-BlockTable::BlockTable() : xSize(-1), ySize(-1), zSize(-1), terrain(),vec() {}
+BlockTable::BlockTable() : xSize(-1), ySize(-1), zSize(-1), terrain(), vec() {}
 
 void BlockTable::setBlock(int x, int y, int z, const BlockPrefab& block) {
         vec[x][y][z] = block;
@@ -208,7 +208,7 @@ void BlockTable::addPos(glm::ivec3 pos, glm::ivec3 newPos,
                         std::set<glm::ivec3, IntVec3Compare>& set,
                         BlockArea& area) const {
         if (!set.count(newPos) && contains(newPos.x, newPos.y, newPos.z)) {
-			set.insert(newPos);
+                set.insert(newPos);
                 int y = getTopYForXZ(newPos.x, newPos.z);
                 if (y == pos.y) {
                         getAllBlockAreaForTopImpl(newPos, set, area);

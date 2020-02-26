@@ -1,24 +1,24 @@
 #include "Texture.hpp"
 
-#include <ofxSOIL.h>
 #include <ofUtils.h>
+#include <ofxSOIL.h>
 
 namespace ofxPlanet {
 
-Texture::Texture() : name(),  width(-1), height(-1), data(nullptr) {
+Texture::Texture() : name(), width(-1), height(-1), data(nullptr) {
         glGenTextures(1, &name);
 }
 
 Texture::~Texture() {
-		glDeleteTextures(1, &name);
-       std::free(data);
+        glDeleteTextures(1, &name);
+        std::free(data);
 }
 
 void Texture::load(const std::string& path) {
-		std::string cp = path;
-		if (cp.substr(0, 5) == "data\\" || cp.substr(0, 5) == "data/") {
-			cp = cp.substr(5);
-		}
+        std::string cp = path;
+        if (cp.substr(0, 5) == "data\\" || cp.substr(0, 5) == "data/") {
+                cp = cp.substr(5);
+        }
         ofxSOIL::Image img = ofxSOIL::loadImage(path, ofxSOIL::RGBA);
         this->path = path;
         this->data = img.data;
@@ -35,7 +35,7 @@ void Texture::load(const std::string& path) {
 
 void Texture::bind() { glBindTexture(GL_TEXTURE_2D, getName()); }
 
-void Texture::unbind() { glBindTexture(GL_TEXTURE_2D, 0);  }
+void Texture::unbind() { glBindTexture(GL_TEXTURE_2D, 0); }
 
 int Texture::getWidth() const { return width; }
 

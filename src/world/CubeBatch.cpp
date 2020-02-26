@@ -1,11 +1,12 @@
 #include "CubeBatch.hpp"
 
-#include <glm/glm.hpp>
 #include <ofAppRunner.h>
 
+#include <glm/glm.hpp>
+
 #include "Block.hpp"
-#include "VertexLayout.hpp"
 #include "UniformLayout.hpp"
+#include "VertexLayout.hpp"
 namespace ofxPlanet {
 CubeBatch::CubeBatch(const World& world, ofShader& shader,
                      const glm::vec3& size, int direction)
@@ -13,87 +14,101 @@ CubeBatch::CubeBatch(const World& world, ofShader& shader,
       isInvalid(true),
       size(size),
       direction(direction),
-	planes(),
-	posVec(),
-	vbo() {
-		for (int b = LightTable::BRIGHTNESS_MIN; b < LightTable::BRIGHTNESS_MAX+1; b++) {
-			for (int i = 0; i < static_cast<int>(PlaneType::Count); i++) {
-				std::vector<float> v;
-				GLuint buf;
-				glGenBuffers(1, &buf);
-				planes[b][i] = std::make_shared<Plane>(shader, static_cast<PlaneType>(i), size);
-				posVec[b][i] = v;
-				vbo[b][i] = buf;
-			}
-		}
+      planes(),
+      posVec(),
+      vbo() {
+        for (int b = LightTable::BRIGHTNESS_MIN;
+             b < LightTable::BRIGHTNESS_MAX + 1; b++) {
+                for (int i = 0; i < static_cast<int>(PlaneType::Count); i++) {
+                        std::vector<float> v;
+                        GLuint buf;
+                        glGenBuffers(1, &buf);
+                        planes[b][i] = std::make_shared<Plane>(
+                            shader, static_cast<PlaneType>(i), size);
+                        posVec[b][i] = v;
+                        vbo[b][i] = buf;
+                }
+        }
 }
 
 CubeBatch::~CubeBatch() {
-	for (int b = LightTable::BRIGHTNESS_MIN; b < LightTable::BRIGHTNESS_MAX + 1; b++) {
-		for (int i = 0; i < static_cast<int>(PlaneType::Count); i++) {
-			GLuint buf = vbo[b][i];
-			glDeleteBuffers(1, &buf);
-		}
-	}
+        for (int b = LightTable::BRIGHTNESS_MIN;
+             b < LightTable::BRIGHTNESS_MAX + 1; b++) {
+                for (int i = 0; i < static_cast<int>(PlaneType::Count); i++) {
+                        GLuint buf = vbo[b][i];
+                        glDeleteBuffers(1, &buf);
+                }
+        }
 }
 
 void CubeBatch::putFront(int brightness, int x, int y, int z) {
         put(PlaneType::Front, brightness, x, y, z);
 }
 
-void CubeBatch::putBack(int brightness, int x, int y, int z) { put(PlaneType::Back, brightness, x, y, z); }
+void CubeBatch::putBack(int brightness, int x, int y, int z) {
+        put(PlaneType::Back, brightness, x, y, z);
+}
 
-void CubeBatch::putLeft(int brightness, int x, int y, int z) { put(PlaneType::Left, brightness, x, y, z); }
+void CubeBatch::putLeft(int brightness, int x, int y, int z) {
+        put(PlaneType::Left, brightness, x, y, z);
+}
 
 void CubeBatch::putRight(int brightness, int x, int y, int z) {
         put(PlaneType::Right, brightness, x, y, z);
 }
 
-void CubeBatch::putTop(int brightness, int x, int y, int z) { put(PlaneType::Top, brightness, x, y, z); }
+void CubeBatch::putTop(int brightness, int x, int y, int z) {
+        put(PlaneType::Top, brightness, x, y, z);
+}
 
 void CubeBatch::putBottom(int brightness, int x, int y, int z) {
         put(PlaneType::Bottom, brightness, x, y, z);
 }
 
 void CubeBatch::clear() {
-	for (int b = LightTable::BRIGHTNESS_MIN; b < LightTable::BRIGHTNESS_MAX+1; b++) {
-		auto& posA = this->posVec[b];
-		for (int i = 0; i < static_cast<int>(PlaneType::Count); i++) {
-			posA.at(i).clear();
-		}
-	}
-    this->isInvalid = true;
+        for (int b = LightTable::BRIGHTNESS_MIN;
+             b < LightTable::BRIGHTNESS_MAX + 1; b++) {
+                auto& posA = this->posVec[b];
+                for (int i = 0; i < static_cast<int>(PlaneType::Count); i++) {
+                        posA.at(i).clear();
+                }
+        }
+        this->isInvalid = true;
 }
 
 void CubeBatch::update() {
         if (!isInvalid) {
                 return;
         }
-		for (int b = LightTable::BRIGHTNESS_MIN; b < LightTable::BRIGHTNESS_MAX+1; b++) {
-			for (int i = 0; i < static_cast<int>(PlaneType::Count); i++) {
-				updatePlane(static_cast<PlaneType>(i), b);
-			}
-		}
+        for (int b = LightTable::BRIGHTNESS_MIN;
+             b < LightTable::BRIGHTNESS_MAX + 1; b++) {
+                for (int i = 0; i < static_cast<int>(PlaneType::Count); i++) {
+                        updatePlane(static_cast<PlaneType>(i), b);
+                }
+        }
         this->isInvalid = false;
 }
 
 void CubeBatch::render(GLuint texture) {
         update();
         glBindTexture(GL_TEXTURE_2D, texture);
-		for (int b = LightTable::BRIGHTNESS_MIN; b < LightTable::BRIGHTNESS_MAX+1; b++) {
-			float f = LightTable::computeShaderBrightness(b);
-			shader.begin();
-			shader.setUniform1f(UniformLayout::BRIGHTNESSS_NAME, f);
-			auto& planeA = this->planes[b];
-			for (int i = 0; i < static_cast<int>(PlaneType::Count); i++) {
-				GLuint vao = planeA[i]->getVAO();
-				GLuint index = planeA[i]->getIndex();
-				glBindVertexArray(vao);
-				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index);
-				glDrawElementsInstanced(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr,getPosVec(static_cast<PlaneType>(i), b).size());
-			}
-			shader.end();
-		}
+        for (int b = LightTable::BRIGHTNESS_MIN;
+             b < LightTable::BRIGHTNESS_MAX + 1; b++) {
+                float f = LightTable::computeShaderBrightness(b);
+                shader.begin();
+                shader.setUniform1f(UniformLayout::BRIGHTNESSS_NAME, f);
+                auto& planeA = this->planes[b];
+                for (int i = 0; i < static_cast<int>(PlaneType::Count); i++) {
+                        GLuint vao = planeA[i]->getVAO();
+                        GLuint index = planeA[i]->getIndex();
+                        glBindVertexArray(vao);
+                        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index);
+                        glDrawElementsInstanced(
+                            GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr,
+                            getPosVec(static_cast<PlaneType>(i), b).size());
+                }
+                shader.end();
+        }
 }
 // private
 
@@ -117,22 +132,24 @@ void CubeBatch::updatePlane(PlaneType type, int brightness) {
         }
         // update vbo
         GLuint buf = vbo[brightness][index];
-		glBindBuffer(GL_ARRAY_BUFFER, buf);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(ofIndexType) * posVec.size(), posVec.data(), GL_STATIC_DRAW);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glBindBuffer(GL_ARRAY_BUFFER, buf);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(ofIndexType) * posVec.size(),
+                     posVec.data(), GL_STATIC_DRAW);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-		GLuint vao = planes[brightness][index]->getVAO();
-		glBindVertexArray(vao);
-		glBindBuffer(GL_ARRAY_BUFFER, buf);
-		glVertexAttribPointer(VertexLayout::POSITION_POSITION, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
-		glEnableVertexAttribArray(VertexLayout::POSITION_POSITION);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
+        GLuint vao = planes[brightness][index]->getVAO();
+        glBindVertexArray(vao);
+        glBindBuffer(GL_ARRAY_BUFFER, buf);
+        glVertexAttribPointer(VertexLayout::POSITION_POSITION, 3, GL_FLOAT,
+                              GL_FALSE, 0, nullptr);
+        glEnableVertexAttribArray(VertexLayout::POSITION_POSITION);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-		glVertexAttribDivisor(VertexLayout::VERTEX_POSITION, 0);
-		glVertexAttribDivisor(2, 0);
-		glVertexAttribDivisor(VertexLayout::TEXCOORD_POSITION, 0);
-		glVertexAttribDivisor(VertexLayout::POSITION_POSITION, 1);
-		glBindVertexArray(0);
+        glVertexAttribDivisor(VertexLayout::VERTEX_POSITION, 0);
+        glVertexAttribDivisor(2, 0);
+        glVertexAttribDivisor(VertexLayout::TEXCOORD_POSITION, 0);
+        glVertexAttribDivisor(VertexLayout::POSITION_POSITION, 1);
+        glBindVertexArray(0);
 }
 
 std::vector<float>& CubeBatch::getPosVec(PlaneType type, int brightness) {

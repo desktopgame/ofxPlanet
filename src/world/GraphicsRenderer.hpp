@@ -15,12 +15,12 @@ class GraphicsBatch;
 class GraphicsRenderer {
        public:
         GraphicsRenderer(const World& world, ofShader& shader);
-		virtual ~GraphicsRenderer(){}
+        virtual ~GraphicsRenderer() {}
 
         /**
          * add position to GraphicsBatch.
          * @param texture
-		 * @param brightness
+         * @param brightness
          * @param x
          * @param y
          * @param z
@@ -29,7 +29,7 @@ class GraphicsRenderer {
         /**
          * add position to GraphicsBatch.
          * @param texture
-		 * @param brightness
+         * @param brightness
          * @param x
          * @param y
          * @param z
@@ -38,7 +38,7 @@ class GraphicsRenderer {
         /**
          * add position to GraphicsBatch.
          * @param texture
-		 * @param brightness
+         * @param brightness
          * @param x
          * @param y
          * @param z
@@ -47,7 +47,7 @@ class GraphicsRenderer {
         /**
          * add position to GraphicsBatch.
          * @param texture
-		 * @param brightness
+         * @param brightness
          * @param x
          * @param y
          * @param z
@@ -56,7 +56,7 @@ class GraphicsRenderer {
         /**
          * add position to GraphicsBatch.
          * @param texture
-		 * @param brightness
+         * @param brightness
          * @param x
          * @param y
          * @param z
@@ -65,7 +65,7 @@ class GraphicsRenderer {
         /**
          * add position to GraphicsBatch.
          * @param texture
-		 * @param brightness
+         * @param brightness
          * @param x
          * @param y
          * @param z

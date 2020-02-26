@@ -26,10 +26,10 @@ class Planet {
          */
         void generate(glm::vec3 size, std::shared_ptr<Biome> biome);
 
-		/**
-		 * @param size
-		 */
-		void allocate(glm::ivec3 size);
+        /**
+         * @param size
+         */
+        void allocate(glm::ivec3 size);
 
         /**
          * update world.

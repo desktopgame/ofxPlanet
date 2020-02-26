@@ -57,7 +57,8 @@ class PerlinNoise {
 
        public:
         explicit PerlinNoise(
-			std::uint32_t seed = std::default_random_engine::default_seed) : p() {
+            std::uint32_t seed = std::default_random_engine::default_seed)
+            : p() {
                 reseed(seed);
         }
 

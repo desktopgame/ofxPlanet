@@ -44,5 +44,5 @@ class Parser {
         std::vector<Table> tables;
 };
 }  // namespace csvr
-} // namespace ofxPlanet
+}  // namespace ofxPlanet
 #endif
