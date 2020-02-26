@@ -35,15 +35,6 @@ class Planet {
          * update world.
          */
         void update();
-        /**
-         * draw world to frame buffer object.
-         */
-        void drawToBuffer();
-
-        /**
-         * draw frame buffer object to screen.
-         */
-        void render();
 
         /**
          * returns world.

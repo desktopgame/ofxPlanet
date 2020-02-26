@@ -80,26 +80,6 @@ void World::clear() {
 void World::update() {
 }
 
-void World::drawToBuffer() {
-        checkFBO();
-		chunk->rehash();
-        fbo.begin();
-        glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ZERO,
-                            GL_ONE);
-        glEnable(GL_DEPTH_TEST);
-        fbo.clear();
-        ofEnableAlphaBlending();
-        ofSetBackgroundColor(0, 0, 0, 0);
-		chunk->draw();
-        fbo.end();
-}
-
-void World::render() {
-        glDisable(GL_DEPTH_TEST);
-        glDisable(GL_CULL_FACE);
-        fbo.draw(0, 0, ofGetWidth(), ofGetHeight());
-}
-
 void World::computeBrightness() {
 	if (!this->invalidBrightCache) {
 		return;
@@ -408,16 +388,6 @@ int World::getViewRange() const {
 	return this->viewRange;
 }
 
-void World::checkFBO() {
-        int newW = ofGetWidth();
-        int newH = ofGetHeight();
-        if (this->fboW != newW || this->fboH != newH) {
-                fbo.allocate(newW, newH);
-                this->fboW = newW;
-                this->fboH = newH;
-        }
-}
-
 // private
 World::World(ofShader& shader, const glm::ivec3& size)
     : World(shader, size.x, size.y, size.z) {}
@@ -427,7 +397,6 @@ World::World(ofShader& shader, int xSize, int ySize, int zSize)
       xSize(xSize),
       ySize(ySize),
       zSize(zSize),
-      fbo(),
 	  chunkLoadStyle(ChunkLoadStyle::All),
 	  viewPosition(),
 	  viewRange(1),
@@ -435,8 +404,6 @@ World::World(ofShader& shader, int xSize, int ySize, int zSize)
 	  chunk(Chunk::create(*this, 0, 0, xSize, zSize)),
       shader(shader),
 	  lightTable(xSize,ySize,zSize),
-      fboW(-1),
-      fboH(-1),
 	  brightCache(),
       invalidBrightCache(true){}
 RaycastResult::RaycastResult() : normal(0,0,0), position(0,0,0), hit(false) {

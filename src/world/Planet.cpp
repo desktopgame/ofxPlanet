@@ -25,18 +25,6 @@ void Planet::update() {
         }
 }
 
-void Planet::drawToBuffer() {
-        if (world) {
-                world->drawToBuffer();
-        }
-}
-
-void Planet::render() {
-        if (world) {
-                world->render();
-        }
-}
-
 std::shared_ptr<World> Planet::getWorld() const { return world; }
 BlockTable Planet::getBlockTable() const { return blockTable; }
 }  // namespace ofxPlanet
