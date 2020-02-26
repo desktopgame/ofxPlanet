@@ -135,6 +135,18 @@ Chunk::Instance Chunk::lookup(int x, int y, int z) const {
 Chunk::Instance Chunk::lookup(const glm::ivec3& pos) const {
         return lookup(pos.x, pos.y, pos.z);
 }
+int Chunk::getXOffset() const {
+	return this->xOffset;
+}
+int Chunk::getZOffset() const {
+	return this->zOffset;
+}
+int Chunk::getXSize() const {
+	return this->xSize;
+}
+int Chunk::getZSize() const {
+	return this->zSize;
+}
 // private
 Chunk::Chunk(Reference parent, IWorld& world, int xOffset, int zOffset,
              int xSize, int zSize)

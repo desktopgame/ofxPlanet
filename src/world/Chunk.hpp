@@ -118,6 +118,26 @@ class Chunk : public std::enable_shared_from_this<Chunk> {
          */
         Instance lookup(const glm::ivec3& pos) const;
 
+		/**
+		 * @return
+		 */
+		int getXOffset() const;
+
+		/**
+		 * @return
+		 */
+		int getZOffset() const;
+
+		/**
+		 * @return
+		 */
+		int getXSize() const;
+
+		/**
+		 * @return
+		 */
+		int getZSize() const;
+
        private:
         explicit Chunk(Reference parent, IWorld& world, int xOffset, int zOffset,
                        int xSize, int zSize);
