@@ -19,6 +19,7 @@ namespace ofxPlanet {
 
 WorldPart::WorldPart(const std::shared_ptr<World>& world, glm::ivec3 offset)
     : world(world), offset(offset) {}
+// Utility
 std::shared_ptr<World> World::create(ofShader& shader, const glm::ivec3& size) {
         return create(shader, size.x, size.y, size.z);
 }
@@ -45,7 +46,78 @@ std::shared_ptr<World> World::create(ofShader& shader, int xSize, int ySize,
         }
         return ret;
 }
+// IWorld
+void World::computeBrightness() {
+	if (!this->invalidBrightCache) {
+		return;
+	}
+	for (int x = 0; x < xSize; x++) {
+		for (int y = 0; y < ySize; y++) {
+			for (int z = 0; z < zSize; z++) {
+				auto block = getBlock(x, y, z);
+				this->brightCache[x][y][z] =
+					(block == nullptr ? -1 : block->getID());
+				this->lightTable.setLight(x, y, z, 0);
+			}
+		}
+	}
+	for (int x = 0; x < xSize; x++) {
+		for (int z = 0; z < zSize; z++) {
+			int y = getTopYForXZ(x, z);
+			int sunpower = 15;
+			this->lightTable.setLight(x, y, z, sunpower--);
+			for (; y >= 0 && sunpower > 0; y--) {
+				auto block = getBlock(x, y, z);
+				if (block != nullptr) {
+					lightTable.setLight(x, y, z,
+						sunpower--);
+				}
+			}
+		}
+	}
+	this->invalidBrightCache = false;
+}
 
+int World::getYSize() const { return ySize; }
+
+std::shared_ptr<Block> World::getBlock(int x, int y, int z) const {
+	return blocks[x][y][z];
+}
+
+bool World::isFilled(int x, int y, int z) const {
+	if (isEmpty(x, y, z)) {
+		return false;
+	}
+	return getBlock(x, y, z)->getShape() == BlockShape::Block;
+}
+
+ofShader& World::getShader() { return shader; }
+
+glm::vec3 World::getViewPosition() const { return viewPosition; }
+
+int World::getViewRange() const { return this->viewRange; }
+
+ChunkLoadStyle World::getChunkLoadStyle() const { return this->chunkLoadStyle; }
+
+LightTable& World::getLightTable() { return lightTable; }
+
+std::shared_ptr<Chunk> World::getCurrentChunk() {
+	if (this->currentChunk == nullptr) {
+		this->viewPosition.x = std::max(
+			0.0f,
+			std::min(static_cast<float>(xSize) - 1, viewPosition.x));
+		this->viewPosition.y = std::max(
+			0.0f,
+			std::min(static_cast<float>(ySize) - 1, viewPosition.y));
+		this->viewPosition.z = std::max(
+			0.0f,
+			std::min(static_cast<float>(zSize) - 1, viewPosition.z));
+		this->currentChunk = chunk->lookup(this->viewPosition);
+	}
+	return this->currentChunk;
+}
+
+// World
 void World::load(const BlockTable& table) {
         auto bp = BlockPack::getCurrent();
         for (int x = 0; x < table.getXSize(); x++) {
@@ -77,37 +149,6 @@ void World::clear() {
 }
 
 void World::update() {}
-
-void World::computeBrightness() {
-        if (!this->invalidBrightCache) {
-                return;
-        }
-        for (int x = 0; x < xSize; x++) {
-                for (int y = 0; y < ySize; y++) {
-                        for (int z = 0; z < zSize; z++) {
-                                auto block = getBlock(x, y, z);
-                                this->brightCache[x][y][z] =
-                                    (block == nullptr ? -1 : block->getID());
-                                this->lightTable.setLight(x, y, z, 0);
-                        }
-                }
-        }
-        for (int x = 0; x < xSize; x++) {
-                for (int z = 0; z < zSize; z++) {
-                        int y = getTopYForXZ(x, z);
-                        int sunpower = 15;
-                        this->lightTable.setLight(x, y, z, sunpower--);
-                        for (; y >= 0 && sunpower > 0; y--) {
-                                auto block = getBlock(x, y, z);
-                                if (block != nullptr) {
-                                        lightTable.setLight(x, y, z,
-                                                            sunpower--);
-                                }
-                        }
-                }
-        }
-        this->invalidBrightCache = false;
-}
 
 void World::invalidateBrightness() { this->invalidBrightCache = true; }
 
@@ -240,9 +281,6 @@ void World::setBlock(int x, int y, int z, std::shared_ptr<Block> block) {
         chunk->invalidate(x, y, z);
 }
 
-std::shared_ptr<Block> World::getBlock(int x, int y, int z) const {
-        return blocks[x][y][z];
-}
 std::shared_ptr<Block> World::getBlock(glm::ivec3 pos) const {
         return getBlock(pos.x, pos.y, pos.z);
 }
@@ -274,12 +312,6 @@ bool World::isEmpty(int x, int y, int z) const {
         auto block = getBlock(x, y, z);
         return block == nullptr;
 }
-bool World::isFilled(int x, int y, int z) const {
-        if (isEmpty(x, y, z)) {
-                return false;
-        }
-        return getBlock(x, y, z)->getShape() == BlockShape::Block;
-}
 int World::getGroundY(int x, int z) const {
         for (int i = 0; i < ySize; i++) {
                 if (!getBlock(x, i, z)) {
@@ -293,7 +325,6 @@ glm::vec3 World::getPhysicalPosition(int x, int y, int z) const {
         return pos;
 }
 int World::getXSize() const { return xSize; }
-int World::getYSize() const { return ySize; }
 int World::getZSize() const { return zSize; }
 glm::ivec3 World::getSize() const { return glm::ivec3(xSize, ySize, zSize); }
 
@@ -328,33 +359,11 @@ std::vector<WorldPart> World::split(int splitNum) const {
 
 std::shared_ptr<Chunk> World::getChunk() const { return chunk; }
 
-ofShader& World::getShader() { return shader; }
-
 const LightTable& World::getLightTable() const { return lightTable; }
-
-LightTable& World::getLightTable() { return lightTable; }
 
 void World::setChunkLoadStyle(ChunkLoadStyle chunkLoadStyle) {
         this->chunkLoadStyle = chunkLoadStyle;
         chunk->invalidate();
-}
-
-ChunkLoadStyle World::getChunkLoadStyle() const { return this->chunkLoadStyle; }
-
-std::shared_ptr<Chunk> World::getCurrentChunk() {
-        if (this->currentChunk == nullptr) {
-                this->viewPosition.x = std::max(
-                    0.0f,
-                    std::min(static_cast<float>(xSize) - 1, viewPosition.x));
-                this->viewPosition.y = std::max(
-                    0.0f,
-                    std::min(static_cast<float>(ySize) - 1, viewPosition.y));
-                this->viewPosition.z = std::max(
-                    0.0f,
-                    std::min(static_cast<float>(zSize) - 1, viewPosition.z));
-                this->currentChunk = chunk->lookup(this->viewPosition);
-        }
-        return this->currentChunk;
 }
 
 void World::setViewPosition(const glm::vec3& viewPosition) {
@@ -373,8 +382,6 @@ void World::setViewPosition(const glm::vec3& viewPosition) {
         }
 }
 
-glm::vec3 World::getViewPosition() const { return viewPosition; }
-
 void World::setViewRange(int viewRange) {
         bool changed = this->viewRange != viewRange;
         this->viewRange = viewRange;
@@ -382,8 +389,6 @@ void World::setViewRange(int viewRange) {
                 this->chunk->invalidate();
         }
 }
-
-int World::getViewRange() const { return this->viewRange; }
 
 // private
 World::World(ofShader& shader, const glm::ivec3& size)

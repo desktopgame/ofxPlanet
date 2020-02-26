@@ -44,6 +44,7 @@ class Chunk;
  */
 class World : public IWorld {
        public:
+		// Utility
         /**
          * returns a new world.
          * @param shader
@@ -64,6 +65,18 @@ class World : public IWorld {
         static std::shared_ptr<World> create(ofShader& shader, int xSize,
                                              int ySize, int zSize);
 
+		// IWorld
+		void computeBrightness();
+		int getYSize() const;
+		std::shared_ptr<Block> getBlock(int x, int y, int z) const;
+		bool isFilled(int x, int y, int z) const;
+		ofShader& getShader();
+		glm::vec3 getViewPosition() const;
+		int getViewRange() const;
+		ChunkLoadStyle getChunkLoadStyle() const;
+		const LightTable& getLightTable() const;
+		std::shared_ptr<Chunk> getCurrentChunk();
+
         /**
          * overwrite blocks by specified table.
          * @param table
@@ -78,11 +91,6 @@ class World : public IWorld {
          * update all blocks.
          */
         void update();
-
-        /**
-         * recompute light table if marked as `taint`.
-         */
-        void computeBrightness();
 
         /**
          * mark as `taint` a light table.
@@ -116,14 +124,7 @@ class World : public IWorld {
          * @return block
          */
         void setBlock(int x, int y, int z, std::shared_ptr<Block> block);
-        /**
-         * returns a block for specific position.
-         * @param x
-         * @param y
-         * @param z
-         * @return
-         */
-        std::shared_ptr<Block> getBlock(int x, int y, int z) const;
+        
         /**
          * returns a block for specific position.
          * @param pos
@@ -162,16 +163,6 @@ class World : public IWorld {
         bool isEmpty(int x, int y, int z) const;
 
         /**
-         * return true if exists block a specified position, and it block shape
-         * is an `Block`.
-         * @param x
-         * @param y
-         * @param z
-         * @return
-         */
-        bool isFilled(int x, int y, int z) const;
-
-        /**
          * return height visible from top-view for specific position.
          * @param x
          * @param z
@@ -192,12 +183,6 @@ class World : public IWorld {
          * @return
          */
         int getXSize() const;
-
-        /**
-         * returns a Y-axis from world 3D size.
-         * @return
-         */
-        int getYSize() const;
 
         /**
          * returns a Z-axis from world 3D size.
@@ -225,17 +210,6 @@ class World : public IWorld {
         std::shared_ptr<Chunk> getChunk() const;
 
         /**
-         * returns shader.
-         * @return
-         */
-        ofShader& getShader();
-
-        /**
-         * @return
-         */
-        const LightTable& getLightTable() const;
-
-        /**
          * @return
          */
         LightTable& getLightTable();
@@ -246,34 +220,14 @@ class World : public IWorld {
         void setChunkLoadStyle(ChunkLoadStyle chunkLoadStyle);
 
         /**
-         * @return
-         */
-        ChunkLoadStyle getChunkLoadStyle() const;
-
-        /**
-         * @return
-         */
-        std::shared_ptr<Chunk> getCurrentChunk();
-
-        /**
          * @param viewPosition
          */
         void setViewPosition(const glm::vec3& viewPosition);
 
         /**
-         * @return
-         */
-        glm::vec3 getViewPosition() const;
-
-        /**
          * @param viewRange
          */
         void setViewRange(int viewRange);
-
-        /**
-         * @return
-         */
-        int getViewRange() const;
 
        private:
         explicit World(ofShader& shader, const glm::ivec3& size);
