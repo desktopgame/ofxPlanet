@@ -108,7 +108,6 @@ std::shared_ptr<Chunk> FlexibleWorld::findChunk(int x, int z) const {
 std::shared_ptr<Chunk> FlexibleWorld::loadChunk(int x, int z) {
 	auto c = findChunk(x, z);
 	if (c) {
-		std::cout << "ae: " << x << " " << z << std::endl;
 		return c;
 	}
 	int xOffset = (x / chunkXSize) * chunkXSize;
@@ -123,11 +122,9 @@ std::shared_ptr<Chunk> FlexibleWorld::loadChunk(int x, int z) {
 	}
 	for (auto fc : chunkVec) {
 		if (fc->chunk->getXOffset() == xOffset && fc->chunk->getZOffset() == zOffset) {
-			std::cout << "ae: " << x << " " << z << ", " << xOffset << " " << zOffset << ", " << std::endl;
 			return fc->chunk;
 		}
 	}
-	std::cout << "g: " << x << " " << z << std::endl;
 	auto fc = std::make_shared< detail::FlexibleChunk>(*this, xOffset, zOffset, chunkXSize, chunkZSize);
 	BlockTable table(chunkXSize, this->worldYSize, chunkZSize);
 	//if (biome) {
@@ -185,6 +182,5 @@ void FlexibleWorld::updateNeighborChunks() {
 			visibleChunks++;
 		}
 	}
-	std::cout << "visibleChunk=" << visibleChunks << std::endl;
 }
 }
