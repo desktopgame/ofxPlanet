@@ -1,6 +1,7 @@
 #include "Chunk.hpp"
 
 #include <ofGraphics.h>
+#include <iostream>
 
 #include "Block.hpp"
 #include "Chunk.hpp"
@@ -53,8 +54,13 @@ void Chunk::draw() {
         rehash();
 		tidyResource();
         if (this->type == ChunkType::Single) {
+				if (changedToVisible) {
+					this->allocateRenderer();
+					this->batch();
+					this->changedToVisible = false;
+				}
                 if (this->renderer != nullptr) {
-                        renderer->render();
+                       renderer->render();
                 }
         } else {
                 for (auto subchunk : subchunks) {
@@ -92,7 +98,7 @@ bool Chunk::isContains(int x, int y, int z) const {
         }
         return true;
 }
-bool ofxPlanet::Chunk::isContains(const glm::ivec3& pos) const {
+bool Chunk::isContains(const glm::ivec3& pos) const {
         return isContains(pos.x, pos.y, pos.z);
 }
 bool Chunk::isInvalid() const { return invalid; }
@@ -138,11 +144,12 @@ Chunk::Instance Chunk::lookup(const glm::ivec3& pos) const {
 }
 std::vector<Chunk::Instance> Chunk::getNeighbor(const Instance & chunk, int viewRange) const {
 	std::vector<Chunk::Instance> v;
-	int diffX = std::max(chunk->xOffset, this->xOffset) - std::min(chunk->xOffset, this->xOffset);
-	int diffZ = std::max(chunk->zOffset, this->zOffset) - std::min(chunk->zOffset, this->zOffset);
+	int diffX = std::abs(std::min(chunk->xOffset, this->xOffset) - std::max(chunk->xOffset, this->xOffset));
+	int diffZ = std::abs(std::min(chunk->zOffset, this->zOffset) - std::max(chunk->zOffset, this->zOffset));
 	bool isIncludedViewRange = diffX < viewRange && diffZ < viewRange;
 	if (isIncludedViewRange) {
 		v.emplace_back(std::const_pointer_cast<Chunk>(shared_from_this()));
+		std::cout << "chunk: offx=" << this->xOffset << " offz=" << this->zOffset << std::endl;
 	}
 	for (auto subchunk : subchunks) {
 		auto cv = subchunk->getNeighbor(chunk, viewRange);
@@ -172,6 +179,9 @@ int Chunk::getZSize() const {
 }
 
 void Chunk::setVisible(bool visible) {
+	if (!this->visible && visible) {
+		this->changedToVisible = true;
+	}
 	this->visible = visible;
 }
 
@@ -202,6 +212,7 @@ Chunk::Chunk(Reference parent, IWorld& world, int xOffset, int zOffset,
     : type(ChunkType::Single),
       invalid(true),
 	  visible(false),
+      changedToVisible(false),
       world(world),
       renderer(new BlockRenderer(world.getShader())),
       xOffset(xOffset),
@@ -254,11 +265,11 @@ void Chunk::rehashAll() {
 }
 void Chunk::rehashVisible() {
         this->invalid = false;
-        if (!isVisible()) {
-                deleteRenderer();
-                return;
-        }
         if (this->type == ChunkType::Single) {
+				if (!isVisible()) {
+					deleteRenderer();
+					return;
+				}
                 this->allocateRenderer();
                 this->batch();
         } else {

@@ -191,6 +191,7 @@ class Chunk : public std::enable_shared_from_this<Chunk> {
         ChunkType type;
         bool invalid;
 		bool visible;
+		bool changedToVisible;
         IWorld& world;
         BlockRenderer* renderer;
         int xOffset;

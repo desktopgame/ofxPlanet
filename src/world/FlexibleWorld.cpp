@@ -5,6 +5,7 @@
 #include "BlockPack.hpp"
 #include "Block.hpp"
 #include <algorithm>
+#include <iostream>
 
 namespace ofxPlanet {
 namespace detail {
@@ -111,6 +112,11 @@ std::shared_ptr<Chunk> FlexibleWorld::loadChunk(int x, int z) {
 	}
 	int xOffset = (x / chunkXSize) * chunkXSize;
 	int zOffset = (z / chunkZSize) * chunkZSize;
+	for (auto fc : chunkVec) {
+		if (fc->chunk->getXOffset() == xOffset && fc->chunk->getZOffset() == zOffset) {
+			return fc->chunk;
+		}
+	}
 	auto fc = std::make_shared< detail::FlexibleChunk>(*this, xOffset, zOffset, chunkXSize, chunkXSize);
 	BlockTable table(chunkXSize, this->worldYSize, chunkZSize);
 	//if (biome) {
@@ -153,12 +159,15 @@ int FlexibleWorld::findChunkImpl(int x, int z) const {
 	return 0;
 }
 void FlexibleWorld::updateNeighborChunks() {
+	int visibleChunks = 0;
 	for (auto fc : chunkVec)fc->chunk->hide();
 	for (auto fc : chunkVec) {
 		auto neighbor = fc->chunk->getNeighbor(this->currentChunk, this->viewRange);
 		for (auto nc : neighbor) {
 			nc->setVisible(true);
+			visibleChunks++;
 		}
 	}
+	std::cout << "visibleChunk=" << visibleChunks << std::endl;
 }
 }
