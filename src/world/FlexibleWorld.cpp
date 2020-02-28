@@ -97,14 +97,6 @@ void FlexibleWorld::setBiome(std::shared_ptr<Biome> biome) {
 std::shared_ptr<Biome> FlexibleWorld::getBiome() const {
 	return this->biome;
 }
-std::shared_ptr<Chunk> FlexibleWorld::findChunk(int x, int z) const {
-	for (auto fc : chunkVec) {
-		if (fc->chunk->isContains(x, 0, z)) {
-			return fc->chunk;
-		}
-	}
-	return nullptr;
-}
 std::shared_ptr<Chunk> FlexibleWorld::loadChunk(int x, int z) {
 	auto c = findChunk(x, z);
 	if (c) {
@@ -126,22 +118,6 @@ std::shared_ptr<Chunk> FlexibleWorld::loadChunk(int x, int z) {
 		}
 	}
 	auto fc = std::make_shared< detail::FlexibleChunk>(*this, xOffset, zOffset, chunkXSize, chunkZSize);
-	BlockTable table(chunkXSize, this->worldYSize, chunkZSize);
-	//if (biome) {
-		biome->generate(table);
-//	}
-	auto bp = BlockPack::getCurrent();
-	for (int x = 0; x < chunkXSize; x++) {
-		for (int y = 0; y < this->worldYSize; y++) {
-			for (int z = 0; z < chunkZSize; z++) {
-				BlockPrefab i = table.getBlock(x, y, z);
-				if (i.id == -1) {
-					continue;
-				}
-				fc->table[x][y][z] = bp->getBlock(i.id);
-			}
-		}
-	}
 	chunkVec.emplace_back(fc);
 	return fc->chunk;
 }
@@ -179,5 +155,13 @@ void FlexibleWorld::updateNeighborChunks() {
 			visibleChunks++;
 		}
 	}
+}
+std::shared_ptr<Chunk> FlexibleWorld::findChunk(int x, int z) const {
+	for (auto fc : chunkVec) {
+		if (fc->chunk->isContains(x, 0, z)) {
+			return fc->chunk;
+		}
+	}
+	return nullptr;
 }
 }

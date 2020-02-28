@@ -55,7 +55,6 @@ public:
 	void setViewPosition(const glm::vec3& viewPosition);
 	void setBiome(std::shared_ptr<Biome> biome);
 	std::shared_ptr<Biome> getBiome() const;
-	std::shared_ptr<Chunk> findChunk(int x, int z) const;
 	std::shared_ptr<Chunk> loadChunk(int x, int z);
 	void draw();
 
@@ -63,6 +62,7 @@ private:
 	FlexibleWorld(ofShader& shader, int worldYSize);
 	static int sign(int v);
 	void updateNeighborChunks();
+	std::shared_ptr<Chunk> findChunk(int x, int z) const;
 
 	int worldYSize;
 	int chunkXSize;
