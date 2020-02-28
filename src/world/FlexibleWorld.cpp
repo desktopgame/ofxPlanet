@@ -108,15 +108,26 @@ std::shared_ptr<Chunk> FlexibleWorld::findChunk(int x, int z) const {
 std::shared_ptr<Chunk> FlexibleWorld::loadChunk(int x, int z) {
 	auto c = findChunk(x, z);
 	if (c) {
+		std::cout << "ae: " << x << " " << z << std::endl;
 		return c;
 	}
 	int xOffset = (x / chunkXSize) * chunkXSize;
+	if (x < 0) {
+		int a = ((x % chunkXSize) / chunkXSize) - 1;
+		xOffset += (a * chunkXSize);
+	}
 	int zOffset = (z / chunkZSize) * chunkZSize;
+	if (z < 0) {
+		int a = ((z % chunkZSize) / chunkZSize) - 1;
+		zOffset += (a * chunkZSize);
+	}
 	for (auto fc : chunkVec) {
 		if (fc->chunk->getXOffset() == xOffset && fc->chunk->getZOffset() == zOffset) {
+			std::cout << "ae: " << x << " " << z << ", " << xOffset << " " << zOffset << ", " << std::endl;
 			return fc->chunk;
 		}
 	}
+	std::cout << "g: " << x << " " << z << std::endl;
 	auto fc = std::make_shared< detail::FlexibleChunk>(*this, xOffset, zOffset, chunkXSize, chunkZSize);
 	BlockTable table(chunkXSize, this->worldYSize, chunkZSize);
 	//if (biome) {
@@ -154,6 +165,12 @@ FlexibleWorld::FlexibleWorld(ofShader & shader, int worldYSize)
    shader(shader),
    lightTable(128,128,128),
    currentChunk(nullptr) {
+}
+int FlexibleWorld::sign(int v) {
+	if (v >= 0) {
+		return 1;
+	}
+	return -1;
 }
 int FlexibleWorld::findChunkImpl(int x, int z) const {
 	return 0;
