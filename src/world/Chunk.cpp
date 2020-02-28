@@ -68,26 +68,6 @@ void Chunk::draw() {
                 }
         }
 }
-void Chunk::debugDraw() {
-        float scale = 2.0f;
-        glm::vec3 vscale = glm::vec3(1, scale, 1);
-        ofDrawLine(glm::vec3(xOffset, 0, zOffset) * vscale,
-                   glm::vec3(xOffset, world.getYSize(), zOffset) * vscale);
-        ofDrawLine(
-            glm::vec3(xOffset + xSize, 0, zOffset) * vscale,
-            glm::vec3(xOffset + xSize, world.getYSize(), zOffset) * vscale);
-        ofDrawLine(
-            glm::vec3(xOffset, 0, zOffset + zSize) * vscale,
-            glm::vec3(xOffset, world.getYSize(), zOffset + zSize) * vscale);
-        ofDrawLine(
-            glm::vec3(xOffset + xSize, 0, zOffset + zSize) * vscale,
-            glm::vec3(xOffset + xSize, world.getYSize(), zOffset + zSize) *
-                vscale);
-
-        for (auto subchunk : subchunks) {
-                subchunk->draw();
-        }
-}
 bool Chunk::isContains(int x, int y, int z) const {
         if (x < xOffset || y < 0 || z < zOffset) {
                 return false;
