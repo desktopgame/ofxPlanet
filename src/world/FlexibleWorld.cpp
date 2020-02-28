@@ -116,17 +116,21 @@ FlexibleChunkOffset FlexibleWorld::computeChunkOffset(int x, int z) const {
 	}
 	return FlexibleChunkOffset(xOffset, zOffset);
 }
+std::shared_ptr<Chunk> FlexibleWorld::findChunk(int x, int z) const {
+	auto offset = computeChunkOffset(x, z);
+	for (auto fc : chunkVec) {
+		if (fc->chunk->isContains(x, 0, z) || (fc->chunk->getXOffset() == offset.x && fc->chunk->getZOffset() == offset.z)) {
+			return fc->chunk;
+		}
+	}
+	return nullptr;
+}
 std::shared_ptr<Chunk> FlexibleWorld::loadChunk(int x, int z) {
 	auto c = findChunk(x, z);
 	if (c) {
 		return c;
 	}
 	auto offset = computeChunkOffset(x, z);
-	for (auto fc : chunkVec) {
-		if (fc->chunk->getXOffset() == offset.x && fc->chunk->getZOffset() == offset.z) {
-			return fc->chunk;
-		}
-	}
 	auto fc = std::make_shared< detail::FlexibleChunk>(*this, offset.x, offset.z, chunkXSize, chunkZSize);
 	chunkVec.emplace_back(fc);
 	return fc->chunk;
@@ -165,13 +169,5 @@ void FlexibleWorld::updateNeighborChunks() {
 			visibleChunks++;
 		}
 	}
-}
-std::shared_ptr<Chunk> FlexibleWorld::findChunk(int x, int z) const {
-	for (auto fc : chunkVec) {
-		if (fc->chunk->isContains(x, 0, z)) {
-			return fc->chunk;
-		}
-	}
-	return nullptr;
 }
 }
