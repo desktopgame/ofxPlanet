@@ -62,7 +62,6 @@ public:
 private:
 	FlexibleWorld(ofShader& shader, int worldYSize);
 	static int sign(int v);
-	int findChunkImpl(int x, int z) const;
 	void updateNeighborChunks();
 
 	int worldYSize;

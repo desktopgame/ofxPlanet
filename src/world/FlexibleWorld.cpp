@@ -169,9 +169,6 @@ int FlexibleWorld::sign(int v) {
 	}
 	return -1;
 }
-int FlexibleWorld::findChunkImpl(int x, int z) const {
-	return 0;
-}
 void FlexibleWorld::updateNeighborChunks() {
 	int visibleChunks = 0;
 	for (auto fc : chunkVec)fc->chunk->hide();
