@@ -117,7 +117,7 @@ std::shared_ptr<Chunk> FlexibleWorld::loadChunk(int x, int z) {
 			return fc->chunk;
 		}
 	}
-	auto fc = std::make_shared< detail::FlexibleChunk>(*this, xOffset, zOffset, chunkXSize, chunkXSize);
+	auto fc = std::make_shared< detail::FlexibleChunk>(*this, xOffset, zOffset, chunkXSize, chunkZSize);
 	BlockTable table(chunkXSize, this->worldYSize, chunkZSize);
 	//if (biome) {
 		biome->generate(table);
