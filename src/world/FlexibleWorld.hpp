@@ -68,6 +68,7 @@ public:
 	FlexibleChunkOffset computeChunkOffset(int x, int z) const;
 	std::shared_ptr<Chunk> findChunk(int x, int z) const;
 	std::shared_ptr<Chunk> loadChunk(int x, int z);
+	std::shared_ptr<Chunk> loadChunk(int x, int z, bool& isCreatedNewChunk);
 	void draw();
 
 private:

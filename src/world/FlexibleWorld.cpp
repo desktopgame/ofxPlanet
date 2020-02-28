@@ -126,10 +126,16 @@ std::shared_ptr<Chunk> FlexibleWorld::findChunk(int x, int z) const {
 	return nullptr;
 }
 std::shared_ptr<Chunk> FlexibleWorld::loadChunk(int x, int z) {
+	bool _;
+	return loadChunk(x, z, _);
+}
+std::shared_ptr<Chunk> FlexibleWorld::loadChunk(int x, int z, bool & isCreatedNewChunk) {
+	isCreatedNewChunk = false;
 	auto c = findChunk(x, z);
 	if (c) {
 		return c;
 	}
+	isCreatedNewChunk = true;
 	auto offset = computeChunkOffset(x, z);
 	auto fc = std::make_shared< detail::FlexibleChunk>(*this, offset.x, offset.z, chunkXSize, chunkZSize);
 	chunkVec.emplace_back(fc);
