@@ -149,7 +149,6 @@ std::vector<Chunk::Instance> Chunk::getNeighbor(const Instance & chunk, int view
 	bool isIncludedViewRange = diffX < viewRange && diffZ < viewRange;
 	if (isIncludedViewRange) {
 		v.emplace_back(std::const_pointer_cast<Chunk>(shared_from_this()));
-		std::cout << "chunk: offx=" << this->xOffset << " offz=" << this->zOffset << std::endl;
 	}
 	for (auto subchunk : subchunks) {
 		auto cv = subchunk->getNeighbor(chunk, viewRange);
