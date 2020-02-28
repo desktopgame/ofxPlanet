@@ -11,7 +11,9 @@ namespace ofxPlanet {
 // FlexibleChunk
 namespace detail {
 FlexibleChunk::FlexibleChunk(IWorld & world, int xOffset, int zOffset, int xSize, int zSize)
- : table(), chunk(Chunk::create(world, xOffset, zOffset, xSize, zSize)) {
+ : table(), 
+   chunk(Chunk::create(world, xOffset, zOffset, xSize, zSize)),
+   generated(false) {
 	for (int x = 0; x < xSize; x++) {
 		std::vector < std::vector<std::shared_ptr<Block> > > grid;
 		for (int y = 0; y < world.getYSize(); y++) {
@@ -89,7 +91,7 @@ void FlexibleWorld::setViewPosition(const glm::vec3 & viewPosition) {
 		}
 	}
 	if (!newChunk) {
-		newChunk = loadChunk(viewPosition.x, viewPosition.z);
+		newChunk = loadOrGenChunk(viewPosition.x, viewPosition.z);
 	}
 	if (this->currentChunk != newChunk) {
 		this->currentChunk = newChunk;
@@ -117,29 +119,23 @@ FlexibleChunkOffset FlexibleWorld::computeChunkOffset(int x, int z) const {
 	return FlexibleChunkOffset(xOffset, zOffset);
 }
 std::shared_ptr<Chunk> FlexibleWorld::findChunk(int x, int z) const {
-	auto offset = computeChunkOffset(x, z);
-	for (auto fc : chunkVec) {
-		if (fc->chunk->isContains(x, 0, z) || (fc->chunk->getXOffset() == offset.x && fc->chunk->getZOffset() == offset.z)) {
-			return fc->chunk;
-		}
+	auto fc = findChunkImpl(x, z);
+	if (fc == nullptr) {
+		return nullptr;
 	}
-	return nullptr;
+	return fc->chunk;
 }
 std::shared_ptr<Chunk> FlexibleWorld::loadChunk(int x, int z) {
 	bool _;
 	return loadChunk(x, z, _);
 }
 std::shared_ptr<Chunk> FlexibleWorld::loadChunk(int x, int z, bool & isCreatedNewChunk) {
-	isCreatedNewChunk = false;
-	auto c = findChunk(x, z);
-	if (c) {
-		return c;
-	}
-	isCreatedNewChunk = true;
-	auto offset = computeChunkOffset(x, z);
-	auto fc = std::make_shared< detail::FlexibleChunk>(*this, offset.x, offset.z, chunkXSize, chunkZSize);
+	auto fc = loadChunkImpl(x, z, isCreatedNewChunk);
 	chunkVec.emplace_back(fc);
 	return fc->chunk;
+}
+std::shared_ptr<Chunk> FlexibleWorld::loadOrGenChunk(int x, int z) {
+	return loadOrGenChunkImpl(x, z, 0, 0);
 }
 void FlexibleWorld::draw() {
 	for (auto fc : chunkVec) {
@@ -165,9 +161,97 @@ int FlexibleWorld::sign(int v) {
 	}
 	return -1;
 }
+std::shared_ptr<detail::FlexibleChunk> FlexibleWorld::findChunkImpl(int x, int z) const {
+	auto offset = computeChunkOffset(x, z);
+	for (auto fc : chunkVec) {
+		if (fc->chunk->isContains(x, 0, z) || (fc->chunk->getXOffset() == offset.x && fc->chunk->getZOffset() == offset.z)) {
+			return fc;
+		}
+	}
+	return nullptr;
+}
+std::shared_ptr<detail::FlexibleChunk> FlexibleWorld::loadChunkImpl(int x, int z, bool & isCreatedNewChunk) {
+	isCreatedNewChunk = false;
+	auto fc = findChunkImpl(x, z);
+	if (fc) {
+		return fc;
+	}
+	isCreatedNewChunk = true;
+	auto offset = computeChunkOffset(x, z);
+	fc = std::make_shared< detail::FlexibleChunk>(*this, offset.x, offset.z, chunkXSize, chunkZSize);
+	this->chunkVec.emplace_back(fc);
+	return fc;
+}
+std::shared_ptr<Chunk> FlexibleWorld::loadOrGenChunkImpl(int x, int z, int xOffset, int zOffset) {
+	bool genCenter, genLeft, genRight, genTop, genBottom, genLTop, genRTop, genLBottom, genRBottom;
+	auto centerFc = loadChunkImpl(x, z, genCenter);
+	if (!genCenter) {
+		return centerFc->chunk;
+	}
+	auto leftFc = loadChunkImpl(x - chunkXSize, z, genLeft);
+	auto rightFc = loadChunkImpl(x + chunkXSize, z, genRight);
+	auto topFc = loadChunkImpl(x, z - chunkZSize, genTop);
+	auto bottomFc = loadChunkImpl(x, z + chunkZSize, genBottom);
+	auto leftTopFc = loadChunkImpl(x - chunkXSize, z - chunkZSize, genLTop);
+	auto rightTopFc = loadChunkImpl(x + chunkXSize, z - chunkZSize, genRTop);
+	auto leftBottomFc = loadChunkImpl(x - chunkXSize, z + chunkZSize, genLBottom);
+	auto rightBottomFc = loadChunkImpl(x + chunkXSize, z + chunkZSize, genRBottom);
+	auto bp = BlockPack::getCurrent();
+	if (!(centerFc->generated ||
+		leftFc->generated ||
+		rightFc->generated ||
+		topFc->generated ||
+		bottomFc->generated ||
+		leftTopFc->generated ||
+		rightTopFc->generated ||
+		leftBottomFc->generated ||
+		rightBottomFc->generated)) {
+		BlockTable bt(chunkXSize * 3, this->worldYSize, this->chunkZSize * 3);
+		biome->generate(bt);
+		for (int x = 0; x < chunkXSize; x++) {
+			for (int z = 0; z < chunkZSize; z++) {
+				for (int y = 0; y < this->worldYSize; y++) {
+					leftTopFc->table[x][y][z] = bp->getBlock(bt.getBlock(x, y, z).id);
+					topFc->table[x][y][z] = bp->getBlock(bt.getBlock((chunkXSize)+x, y, z).id);
+					rightTopFc->table[x][y][z] = bp->getBlock(bt.getBlock((chunkXSize * 2) + x, y, z).id);
+					//--
+					leftFc->table[x][y][z] = bp->getBlock(bt.getBlock(x, y, z + chunkZSize).id);
+					centerFc->table[x][y][z] = bp->getBlock(bt.getBlock((chunkXSize)+x, y, z + chunkZSize).id);
+					rightFc->table[x][y][z] = bp->getBlock(bt.getBlock((chunkXSize * 2) + x, y, z + chunkZSize).id);
+					//--
+					leftBottomFc->table[x][y][z] = bp->getBlock(bt.getBlock(x, y, z + (chunkZSize * 2)).id);
+					bottomFc->table[x][y][z] = bp->getBlock(bt.getBlock((chunkXSize)+x, y, z + (chunkZSize * 2)).id);
+					rightBottomFc->table[x][y][z] = bp->getBlock(bt.getBlock((chunkXSize * 2) + x, y, z + (chunkZSize * 2)).id);
+				}
+			}
+		}
+		leftTopFc->generated = true;
+		topFc->generated = true;
+		rightTopFc->generated = true;
+
+		leftFc->generated = true;
+		centerFc->generated = true;
+		rightFc->generated = true;
+
+		leftBottomFc->generated = true;
+		bottomFc->generated = true;
+		rightBottomFc->generated = true;
+		return centerFc->chunk;
+	}
+	if (leftFc->generated) {
+		return loadOrGenChunkImpl(x, z, xOffset+1, zOffset);
+	}
+	if (rightFc->generated) {
+		return loadOrGenChunkImpl(x, z, xOffset + 1, zOffset);
+	}
+	return nullptr;
+}
 void FlexibleWorld::updateNeighborChunks() {
 	int visibleChunks = 0;
 	for (auto fc : chunkVec)fc->chunk->hide();
+	if (this->currentChunk == nullptr) {
+		return;
+	}
 	for (auto fc : chunkVec) {
 		auto neighbor = fc->chunk->getNeighbor(this->currentChunk, this->viewRange);
 		for (auto nc : neighbor) {

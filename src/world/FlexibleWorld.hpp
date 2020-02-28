@@ -27,6 +27,7 @@ public:
 		>
 	> table;
 	std::shared_ptr<Chunk> chunk;
+	bool generated;
 };
 }
 
@@ -69,11 +70,15 @@ public:
 	std::shared_ptr<Chunk> findChunk(int x, int z) const;
 	std::shared_ptr<Chunk> loadChunk(int x, int z);
 	std::shared_ptr<Chunk> loadChunk(int x, int z, bool& isCreatedNewChunk);
+	std::shared_ptr<Chunk> loadOrGenChunk(int x, int z);
 	void draw();
 
 private:
 	FlexibleWorld(ofShader& shader, int worldYSize);
 	static int sign(int v);
+	std::shared_ptr<detail::FlexibleChunk> findChunkImpl(int x, int z) const;
+	std::shared_ptr<detail::FlexibleChunk> loadChunkImpl(int x, int z, bool & isCreatedNewChunk);
+	std::shared_ptr<Chunk> loadOrGenChunkImpl(int x, int z, int xOffset, int zOffset);
 	void updateNeighborChunks();
 
 	int worldYSize;
