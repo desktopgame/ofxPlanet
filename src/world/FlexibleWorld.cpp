@@ -8,6 +8,7 @@
 #include <iostream>
 
 namespace ofxPlanet {
+// FlexibleChunk
 namespace detail {
 FlexibleChunk::FlexibleChunk(IWorld & world, int xOffset, int zOffset, int xSize, int zSize)
  : table(), chunk(Chunk::create(world, xOffset, zOffset, xSize, zSize)) {
@@ -23,6 +24,11 @@ FlexibleChunk::FlexibleChunk(IWorld & world, int xOffset, int zOffset, int xSize
 		table.emplace_back(grid);
 	}
 }
+}
+// FlexibleChunkOffset
+FlexibleChunkOffset::FlexibleChunkOffset(int x, int z) : x(x), z(z) {
+}
+FlexibleChunkOffset::FlexibleChunkOffset() : FlexibleChunkOffset(0,0) {
 }
 // Utility
 FlexibleWorld::Instance FlexibleWorld::create(ofShader & shader, int worldYSize) {
@@ -97,11 +103,7 @@ void FlexibleWorld::setBiome(std::shared_ptr<Biome> biome) {
 std::shared_ptr<Biome> FlexibleWorld::getBiome() const {
 	return this->biome;
 }
-std::shared_ptr<Chunk> FlexibleWorld::loadChunk(int x, int z) {
-	auto c = findChunk(x, z);
-	if (c) {
-		return c;
-	}
+FlexibleChunkOffset FlexibleWorld::computeChunkOffset(int x, int z) const {
 	int xOffset = (x / chunkXSize) * chunkXSize;
 	if (x < 0) {
 		int a = ((x % chunkXSize) / chunkXSize) - 1;
@@ -112,12 +114,20 @@ std::shared_ptr<Chunk> FlexibleWorld::loadChunk(int x, int z) {
 		int a = ((z % chunkZSize) / chunkZSize) - 1;
 		zOffset += (a * chunkZSize);
 	}
+	return FlexibleChunkOffset(xOffset, zOffset);
+}
+std::shared_ptr<Chunk> FlexibleWorld::loadChunk(int x, int z) {
+	auto c = findChunk(x, z);
+	if (c) {
+		return c;
+	}
+	auto offset = computeChunkOffset(x, z);
 	for (auto fc : chunkVec) {
-		if (fc->chunk->getXOffset() == xOffset && fc->chunk->getZOffset() == zOffset) {
+		if (fc->chunk->getXOffset() == offset.x && fc->chunk->getZOffset() == offset.z) {
 			return fc->chunk;
 		}
 	}
-	auto fc = std::make_shared< detail::FlexibleChunk>(*this, xOffset, zOffset, chunkXSize, chunkZSize);
+	auto fc = std::make_shared< detail::FlexibleChunk>(*this, offset.x, offset.z, chunkXSize, chunkZSize);
 	chunkVec.emplace_back(fc);
 	return fc->chunk;
 }

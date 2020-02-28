@@ -29,6 +29,16 @@ public:
 	std::shared_ptr<Chunk> chunk;
 };
 }
+
+/**
+ * FlexibleChunkOffset.
+ */
+struct FlexibleChunkOffset {
+	explicit FlexibleChunkOffset(int x, int z);
+	explicit FlexibleChunkOffset();
+	int x;
+	int z;
+};
 	
 /**
  * FlexibleWorld is extensible in dynamic.
@@ -55,6 +65,7 @@ public:
 	void setViewPosition(const glm::vec3& viewPosition);
 	void setBiome(std::shared_ptr<Biome> biome);
 	std::shared_ptr<Biome> getBiome() const;
+	FlexibleChunkOffset computeChunkOffset(int x, int z) const;
 	std::shared_ptr<Chunk> loadChunk(int x, int z);
 	void draw();
 
