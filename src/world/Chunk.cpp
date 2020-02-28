@@ -251,6 +251,7 @@ void Chunk::rehashVisible() {
 				}
                 this->allocateRenderer();
                 this->batch();
+				this->changedToVisible = false;
         } else {
                 for (auto subchunk : subchunks) {
                         subchunk->rehashVisible();
