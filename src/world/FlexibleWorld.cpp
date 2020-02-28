@@ -53,7 +53,7 @@ std::shared_ptr<Block> FlexibleWorld::getBlock(int x, int y, int z) const {
 	return nullptr;
 }
 bool FlexibleWorld::isFilled(int x, int y, int z) const {
-	if (x < 0 || y < 0 || z < 0) {
+	if (y < 0) {
 		return false;
 	}
 	auto block = getBlock(x, y, z);
