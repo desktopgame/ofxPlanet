@@ -5,6 +5,7 @@
 #include "BlockPack.hpp"
 #include "Block.hpp"
 #include "Sector.hpp"
+#include "LightTable.hpp"
 #include <algorithm>
 #include <iostream>
 #include <ofEvents.h>
@@ -42,6 +43,14 @@ bool FlexibleWorld::isFilled(int x, int y, int z) const {
 	return block->getShape() == BlockShape::Block;
 }
 int FlexibleWorld::getBrightness(int x, int y, int z) const {
+	for (auto fc : this->chunkVec) {
+		auto chunk = fc->getChunk();
+		if (chunk->isContains(x, y, z)) {
+			x -= chunk->getXOffset();
+			z -= chunk->getZOffset();
+			return fc->getLightTable().getLight(x, y, z);
+		}
+	}
 	return 15;
 }
 ofShader & FlexibleWorld::getShader() {

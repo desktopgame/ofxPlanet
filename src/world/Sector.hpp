@@ -3,6 +3,7 @@
 #define WORLD_SECTOR_HPP
 #include <vector>
 #include <memory>
+#include "LightTable.hpp"
 
 namespace ofxPlanet {
 class IWorld;
@@ -18,6 +19,8 @@ public:
 	void setBlock(int x, int y, int z, std::shared_ptr<Block> block);
 	std::shared_ptr<Block> getBlock(int x, int y, int z) const;
 	std::shared_ptr<Chunk> getChunk() const;
+	LightTable& getLightTable();
+	const LightTable& getLightTable() const;
 
 	void setGenerated(bool b);
 	bool isGenerated() const;
@@ -30,6 +33,7 @@ private:
 		>
 	> table;
 	std::shared_ptr<Chunk> chunk;
+	LightTable lightTable;
 	bool generated;
 };
 }
