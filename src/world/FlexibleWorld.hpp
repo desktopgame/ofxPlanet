@@ -76,7 +76,6 @@ public:
 
 private:
 	FlexibleWorld(ofShader& shader, int worldYSize);
-	static int sign(int v);
 	std::shared_ptr<detail::FlexibleChunk> findChunkImpl(int x, int z) const;
 	std::shared_ptr<detail::FlexibleChunk> loadChunkImpl(int x, int z, bool & isCreatedNewChunk);
 	std::shared_ptr<Chunk> loadOrGenChunkImpl(int x, int z, int xOffset, int zOffset);

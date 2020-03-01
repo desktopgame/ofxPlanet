@@ -164,12 +164,6 @@ FlexibleWorld::FlexibleWorld(ofShader & shader, int worldYSize)
    lightTable(128,128,128),
    currentChunk(nullptr) {
 }
-int FlexibleWorld::sign(int v) {
-	if (v >= 0) {
-		return 1;
-	}
-	return -1;
-}
 std::shared_ptr<detail::FlexibleChunk> FlexibleWorld::findChunkImpl(int x, int z) const {
 	auto offset = computeChunkOffset(x, z);
 	for (auto fc : chunkVec) {
