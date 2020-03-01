@@ -160,7 +160,6 @@ FlexibleWorld::FlexibleWorld(ofShader & shader, int worldYSize)
    viewPosition(0,0,0),
    chunkAllocateScale(2),
    chunkVec(),
-   sectorVec(),
    shader(shader),
    lightTable(128,128,128),
    currentChunk(nullptr) {
@@ -287,9 +286,6 @@ std::shared_ptr<Chunk> FlexibleWorld::loadOrGenChunkRange(int x, int z, int xOff
 		leftBottomFc->generated = true;
 		bottomFc->generated = true;
 		rightBottomFc->generated = true;
-		// add sector
-		Sector sector(leftTopFc->chunk->getXOffset(), leftTopFc->chunk->getZOffset(), 3, 3);
-		sectorVec.emplace_back(sector);
 
 		std::cout << "loaded: x=" << x << " z=" << z << std::endl;
 		return centerFc->chunk;

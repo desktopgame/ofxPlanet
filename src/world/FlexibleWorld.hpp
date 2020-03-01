@@ -6,7 +6,6 @@
 #include <string>
 #include <ofShader.h>
 #include "IWorld.hpp"
-#include "Sector.hpp"
 
 namespace ofxPlanet {
 class Chunk;
@@ -93,7 +92,6 @@ private:
 	int viewRange;
 	glm::vec3 viewPosition;
 	std::vector<std::shared_ptr<detail::FlexibleChunk> > chunkVec;
-	std::vector<Sector> sectorVec;
 	ofShader& shader;
 	LightTable lightTable;
 	std::shared_ptr<Chunk> currentChunk;
