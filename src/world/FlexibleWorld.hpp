@@ -67,6 +67,8 @@ public:
 	void setViewPosition(const glm::vec3& viewPosition);
 	void setBiome(std::shared_ptr<Biome> biome);
 	std::shared_ptr<Biome> getBiome() const;
+	void setLoadRange(int loadRange);
+	int getLoadRange() const;
 	FlexibleChunkOffset computeChunkOffset(int x, int z) const;
 	std::shared_ptr<Chunk> findChunk(int x, int z) const;
 	std::shared_ptr<Chunk> loadChunk(int x, int z);
@@ -88,6 +90,7 @@ private:
 	int chunkXSize;
 	int chunkZSize;
 	int viewRange;
+	int loadRange;
 	glm::vec3 viewPosition;
 	std::vector<std::shared_ptr<detail::FlexibleChunk> > chunkVec;
 	ofShader& shader;

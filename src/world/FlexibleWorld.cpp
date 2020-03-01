@@ -109,6 +109,12 @@ void FlexibleWorld::setBiome(std::shared_ptr<Biome> biome) {
 std::shared_ptr<Biome> FlexibleWorld::getBiome() const {
 	return this->biome;
 }
+void FlexibleWorld::setLoadRange(int loadRange) {
+	this->loadRange = loadRange;
+}
+int FlexibleWorld::getLoadRange() const {
+	return this->loadRange;
+}
 FlexibleChunkOffset FlexibleWorld::computeChunkOffset(int x, int z) const {
 	int xOffset = (x / chunkXSize) * chunkXSize;
 	if (x < 0) {
@@ -152,11 +158,13 @@ FlexibleWorld::FlexibleWorld(ofShader & shader, int worldYSize)
    chunkXSize(32),
    chunkZSize(32),
    viewRange(64),
+   loadRange(96),
    viewPosition(0,0,0),
    chunkVec(),
    shader(shader),
    lightTable(128,128,128),
-   currentChunk(nullptr) {
+   currentChunk(nullptr),
+   biome(nullptr) {
 }
 std::shared_ptr<detail::FlexibleChunk> FlexibleWorld::findChunkImpl(int x, int z) const {
 	auto offset = computeChunkOffset(x, z);
@@ -181,8 +189,8 @@ std::shared_ptr<detail::FlexibleChunk> FlexibleWorld::loadChunkImpl(int x, int z
 	return fc;
 }
 std::shared_ptr<Chunk> FlexibleWorld::loadOrGenChunkImpl(int x, int z, int xOffset, int zOffset) {
-	int offsetX = 96;
-	int offsetZ = 96;
+	int offsetX = this->loadRange;
+	int offsetZ = this->loadRange;
 	for (int addX = offsetX; addX > 0; addX--) {
 		int ax = addX;
 		for (int addZ = offsetZ; addZ > 0; addZ--) {
