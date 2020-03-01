@@ -5,7 +5,6 @@
 #include "world/BlockInfoCollection.hpp"
 #include "world/BlockPack.hpp"
 #include "world/Chunk.hpp"
-#include "world/Planet.hpp"
 #include "world/TextureInfoCollection.hpp"
 #include "world/TexturePack.hpp"
 #include "world/UniformLayout.hpp"

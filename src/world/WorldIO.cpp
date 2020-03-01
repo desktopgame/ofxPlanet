@@ -9,7 +9,6 @@
 
 #include "Block.hpp"
 #include "BlockPack.hpp"
-#include "Planet.hpp"
 #include "TexturePack.hpp"
 #include "FixedWorld.hpp"
 #include "picojson/picojson.h"
@@ -182,27 +181,6 @@ AsyncOperation WorldIO::saveObj(const std::string& outputDir,
                 aAsync->setValue(1.0f);
         }).detach();
         return aAsync;
-}
-
-AsyncOperation WorldIO::saveBmp(const std::string& outputFile,
-                                const std::shared_ptr<Planet>& planet) {
-	return nullptr;
-	/*
-        auto ret = std::make_shared<Progress>();
-        auto w = planet->getWorld();
-        std::thread([outputFile, planet, w, ret]() -> void {
-                auto outputPath = ofFilePath::join(
-                    ofFilePath::getCurrentExeDir(), outputFile);
-                ofFile::removeFile(outputPath);
-                BlockTable blockTable = planet->getBlockTable();
-                Terrain terrain = blockTable.getTerrain();
-                std::vector<unsigned char> pixelVec = terrain.toPixelVec();
-                ofxSOIL::saveImage(outputFile, ofxSOIL::TYPE_BMP, w->getXSize(),
-                                   w->getZSize(), 4, pixelVec.data());
-                ret->setValue(1.0f);
-        }).detach();
-        return ret;
-		*/
 }
 
 glm::vec3 WorldIO::asVec3(int x, int y, int z) { return glm::vec3(x, y, z); }

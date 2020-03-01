@@ -12,7 +12,6 @@
 
 namespace ofxPlanet {
 class FixedWorld;
-class Planet;
 /**
  * Progress is progress for background generation process.
  */
@@ -70,14 +69,7 @@ class WorldIO {
         static AsyncOperation saveObj(const std::string& outputDir,
                                       const std::shared_ptr<FixedWorld>& world,
                                       int splitCount);
-        /**
-         * generate as Bmp.
-         * @param outputFile
-         * @param planet
-         * @return
-         */
-        static AsyncOperation saveBmp(const std::string& outputFile,
-                                      const std::shared_ptr<Planet>& planet);
+
 
        private:
         template <typename T>
