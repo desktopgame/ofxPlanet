@@ -187,10 +187,6 @@ std::shared_ptr<detail::FlexibleChunk> FlexibleWorld::loadChunkImpl(int x, int z
 	return fc;
 }
 std::shared_ptr<Chunk> FlexibleWorld::loadOrGenChunkImpl(int x, int z, int xOffset, int zOffset) {
-	auto chk = loadOrGenChunkRange(x, z, xOffset, zOffset);
-	if (chk != nullptr) {
-		return chk;
-	}
 	int offsetX = 96;
 	int offsetZ = 96;
 	for (int addX = offsetX; addX > 0; addX--) {
