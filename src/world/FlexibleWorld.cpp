@@ -292,7 +292,7 @@ int FlexibleWorld::computeGridX(int x) const {
 	int ox = x;
 	int dx = 0;
 	if (x >= 0) {
-		dx = ((ox / 32) % 3);
+		dx = ((ox / this->chunkXSize) % 3);
 		dx++;
 	}
 	else {
@@ -305,7 +305,7 @@ int FlexibleWorld::computeGridZ(int z) const {
 	int dz = 0;
 
 	if (z >= 0) {
-		dz = ((oz / 32) % 3);
+		dz = ((oz / this->chunkZSize) % 3);
 		dz++;
 	}
 	else {
