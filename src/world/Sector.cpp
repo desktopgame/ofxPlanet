@@ -4,7 +4,8 @@
 
 namespace ofxPlanet {
 Sector::Sector(IWorld & world, int xOffset, int zOffset, int xSize, int zSize)
- : table(),
+ :  world(world),
+	table(),
 	chunk(Chunk::create(world, xOffset, zOffset, xSize, zSize)),
 	lightTable(xSize, world.getYSize(), zSize),
 	generated(false) {
@@ -34,6 +35,15 @@ LightTable & Sector::getLightTable() {
 }
 const LightTable & Sector::getLightTable() const {
 	return this->lightTable;
+}
+int Sector::getTopYForXZ(int x, int z) const {
+	for (int y = world.getYSize() - 1; y >= 0; y--) {
+		auto block = getBlock(x, y, z);
+		if (block) {
+			return y;
+		}
+	}
+	return 0;
 }
 void Sector::setGenerated(bool b) {
 	this->generated = b;

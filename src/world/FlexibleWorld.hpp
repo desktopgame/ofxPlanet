@@ -35,6 +35,7 @@ public:
 	std::shared_ptr<Chunk> getCurrentChunk();
 
 	// FlexibleWorld
+	void invalidateBrightness();
 	void setViewPosition(const glm::vec3& viewPosition);
 	void setBiome(std::shared_ptr<Biome> biome);
 	std::shared_ptr<Biome> getBiome() const;
@@ -58,6 +59,7 @@ private:
 	int computeGridX(int x) const;
 	int computeGridZ(int z) const;
 
+	bool invalidBrightCache;
 	int worldYSize;
 	int chunkXSize;
 	int chunkZSize;
@@ -66,7 +68,6 @@ private:
 	glm::vec3 viewPosition;
 	std::vector<std::shared_ptr<Sector> > chunkVec;
 	ofShader& shader;
-	LightTable lightTable;
 	std::shared_ptr<Chunk> currentChunk;
 	std::shared_ptr<Biome> biome;
 };

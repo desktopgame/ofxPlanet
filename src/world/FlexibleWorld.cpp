@@ -17,6 +17,33 @@ FlexibleWorld::Instance FlexibleWorld::create(ofShader & shader, int worldYSize)
 }
 // IWorld
 void FlexibleWorld::computeBrightness() {
+	if (!this->invalidBrightCache) {
+		return;
+	}
+	for (auto sector : this->chunkVec) {
+		for (int x = 0; x < this->chunkXSize; x++) {
+			for (int y = 0; y < this->worldYSize; y++) {
+				for (int z = 0; z < this->chunkZSize; z++) {
+					auto block = sector->getBlock(x, y, z);
+					sector->getLightTable().setLight(x, y, z, 0);
+				}
+			}
+		}
+		for (int x = 0; x < this->chunkXSize; x++) {
+			for (int z = 0; z < this->chunkZSize; z++) {
+				int y = sector->getTopYForXZ(x, z);
+				int sunpower = 15;
+				sector->getLightTable().setLight(x, y, z, sunpower--);
+				for (; y >= 0 && sunpower > 0; y--) {
+					auto block = sector->getBlock(x, y, z);
+					if (block != nullptr) {
+						sector->getLightTable().setLight(x, y, z, sunpower--);
+					}
+				}
+			}
+		}
+	}
+	this->invalidBrightCache = false;
 }
 int FlexibleWorld::getYSize() const {
 	return this->worldYSize;
@@ -69,6 +96,9 @@ std::shared_ptr<Chunk> FlexibleWorld::getCurrentChunk() {
 	return this->currentChunk;
 }
 // World
+void FlexibleWorld::invalidateBrightness() {
+	this->invalidBrightCache = true;
+}
 void FlexibleWorld::setViewPosition(const glm::vec3 & viewPosition) {
 	this->viewPosition = viewPosition;
 	Chunk::Instance newChunk = nullptr;
@@ -129,7 +159,8 @@ void FlexibleWorld::draw() {
 }
 // private
 FlexibleWorld::FlexibleWorld(ofShader & shader, int worldYSize) 
- : worldYSize(worldYSize),
+ : invalidBrightCache(true),
+   worldYSize(worldYSize),
    chunkXSize(32),
    chunkZSize(32),
    viewRange(64),
@@ -137,7 +168,6 @@ FlexibleWorld::FlexibleWorld(ofShader & shader, int worldYSize)
    viewPosition(0,0,0),
    chunkVec(),
    shader(shader),
-   lightTable(128,128,128),
    currentChunk(nullptr),
    biome(nullptr) {
 }

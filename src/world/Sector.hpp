@@ -21,10 +21,12 @@ public:
 	std::shared_ptr<Chunk> getChunk() const;
 	LightTable& getLightTable();
 	const LightTable& getLightTable() const;
+	int getTopYForXZ(int x, int z) const;
 
 	void setGenerated(bool b);
 	bool isGenerated() const;
 private:
+	IWorld& world;
 	std::vector<
 		std::vector<
 			std::vector<
