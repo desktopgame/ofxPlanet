@@ -25,12 +25,12 @@ int World::getYSize() const {
 	return this->worldYSize;
 }
 std::shared_ptr<Block> World::getBlock(int x, int y, int z) const {
-	for (auto fc : this->chunkVec) {
-		auto chunk = fc->getChunk();
+	for (auto sector : this->chunkVec) {
+		auto chunk = sector->getChunk();
 		if (chunk->isContains(x, y, z)) {
 			x -= chunk->getXOffset();
 			z -= chunk->getZOffset();
-			return fc->getBlock(x, y, z);
+			return sector->getBlock(x, y, z);
 		}
 	}
 	return nullptr;
@@ -46,12 +46,12 @@ bool World::isFilled(int x, int y, int z) const {
 	return block->getShape() == BlockShape::Block;
 }
 int World::getBrightness(int x, int y, int z) const {
-	for (auto fc : this->chunkVec) {
-		auto chunk = fc->getChunk();
+	for (auto sector : this->chunkVec) {
+		auto chunk = sector->getChunk();
 		if (chunk->isContains(x, y, z)) {
 			x -= chunk->getXOffset();
 			z -= chunk->getZOffset();
-			return fc->getLightTable().getLight(x, y, z);
+			return sector->getLightTable().getLight(x, y, z);
 		}
 	}
 	return 15;
@@ -80,9 +80,9 @@ void World::invalidateBrightness() {
 void World::setViewPosition(const glm::vec3 & viewPosition) {
 	this->viewPosition = viewPosition;
 	Chunk::Instance newChunk = nullptr;
-	for (auto fc : chunkVec) {
-		auto chunk = fc->getChunk();
-		if (!fc->isGenerated()) {
+	for (auto sector : chunkVec) {
+		auto chunk = sector->getChunk();
+		if (!sector->isGenerated()) {
 			continue;
 		}
 		newChunk = chunk->lookup(this->viewPosition);
@@ -96,7 +96,7 @@ void World::setViewPosition(const glm::vec3 & viewPosition) {
 	if (this->currentChunk != newChunk) {
 		this->currentChunk = newChunk;
 		this->updateNeighborChunks();
-		for (auto fc : chunkVec) fc->getChunk()->tidy();
+		for (auto sector : chunkVec) sector->getChunk()->tidy();
 	}
 }
 void World::setBiome(std::shared_ptr<Biome> biome) {
@@ -112,27 +112,27 @@ int World::getLoadRange() const {
 	return this->loadRange;
 }
 std::shared_ptr<Chunk> World::findChunk(int x, int z) const {
-	auto fc = findChunkImpl(x, z);
-	if (fc == nullptr) {
+	auto sector = findChunkImpl(x, z);
+	if (sector == nullptr) {
 		return nullptr;
 	}
-	return fc->getChunk();
+	return sector->getChunk();
 }
 std::shared_ptr<Chunk> World::loadChunk(int x, int z) {
 	bool _;
 	return loadChunk(x, z, _);
 }
 std::shared_ptr<Chunk> World::loadChunk(int x, int z, bool & isCreatedNewChunk) {
-	auto fc = loadChunkImpl(x, z, isCreatedNewChunk);
-	chunkVec.emplace_back(fc);
-	return fc->getChunk();
+	auto sector = loadChunkImpl(x, z, isCreatedNewChunk);
+	chunkVec.emplace_back(sector);
+	return sector->getChunk();
 }
 std::shared_ptr<Chunk> World::loadOrGenChunk(int x, int z) {
 	return loadOrGenChunkImpl(x, z, 0, 0);
 }
 void World::draw() {
-	for (auto fc : chunkVec) {
-		fc->getChunk()->draw();
+	for (auto sector : chunkVec) {
+		sector->getChunk()->draw();
 	}
 }
 // private
@@ -151,27 +151,27 @@ World::World(ofShader & shader, int worldYSize)
 std::shared_ptr<Sector> World::findChunkImpl(int x, int z) const {
 	int offsetX = computeChunkOffsetX(x);
 	int offsetZ = computeChunkOffsetZ(z);
-	for (auto fc : chunkVec) {
-		auto chunk = fc->getChunk();
+	for (auto sector : chunkVec) {
+		auto chunk = sector->getChunk();
 		if (chunk->isContains(x, 0, z) ||
 			(chunk->getXOffset() == offsetX && chunk->getZOffset() == offsetZ)) {
-			return fc;
+			return sector;
 		}
 	}
 	return nullptr;
 }
 std::shared_ptr<Sector> World::loadChunkImpl(int x, int z, bool & isCreatedNewChunk) {
 	isCreatedNewChunk = false;
-	auto fc = findChunkImpl(x, z);
-	if (fc) {
-		return fc;
+	auto sector = findChunkImpl(x, z);
+	if (sector) {
+		return sector;
 	}
 	isCreatedNewChunk = true;
 	int offsetX = computeChunkOffsetX(x);
 	int offsetZ = computeChunkOffsetZ(z);
-	fc = std::make_shared< Sector>(*this, offsetX, offsetZ, chunkXSize, chunkZSize);
-	this->chunkVec.emplace_back(fc);
-	return fc;
+	sector = std::make_shared< Sector>(*this, offsetX, offsetZ, chunkXSize, chunkZSize);
+	this->chunkVec.emplace_back(sector);
+	return sector;
 }
 std::shared_ptr<Chunk> World::loadOrGenChunkImpl(int x, int z, int xOffset, int zOffset) {
 	int offsetX = this->loadRange;
@@ -194,9 +194,9 @@ std::shared_ptr<Chunk> World::loadOrGenChunkImpl(int x, int z, int xOffset, int 
 }
 std::shared_ptr<Chunk> World::loadOrGenChunkRange(int x, int z, int xOffset, int zOffset) {
 	bool genCenter, genLeft, genRight, genTop, genBottom, genLTop, genRTop, genLBottom, genRBottom;
-	auto centerFc = loadChunkImpl(x, z, genCenter);
-	if (centerFc->isGenerated()) {
-		return centerFc->getChunk();
+	auto centerSector = loadChunkImpl(x, z, genCenter);
+	if (centerSector->isGenerated()) {
+		return centerSector->getChunk();
 	}
 	int dx = computeGridX(x);
 	int dz = computeGridZ(z);
@@ -206,58 +206,58 @@ std::shared_ptr<Chunk> World::loadOrGenChunkRange(int x, int z, int xOffset, int
 		return nullptr;
 	}
 
-	auto leftFc = loadChunkImpl(x - chunkXSize, z, genLeft);
-	auto leftTopFc = loadChunkImpl(x - chunkXSize, z - chunkZSize, genLTop);
-	auto leftBottomFc = loadChunkImpl(x - chunkXSize, z + chunkZSize, genLBottom);
+	auto leftSector = loadChunkImpl(x - chunkXSize, z, genLeft);
+	auto leftTopSector = loadChunkImpl(x - chunkXSize, z - chunkZSize, genLTop);
+	auto leftBottomSector = loadChunkImpl(x - chunkXSize, z + chunkZSize, genLBottom);
 
-	auto rightFc = loadChunkImpl(x + chunkXSize, z, genRight);
-	auto rightTopFc = loadChunkImpl(x + chunkXSize, z - chunkZSize, genRTop);
-	auto rightBottomFc = loadChunkImpl(x + chunkXSize, z + chunkZSize, genRBottom);
+	auto rightSector = loadChunkImpl(x + chunkXSize, z, genRight);
+	auto rightTopSector = loadChunkImpl(x + chunkXSize, z - chunkZSize, genRTop);
+	auto rightBottomSector = loadChunkImpl(x + chunkXSize, z + chunkZSize, genRBottom);
 
-	auto topFc = loadChunkImpl(x, z - chunkZSize, genTop);
-	auto bottomFc = loadChunkImpl(x, z + chunkZSize, genBottom);
+	auto topSector = loadChunkImpl(x, z - chunkZSize, genTop);
+	auto bottomSector = loadChunkImpl(x, z + chunkZSize, genBottom);
 	auto bp = BlockPack::getCurrent();
-	if (!centerFc->isGenerated() &&
-		!leftFc->isGenerated() &&
-		!rightFc->isGenerated() &&
-		!topFc->isGenerated() &&
-		!bottomFc->isGenerated() &&
-		!leftTopFc->isGenerated() &&
-		!rightTopFc->isGenerated() &&
-		!leftBottomFc->isGenerated() &&
-		!rightBottomFc->isGenerated()) {
+	if (!centerSector->isGenerated() &&
+		!leftSector->isGenerated() &&
+		!rightSector->isGenerated() &&
+		!topSector->isGenerated() &&
+		!bottomSector->isGenerated() &&
+		!leftTopSector->isGenerated() &&
+		!rightTopSector->isGenerated() &&
+		!leftBottomSector->isGenerated() &&
+		!rightBottomSector->isGenerated()) {
 		BlockTable bt(chunkXSize * 3, this->worldYSize, this->chunkZSize * 3);
 		biome->generate(bt);
 		for (int x = 0; x < chunkXSize; x++) {
 			for (int z = 0; z < chunkZSize; z++) {
 				for (int y = 0; y < this->worldYSize; y++) {
-					leftTopFc->setBlock(x, y, z, bp->getBlock(bt.getBlock(x, y, z).id));
-					topFc->setBlock(x, y, z, bp->getBlock(bt.getBlock((chunkXSize)+x, y, z).id));
-					rightTopFc->setBlock(x, y, z, bp->getBlock(bt.getBlock((chunkXSize * 2) + x, y, z).id));
+					leftTopSector->setBlock(x, y, z, bp->getBlock(bt.getBlock(x, y, z).id));
+					topSector->setBlock(x, y, z, bp->getBlock(bt.getBlock((chunkXSize)+x, y, z).id));
+					rightTopSector->setBlock(x, y, z, bp->getBlock(bt.getBlock((chunkXSize * 2) + x, y, z).id));
 					//--
-					leftFc->setBlock(x, y, z, bp->getBlock(bt.getBlock(x, y, z + chunkZSize).id));
-					centerFc->setBlock(x, y, z, bp->getBlock(bt.getBlock((chunkXSize)+x, y, z + chunkZSize).id));
-					rightFc->setBlock(x, y, z, bp->getBlock(bt.getBlock((chunkXSize * 2) + x, y, z + chunkZSize).id));
+					leftSector->setBlock(x, y, z, bp->getBlock(bt.getBlock(x, y, z + chunkZSize).id));
+					centerSector->setBlock(x, y, z, bp->getBlock(bt.getBlock((chunkXSize)+x, y, z + chunkZSize).id));
+					rightSector->setBlock(x, y, z, bp->getBlock(bt.getBlock((chunkXSize * 2) + x, y, z + chunkZSize).id));
 					//--
-					leftBottomFc->setBlock(x, y, z, bp->getBlock(bt.getBlock(x, y, z + (chunkZSize * 2)).id));
-					bottomFc->setBlock(x, y, z, bp->getBlock(bt.getBlock((chunkXSize)+x, y, z + (chunkZSize * 2)).id));
-					rightBottomFc->setBlock(x, y, z, bp->getBlock(bt.getBlock((chunkXSize * 2) + x, y, z + (chunkZSize * 2)).id));
+					leftBottomSector->setBlock(x, y, z, bp->getBlock(bt.getBlock(x, y, z + (chunkZSize * 2)).id));
+					bottomSector->setBlock(x, y, z, bp->getBlock(bt.getBlock((chunkXSize)+x, y, z + (chunkZSize * 2)).id));
+					rightBottomSector->setBlock(x, y, z, bp->getBlock(bt.getBlock((chunkXSize * 2) + x, y, z + (chunkZSize * 2)).id));
 				}
 			}
 		}
-		leftTopFc->setGenerated(true);
-		topFc->setGenerated(true);
-		rightTopFc->setGenerated(true);
+		leftTopSector->setGenerated(true);
+		topSector->setGenerated(true);
+		rightTopSector->setGenerated(true);
 
-		leftFc->setGenerated(true);
-		centerFc->setGenerated(true);
-		rightFc->setGenerated(true);
+		leftSector->setGenerated(true);
+		centerSector->setGenerated(true);
+		rightSector->setGenerated(true);
 
-		leftBottomFc->setGenerated(true);
-		bottomFc->setGenerated(true);
-		rightBottomFc->setGenerated(true);
+		leftBottomSector->setGenerated(true);
+		bottomSector->setGenerated(true);
+		rightBottomSector->setGenerated(true);
 
-		return centerFc->getChunk();
+		return centerSector->getChunk();
 	}
 	return nullptr;
 }
@@ -279,12 +279,12 @@ int World::computeChunkOffsetZ(int z) const {
 }
 void World::updateNeighborChunks() {
 	int visibleChunks = 0;
-	for (auto fc : chunkVec)fc->getChunk()->hide();
+	for (auto sector : chunkVec)sector->getChunk()->hide();
 	if (this->currentChunk == nullptr) {
 		return;
 	}
-	for (auto fc : chunkVec) {
-		auto chunk = fc->getChunk();
+	for (auto sector : chunkVec) {
+		auto chunk = sector->getChunk();
 		auto neighbor = chunk->getNeighbor(this->currentChunk, this->viewRange);
 		for (auto nc : neighbor) {
 			nc->setVisible(true);
