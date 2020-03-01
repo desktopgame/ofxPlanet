@@ -142,13 +142,8 @@ std::shared_ptr<Chunk> FlexibleWorld::loadOrGenChunk(int x, int z) {
 	return loadOrGenChunkImpl(x, z, 0, 0);
 }
 void FlexibleWorld::draw() {
-	bool k = ofGetKeyPressed(ofKey::OF_KEY_F11);
 	for (auto fc : chunkVec) {
 		fc->chunk->draw();
-	}
-	if (!k)return;
-	for (auto ch : this->chunkVec) {
-
 	}
 }
 // private
