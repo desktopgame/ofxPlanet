@@ -8,7 +8,8 @@ Sector::Sector(IWorld & world, int xOffset, int zOffset, int xSize, int zSize)
 	table(),
 	chunk(Chunk::create(world, xOffset, zOffset, xSize, zSize)),
 	lightTable(xSize, world.getYSize(), zSize),
-	generated(false) {
+	generated(false),
+	invalidBrightCache(true) {
 	for (int x = 0; x < xSize; x++) {
 		std::vector < std::vector<std::shared_ptr<Block> > > grid;
 		for (int y = 0; y < world.getYSize(); y++) {
@@ -23,6 +24,7 @@ Sector::Sector(IWorld & world, int xOffset, int zOffset, int xSize, int zSize)
 }
 void Sector::setBlock(int x, int y, int z, std::shared_ptr<Block> block) {
 	table[x][y][z] = block;
+	this->invalidBrightCache = true;
 }
 std::shared_ptr<Block> Sector::getBlock(int x, int y, int z) const {
 	return table[x][y][z];
@@ -44,6 +46,37 @@ int Sector::getTopYForXZ(int x, int z) const {
 		}
 	}
 	return 0;
+}
+void Sector::computeBrightness() {
+	if (!this->invalidBrightCache) {
+		return;
+	}
+	for (int x = 0; x < this->chunk->getXSize(); x++) {
+		for (int y = 0; y < this->world.getYSize(); y++) {
+			for (int z = 0; z < this->chunk->getZSize(); z++) {
+				auto block = getBlock(x, y, z);
+				lightTable.setLight(x, y, z, 0);
+			}
+		}
+	}
+	for (int x = 0; x < this->chunk->getXSize(); x++) {
+		for (int z = 0; z < this->chunk->getZSize(); z++) {
+			int y = getTopYForXZ(x, z);
+			int sunpower = 15;
+			lightTable.setLight(x, y, z, sunpower--);
+			for (; y >= 0 && sunpower > 0; y--) {
+				auto block = getBlock(x, y, z);
+				if (block != nullptr) {
+					lightTable.setLight(x, y, z, sunpower--);
+				}
+			}
+		}
+	}
+	this->invalidBrightCache = false;
+}
+
+void Sector::invalidateBrightness() {
+	this->invalidBrightCache = true;
 }
 void Sector::setGenerated(bool b) {
 	this->generated = b;

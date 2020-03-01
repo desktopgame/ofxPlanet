@@ -59,7 +59,6 @@ private:
 	int computeGridX(int x) const;
 	int computeGridZ(int z) const;
 
-	bool invalidBrightCache;
 	int worldYSize;
 	int chunkXSize;
 	int chunkZSize;

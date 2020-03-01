@@ -23,6 +23,9 @@ public:
 	const LightTable& getLightTable() const;
 	int getTopYForXZ(int x, int z) const;
 
+	void computeBrightness();
+	void invalidateBrightness();
+
 	void setGenerated(bool b);
 	bool isGenerated() const;
 private:
@@ -37,6 +40,7 @@ private:
 	std::shared_ptr<Chunk> chunk;
 	LightTable lightTable;
 	bool generated;
+	bool invalidBrightCache;
 };
 }
 #endif
