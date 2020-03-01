@@ -91,6 +91,10 @@ bool World::isFilled(int x, int y, int z) const {
 	return getBlock(x, y, z)->getShape() == BlockShape::Block;
 }
 
+int World::getBrightness(int x, int y, int z) const {
+	return this->lightTable.getLight(x,y,z);
+}
+
 ofShader& World::getShader() { return shader; }
 
 glm::vec3 World::getViewPosition() const { return viewPosition; }
@@ -98,8 +102,6 @@ glm::vec3 World::getViewPosition() const { return viewPosition; }
 int World::getViewRange() const { return this->viewRange; }
 
 ChunkLoadStyle World::getChunkLoadStyle() const { return this->chunkLoadStyle; }
-
-LightTable& World::getLightTable() { return lightTable; }
 
 std::shared_ptr<Chunk> World::getCurrentChunk() {
 	if (this->currentChunk == nullptr) {
@@ -359,8 +361,6 @@ std::vector<WorldPart> World::split(int splitNum) const {
 }
 
 std::shared_ptr<Chunk> World::getChunk() const { return chunk; }
-
-const LightTable& World::getLightTable() const { return lightTable; }
 
 void World::setChunkLoadStyle(ChunkLoadStyle chunkLoadStyle) {
         this->chunkLoadStyle = chunkLoadStyle;

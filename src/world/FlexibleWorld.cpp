@@ -41,6 +41,9 @@ bool FlexibleWorld::isFilled(int x, int y, int z) const {
 	}
 	return block->getShape() == BlockShape::Block;
 }
+int FlexibleWorld::getBrightness(int x, int y, int z) const {
+	return 15;
+}
 ofShader & FlexibleWorld::getShader() {
 	return this->shader;
 }
@@ -52,9 +55,6 @@ int FlexibleWorld::getViewRange() const {
 }
 ChunkLoadStyle FlexibleWorld::getChunkLoadStyle() const {
 	return ChunkLoadStyle::VisibleChunk;
-}
-LightTable & FlexibleWorld::getLightTable() {
-	return this->lightTable;
 }
 std::shared_ptr<Chunk> FlexibleWorld::getCurrentChunk() {
 	return this->currentChunk;

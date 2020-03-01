@@ -27,11 +27,11 @@ public:
 	int getYSize() const;
 	std::shared_ptr<Block> getBlock(int x, int y, int z) const;
 	bool isFilled(int x, int y, int z) const;
+	int getBrightness(int x, int y, int z) const;
 	ofShader& getShader();
 	glm::vec3 getViewPosition() const;
 	int getViewRange() const;
 	ChunkLoadStyle getChunkLoadStyle() const;
-	LightTable& getLightTable();
 	std::shared_ptr<Chunk> getCurrentChunk();
 
 	// FlexibleWorld

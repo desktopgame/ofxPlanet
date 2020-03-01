@@ -46,6 +46,14 @@ public:
 	virtual bool isFilled(int x, int y, int z) const = 0;
 
 	/**
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @return
+	 */
+	virtual int getBrightness(int x, int y, int z) const = 0;
+
+	/**
 	 * returns shader.
 	 * @return
 	 */
@@ -66,10 +74,6 @@ public:
 	 */
 	virtual ChunkLoadStyle getChunkLoadStyle() const = 0;
 
-	/**
-	 * @return
-	 */
-	virtual LightTable& getLightTable() = 0;
 
 	/**
 	 * @return

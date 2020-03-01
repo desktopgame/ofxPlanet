@@ -224,7 +224,7 @@ void Chunk::batch() {
                         for (int y = 0; y < world.getYSize(); y++) {
                                 auto block = world.getBlock(x, y, z);
                                 if (block != nullptr) {
-										int brightness = 15;
+										int brightness = this->world.getBrightness(x,y,z);
                                         block->batch(this->world, *renderer,
                                                      brightness, x, y, z);
                                 }

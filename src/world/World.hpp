@@ -70,6 +70,7 @@ class World : public IWorld {
 		int getYSize() const;
 		std::shared_ptr<Block> getBlock(int x, int y, int z) const;
 		bool isFilled(int x, int y, int z) const;
+		int getBrightness(int x, int y, int z) const;
 		ofShader& getShader();
 		glm::vec3 getViewPosition() const;
 		int getViewRange() const;
@@ -208,11 +209,6 @@ class World : public IWorld {
          * @return
          */
         std::shared_ptr<Chunk> getChunk() const;
-
-        /**
-         * @return
-         */
-        LightTable& getLightTable();
 
         /**
          * @param chunkLoadStyle
