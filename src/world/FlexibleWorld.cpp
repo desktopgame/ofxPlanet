@@ -6,6 +6,7 @@
 #include "Block.hpp"
 #include <algorithm>
 #include <iostream>
+#include <ofEvents.h>
 
 namespace ofxPlanet {
 // FlexibleChunk
@@ -85,6 +86,9 @@ void FlexibleWorld::setViewPosition(const glm::vec3 & viewPosition) {
 	this->viewPosition = viewPosition;
 	Chunk::Instance newChunk = nullptr;
 	for (auto fc : chunkVec) {
+		if (!fc->generated) {
+			continue;
+		}
 		newChunk = fc->chunk->lookup(this->viewPosition);
 		if (newChunk) {
 			break;
@@ -138,8 +142,13 @@ std::shared_ptr<Chunk> FlexibleWorld::loadOrGenChunk(int x, int z) {
 	return loadOrGenChunkImpl(x, z, 0, 0);
 }
 void FlexibleWorld::draw() {
+	bool k = ofGetKeyPressed(ofKey::OF_KEY_F11);
 	for (auto fc : chunkVec) {
 		fc->chunk->draw();
+	}
+	if (!k)return;
+	for (auto ch : this->chunkVec) {
+
 	}
 }
 // private
@@ -151,6 +160,7 @@ FlexibleWorld::FlexibleWorld(ofShader & shader, int worldYSize)
    viewPosition(0,0,0),
    chunkAllocateScale(2),
    chunkVec(),
+   sectorVec(),
    shader(shader),
    lightTable(128,128,128),
    currentChunk(nullptr) {
@@ -164,7 +174,8 @@ int FlexibleWorld::sign(int v) {
 std::shared_ptr<detail::FlexibleChunk> FlexibleWorld::findChunkImpl(int x, int z) const {
 	auto offset = computeChunkOffset(x, z);
 	for (auto fc : chunkVec) {
-		if (fc->chunk->isContains(x, 0, z) || (fc->chunk->getXOffset() == offset.x && fc->chunk->getZOffset() == offset.z)) {
+		if (fc->chunk->isContains(x, 0, z) || 
+			(fc->chunk->getXOffset() == offset.x && fc->chunk->getZOffset() == offset.z)) {
 			return fc;
 		}
 	}
@@ -178,19 +189,54 @@ std::shared_ptr<detail::FlexibleChunk> FlexibleWorld::loadChunkImpl(int x, int z
 	}
 	isCreatedNewChunk = true;
 	auto offset = computeChunkOffset(x, z);
+	//std::cout << "load: x=" << x << " z=" << z << " ox=" << offset.x << " oz=" << offset.z << std::endl;
 	fc = std::make_shared< detail::FlexibleChunk>(*this, offset.x, offset.z, chunkXSize, chunkZSize);
 	this->chunkVec.emplace_back(fc);
 	return fc;
 }
 std::shared_ptr<Chunk> FlexibleWorld::loadOrGenChunkImpl(int x, int z, int xOffset, int zOffset) {
-	if ((std::abs(xOffset) + std::abs(zOffset)) > 3) {
-		return nullptr;
+	auto chk = loadOrGenChunkRange(x, z, xOffset, zOffset);
+	if (chk != nullptr) {
+		return chk;
 	}
+	int offsetX = 96;
+	int offsetZ = 96;
+	for (int addX = offsetX; addX > 0; addX--) {
+		int ax = addX;
+		for (int addZ = offsetZ; addZ > 0; addZ--) {
+			int az = addZ;
+			loadOrGenChunkRange(x + ax, z - az, 0, 0);
+			loadOrGenChunkRange(x - ax, z + az, 0, 0);
+			loadOrGenChunkRange(x + ax, z + az, 0, 0);
+			loadOrGenChunkRange(x - ax, z - az, 0, 0);
+		}
+		//int az = addX;
+		//loadOrGenChunkRange(x + ax, z - az, 0, 0);
+		//loadOrGenChunkRange(x - ax, z + az, 0, 0);
+		//loadOrGenChunkRange(x + ax, z + az, 0, 0);
+		//loadOrGenChunkRange(x - ax, z - az, 0, 0);
+		loadOrGenChunkRange(x - ax, z, 0, 0);
+		loadOrGenChunkRange(x, z - ax, 0, 0);
+		loadOrGenChunkRange(x + ax, z, 0, 0);
+		loadOrGenChunkRange(x, z + ax, 0, 0);
+	}
+	return loadOrGenChunkRange(x, z, 0, 0);
+}
+std::shared_ptr<Chunk> FlexibleWorld::loadOrGenChunkRange(int x, int z, int xOffset, int zOffset) {
 	bool genCenter, genLeft, genRight, genTop, genBottom, genLTop, genRTop, genLBottom, genRBottom;
 	auto centerFc = loadChunkImpl(x, z, genCenter);
 	if (centerFc->generated) {
+		//std::cout << "cached" << std::endl;
 		return centerFc->chunk;
 	}
+	int dx = computeGridX(x);
+	int dz = computeGridZ(z);
+	int cx = 2;
+	int cz = 2;
+	if (!(dx == cx && dz == cz)) {
+		return nullptr;
+	}
+
 	auto leftFc = loadChunkImpl(x - chunkXSize, z, genLeft);
 	auto leftTopFc = loadChunkImpl(x - chunkXSize, z - chunkZSize, genLTop);
 	auto leftBottomFc = loadChunkImpl(x - chunkXSize, z + chunkZSize, genLBottom);
@@ -202,15 +248,15 @@ std::shared_ptr<Chunk> FlexibleWorld::loadOrGenChunkImpl(int x, int z, int xOffs
 	auto topFc = loadChunkImpl(x, z - chunkZSize, genTop);
 	auto bottomFc = loadChunkImpl(x, z + chunkZSize, genBottom);
 	auto bp = BlockPack::getCurrent();
-	if (!(centerFc->generated ||
-		leftFc->generated ||
-		rightFc->generated ||
-		topFc->generated ||
-		bottomFc->generated ||
-		leftTopFc->generated ||
-		rightTopFc->generated ||
-		leftBottomFc->generated ||
-		rightBottomFc->generated)) {
+	if (!centerFc->generated &&
+		!leftFc->generated &&
+		!rightFc->generated &&
+		!topFc->generated &&
+		!bottomFc->generated &&
+		!leftTopFc->generated &&
+		!rightTopFc->generated &&
+		!leftBottomFc->generated &&
+		!rightBottomFc->generated) {
 		BlockTable bt(chunkXSize * 3, this->worldYSize, this->chunkZSize * 3);
 		biome->generate(bt);
 		for (int x = 0; x < chunkXSize; x++) {
@@ -241,39 +287,12 @@ std::shared_ptr<Chunk> FlexibleWorld::loadOrGenChunkImpl(int x, int z, int xOffs
 		leftBottomFc->generated = true;
 		bottomFc->generated = true;
 		rightBottomFc->generated = true;
+		// add sector
+		Sector sector(leftTopFc->chunk->getXOffset(), leftTopFc->chunk->getZOffset(), 3, 3);
+		sectorVec.emplace_back(sector);
+
+		std::cout << "loaded: x=" << x << " z=" << z << std::endl;
 		return centerFc->chunk;
-	}
-	if (leftTopFc->generated) {
-		loadOrGenChunkImpl(x + chunkXSize, z + chunkZSize, xOffset+1, zOffset + 1);
-		return loadOrGenChunkImpl(x, z, xOffset, zOffset);
-
-	} else if(topFc->generated) {
-		loadOrGenChunkImpl(x, z + chunkZSize, xOffset, zOffset + 1);
-		return loadOrGenChunkImpl(x, z, xOffset, zOffset);
-
-	} else if(rightTopFc->generated) {
-		loadOrGenChunkImpl(x-chunkXSize, z, xOffset+1, zOffset);
-		return loadOrGenChunkImpl(x, z, xOffset, zOffset);
-
-	} else if (leftFc->generated) {
-		loadOrGenChunkImpl(x+chunkXSize, z, xOffset+1, zOffset);
-		return loadOrGenChunkImpl(x, z, xOffset, zOffset);
-
-	} else if (rightFc->generated) {
-		loadOrGenChunkImpl(x -chunkXSize, z, xOffset+1, zOffset);
-		return loadOrGenChunkImpl(x, z, xOffset, zOffset);
-
-	} else if (leftBottomFc->generated) {
-		loadOrGenChunkImpl(x + chunkXSize, z - chunkZSize, xOffset+1, zOffset+1);
-		return loadOrGenChunkImpl(x, z, xOffset, zOffset);
-
-	} else if (bottomFc->generated) {
-		loadOrGenChunkImpl(x, z - chunkZSize, xOffset, zOffset+1);
-		return loadOrGenChunkImpl(x, z, xOffset, zOffset);
-
-	} else if (rightBottomFc->generated) {
-		loadOrGenChunkImpl(x - chunkXSize, z - chunkZSize, xOffset+1, zOffset+1);
-		return loadOrGenChunkImpl(x, z, xOffset, zOffset);
 	}
 	return nullptr;
 }
@@ -292,5 +311,31 @@ void FlexibleWorld::updateNeighborChunks() {
 		}
 	}
 	std::cout << "--- " << visibleChunks << " ---" << std::endl;
+}
+int FlexibleWorld::computeGridX(int x) const {
+	int ox = x;
+	int dx = 0;
+	if (x >= 0) {
+		dx = ((ox / 32) % 3);
+		dx++;
+	}
+	else {
+		dx = 4 - computeGridX(-x);
+	}
+	return dx;
+}
+int FlexibleWorld::computeGridZ(int z) const {
+	int oz = z;
+	int dz = 0;
+
+	if (z >= 0) {
+		dz = ((oz / 32) % 3);
+		dz++;
+	}
+	else {
+		dz = 4 - computeGridZ(-z);
+
+	}
+	return dz;
 }
 }

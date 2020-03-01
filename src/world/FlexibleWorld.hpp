@@ -3,8 +3,10 @@
 #include <vector>
 #include <memory>
 #include <glm/glm.hpp>
+#include <string>
 #include <ofShader.h>
 #include "IWorld.hpp"
+#include "Sector.hpp"
 
 namespace ofxPlanet {
 class Chunk;
@@ -79,7 +81,10 @@ private:
 	std::shared_ptr<detail::FlexibleChunk> findChunkImpl(int x, int z) const;
 	std::shared_ptr<detail::FlexibleChunk> loadChunkImpl(int x, int z, bool & isCreatedNewChunk);
 	std::shared_ptr<Chunk> loadOrGenChunkImpl(int x, int z, int xOffset, int zOffset);
+	std::shared_ptr<Chunk> loadOrGenChunkRange(int x, int z, int xOffset, int zOffset);
 	void updateNeighborChunks();
+	int computeGridX(int x) const;
+	int computeGridZ(int z) const;
 
 	int worldYSize;
 	int chunkXSize;
@@ -88,6 +93,7 @@ private:
 	int viewRange;
 	glm::vec3 viewPosition;
 	std::vector<std::shared_ptr<detail::FlexibleChunk> > chunkVec;
+	std::vector<Sector> sectorVec;
 	ofShader& shader;
 	LightTable lightTable;
 	std::shared_ptr<Chunk> currentChunk;
