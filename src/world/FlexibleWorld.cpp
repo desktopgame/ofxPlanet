@@ -115,19 +115,6 @@ void FlexibleWorld::setLoadRange(int loadRange) {
 int FlexibleWorld::getLoadRange() const {
 	return this->loadRange;
 }
-FlexibleChunkOffset FlexibleWorld::computeChunkOffset(int x, int z) const {
-	int xOffset = (x / chunkXSize) * chunkXSize;
-	if (x < 0) {
-		int a = ((x % chunkXSize) / chunkXSize) - 1;
-		xOffset += (a * chunkXSize);
-	}
-	int zOffset = (z / chunkZSize) * chunkZSize;
-	if (z < 0) {
-		int a = ((z % chunkZSize) / chunkZSize) - 1;
-		zOffset += (a * chunkZSize);
-	}
-	return FlexibleChunkOffset(xOffset, zOffset);
-}
 std::shared_ptr<Chunk> FlexibleWorld::findChunk(int x, int z) const {
 	auto fc = findChunkImpl(x, z);
 	if (fc == nullptr) {
@@ -275,6 +262,25 @@ std::shared_ptr<Chunk> FlexibleWorld::loadOrGenChunkRange(int x, int z, int xOff
 		return centerFc->chunk;
 	}
 	return nullptr;
+}
+FlexibleChunkOffset FlexibleWorld::computeChunkOffset(int x, int z) const {
+	return FlexibleChunkOffset(computeChunkOffsetX(x), computeChunkOffsetZ(z));
+}
+int FlexibleWorld::computeChunkOffsetX(int x) const {
+	int xOffset = (x / chunkXSize) * chunkXSize;
+	if (x < 0) {
+		int a = ((x % chunkXSize) / chunkXSize) - 1;
+		xOffset += (a * chunkXSize);
+	}
+	return xOffset;
+}
+int FlexibleWorld::computeChunkOffsetZ(int z) const {
+	int zOffset = (z / chunkZSize) * chunkZSize;
+	if (z < 0) {
+		int a = ((z % chunkZSize) / chunkZSize) - 1;
+		zOffset += (a * chunkZSize);
+	}
+	return zOffset;
 }
 void FlexibleWorld::updateNeighborChunks() {
 	int visibleChunks = 0;

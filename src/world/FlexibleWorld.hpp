@@ -69,7 +69,6 @@ public:
 	std::shared_ptr<Biome> getBiome() const;
 	void setLoadRange(int loadRange);
 	int getLoadRange() const;
-	FlexibleChunkOffset computeChunkOffset(int x, int z) const;
 	std::shared_ptr<Chunk> findChunk(int x, int z) const;
 	std::shared_ptr<Chunk> loadChunk(int x, int z);
 	std::shared_ptr<Chunk> loadChunk(int x, int z, bool& isCreatedNewChunk);
@@ -82,6 +81,9 @@ private:
 	std::shared_ptr<detail::FlexibleChunk> loadChunkImpl(int x, int z, bool & isCreatedNewChunk);
 	std::shared_ptr<Chunk> loadOrGenChunkImpl(int x, int z, int xOffset, int zOffset);
 	std::shared_ptr<Chunk> loadOrGenChunkRange(int x, int z, int xOffset, int zOffset);
+	FlexibleChunkOffset computeChunkOffset(int x, int z) const;
+	int computeChunkOffsetX(int x) const;
+	int computeChunkOffsetZ(int z) const;
 	void updateNeighborChunks();
 	int computeGridX(int x) const;
 	int computeGridZ(int z) const;
