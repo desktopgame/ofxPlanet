@@ -2,8 +2,8 @@
 #include <ofMain.h>
 #include <ofShader.h>
 
-#include "Camera.hpp"
 #include "MyBiome.hpp"
+#include <ofxFirstPersonController.h>
 
 namespace ofxPlanet {
 class Planet;
@@ -30,8 +30,7 @@ class ofApp : public ofBaseApp {
 
        private:
         ofShader shader;
-        Camera camera;
-        float cameraAngle;
+		ofxFirstPersonController::Controller fpsCon;
         std::shared_ptr<ofxPlanet::FixedWorld> world;
         std::shared_ptr<MyBiome> biome;
 };

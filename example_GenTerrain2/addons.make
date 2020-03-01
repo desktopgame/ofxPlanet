@@ -1,2 +1,3 @@
+ofxFirstPersonController
 ofxPlanet
 ofxSOIL

@@ -2,7 +2,7 @@
 #include "ofxPlanet.h"
 
 ofApp::ofApp()
-    : world(nullptr), biome(nullptr), shader(), camera(), cameraAngle() {}
+    : world(nullptr), fpsCon(), biome(nullptr), shader() {}
 
 //--------------------------------------------------------------
 void ofApp::setup() {
@@ -21,11 +21,11 @@ void ofApp::setup() {
 layout(location=0) in vec3 aVertex;
 layout(location=3) in vec2 aUV;
 layout(location=4) in vec3 aPosition;
-uniform mat4 uMVPMatrix;
+uniform mat4 modelViewProjectionMatrix;
 out vec4 position;
 out vec2 uv;
 void main(void) {
-  position = uMVPMatrix * vec4(aVertex+aPosition, 1);
+  position = modelViewProjectionMatrix * vec4(aVertex+aPosition, 1);
   uv = aUV;
   gl_Position = position;
 })");
@@ -65,6 +65,9 @@ void main (void) {
 		world->getChunk()->split(32);
 		world->setChunkLoadStyle(ofxPlanet::ChunkLoadStyle::VisibleChunk);
 		world->load(bt);
+		fpsCon.transform.position = glm::vec3(64, 128, 64);
+		fpsCon.rotationAxis.y = 1;
+		ofxFirstPersonController::lockMouseCursor();
 }
 
 //--------------------------------------------------------------
@@ -72,38 +75,14 @@ void ofApp::update() {}
 
 //--------------------------------------------------------------
 void ofApp::draw() {
-		// update camera
-		auto w = this->world;
-        const int wsx = w->getXSize();
-        const int wsy = w->getYSize();
-        const int wsz = w->getZSize();
-        const float fwsx = static_cast<float>(w->getXSize());
-        const float fwsy = static_cast<float>(w->getYSize());
-        const float fwsz = static_cast<float>(w->getZSize());
-        const float hfwsx = fwsx / 2;
-        const float hfwsz = fwsz / 2;
-        auto cx = std::cos(cameraAngle);
-        auto cz = std::sin(cameraAngle);
-        camera.setScreenSize(glm::vec2(ofGetWidth(), ofGetHeight()));
-        camera.setPosition(
-            glm::vec3(hfwsx + (hfwsx * cx), wsy, hfwsz + (hfwsz * cz)) * 2);
-        camera.setLookAt(glm::vec3(wsx / 2, 0, wsz / 2) * 2);
-        camera.rehash();
-
-		auto viewPos = camera.getPosition();
-		world->setViewPosition(viewPos / 2);
-        this->cameraAngle += 0.01f;
-        // シェーダーを更新
-        camera.rehash();
-        shader.begin();
-        shader.setUniformMatrix4f("uMVPMatrix", (camera.getProjectionMatrix() *
-                                                 camera.getViewMatrix()));
-        shader.end();
-
+		fpsCon.pushMatrix();
+		world->setViewPosition(fpsCon.transform.position / 2);
+		ofSetOrientation(OF_ORIENTATION_DEFAULT, false);
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_CULL_FACE);
 		glCullFace(GL_BACK);
 		this->world->getChunk()->draw();
+		fpsCon.popMatrix();
 }
 
 //--------------------------------------------------------------
