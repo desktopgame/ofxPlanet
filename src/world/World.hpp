@@ -75,7 +75,6 @@ class World : public IWorld {
 		glm::vec3 getViewPosition() const;
 		int getViewRange() const;
 		ChunkLoadStyle getChunkLoadStyle() const;
-		const LightTable& getLightTable() const;
 		std::shared_ptr<Chunk> getCurrentChunk();
 
         /**
