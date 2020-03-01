@@ -95,7 +95,7 @@ void FlexibleWorld::setViewPosition(const glm::vec3 & viewPosition) {
 	if (this->currentChunk != newChunk) {
 		this->currentChunk = newChunk;
 		this->updateNeighborChunks();
-		for (auto fc : chunkVec) fc->chunk->tidyResource();
+		for (auto fc : chunkVec) fc->chunk->tidy();
 	}
 }
 void FlexibleWorld::setBiome(std::shared_ptr<Biome> biome) {

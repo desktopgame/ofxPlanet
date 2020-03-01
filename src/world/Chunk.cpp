@@ -52,7 +52,7 @@ void Chunk::rehash() {
 }
 void Chunk::draw() {
         rehash();
-		tidyResource();
+		tidy();
         if (this->type == ChunkType::Single) {
 				if (changedToVisible) {
 					this->allocateRenderer();
@@ -176,12 +176,12 @@ void Chunk::hide() {
 	Chunk::setVisibleRecursive(std::const_pointer_cast<Chunk>(shared_from_this()), false);
 }
 
-void Chunk::tidyResource() {
+void Chunk::tidy() {
 	if (!this->visible) {
 		deleteRenderer();
 	}
 	for (auto subchunk : this->subchunks) {
-		subchunk->tidyResource();
+		subchunk->tidy();
 	}
 }
 

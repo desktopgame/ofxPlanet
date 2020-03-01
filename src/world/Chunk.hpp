@@ -171,7 +171,10 @@ class Chunk : public std::enable_shared_from_this<Chunk> {
 		 */
 		void hide();
 
-		void tidyResource();
+		/**
+		 * destroy openGL resources for hidden chunks.
+		 */
+		void tidy();
 
        private:
         explicit Chunk(Reference parent, IWorld& world, int xOffset, int zOffset,
