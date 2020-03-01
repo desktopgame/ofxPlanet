@@ -11,26 +11,7 @@ namespace ofxPlanet {
 class Chunk;
 class Block;
 class Biome;
-
-namespace detail {
-/**
- * FlexibleChunk.
- */
-class FlexibleChunk {
-public:
-	explicit FlexibleChunk(IWorld& world, int xOffset, int zOffset, int xSize, int zSize);
-
-	std::vector<
-		std::vector<
-			std::vector<
-				std::shared_ptr<Block>
-			>
-		>
-	> table;
-	std::shared_ptr<Chunk> chunk;
-	bool generated;
-};
-}
+class Sector;
 
 /**
  * FlexibleWorld is extensible in dynamic.
@@ -67,8 +48,8 @@ public:
 
 private:
 	FlexibleWorld(ofShader& shader, int worldYSize);
-	std::shared_ptr<detail::FlexibleChunk> findChunkImpl(int x, int z) const;
-	std::shared_ptr<detail::FlexibleChunk> loadChunkImpl(int x, int z, bool & isCreatedNewChunk);
+	std::shared_ptr<Sector> findChunkImpl(int x, int z) const;
+	std::shared_ptr<Sector> loadChunkImpl(int x, int z, bool & isCreatedNewChunk);
 	std::shared_ptr<Chunk> loadOrGenChunkImpl(int x, int z, int xOffset, int zOffset);
 	std::shared_ptr<Chunk> loadOrGenChunkRange(int x, int z, int xOffset, int zOffset);
 	int computeChunkOffsetX(int x) const;
@@ -83,7 +64,7 @@ private:
 	int viewRange;
 	int loadRange;
 	glm::vec3 viewPosition;
-	std::vector<std::shared_ptr<detail::FlexibleChunk> > chunkVec;
+	std::vector<std::shared_ptr<Sector> > chunkVec;
 	ofShader& shader;
 	LightTable lightTable;
 	std::shared_ptr<Chunk> currentChunk;
