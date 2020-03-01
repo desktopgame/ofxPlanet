@@ -239,7 +239,6 @@ class World : public IWorld {
         int viewRange;
         std::shared_ptr<Chunk> currentChunk;
 
-        std::vector<std::vector<std::vector<int> > > brightCache;
         bool invalidBrightCache;
 };
 }  // namespace ofxPlanet

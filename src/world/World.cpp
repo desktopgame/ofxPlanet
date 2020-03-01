@@ -30,19 +30,14 @@ std::shared_ptr<World> World::create(ofShader& shader, int xSize, int ySize,
         std::shared_ptr<World> ret = std::shared_ptr<World>(world);
         for (int i = 0; i < xSize; i++) {
                 std::vector<std::vector<std::shared_ptr<Block> > > yBlockLine;
-                std::vector<std::vector<int> > yBrightLine;
                 for (int j = 0; j < ySize; j++) {
                         std::vector<std::shared_ptr<Block> > zBlockLine;
-                        std::vector<int> zBrightLine;
                         for (int k = 0; k < zSize; k++) {
                                 zBlockLine.emplace_back(nullptr);
-                                zBrightLine.emplace_back(0);
                         }
                         yBlockLine.emplace_back(zBlockLine);
-                        yBrightLine.emplace_back(zBrightLine);
                 }
                 ret->blocks.emplace_back(yBlockLine);
-                ret->brightCache.emplace_back(yBrightLine);
         }
         return ret;
 }
@@ -55,8 +50,6 @@ void World::computeBrightness() {
 		for (int y = 0; y < ySize; y++) {
 			for (int z = 0; z < zSize; z++) {
 				auto block = getBlock(x, y, z);
-				this->brightCache[x][y][z] =
-					(block == nullptr ? -1 : block->getID());
 				this->lightTable.setLight(x, y, z, 0);
 			}
 		}
@@ -408,7 +401,6 @@ World::World(ofShader& shader, int xSize, int ySize, int zSize)
       chunk(Chunk::create(*this, 0, 0, xSize, zSize)),
       shader(shader),
       lightTable(xSize, ySize, zSize),
-      brightCache(),
       invalidBrightCache(true) {}
 void World::updateNeighborChunks() {
 	this->chunk->hide();
