@@ -182,7 +182,6 @@ std::shared_ptr<detail::FlexibleChunk> FlexibleWorld::loadChunkImpl(int x, int z
 	}
 	isCreatedNewChunk = true;
 	auto offset = computeChunkOffset(x, z);
-	//std::cout << "load: x=" << x << " z=" << z << " ox=" << offset.x << " oz=" << offset.z << std::endl;
 	fc = std::make_shared< detail::FlexibleChunk>(*this, offset.x, offset.z, chunkXSize, chunkZSize);
 	this->chunkVec.emplace_back(fc);
 	return fc;
@@ -203,11 +202,6 @@ std::shared_ptr<Chunk> FlexibleWorld::loadOrGenChunkImpl(int x, int z, int xOffs
 			loadOrGenChunkRange(x + ax, z + az, 0, 0);
 			loadOrGenChunkRange(x - ax, z - az, 0, 0);
 		}
-		//int az = addX;
-		//loadOrGenChunkRange(x + ax, z - az, 0, 0);
-		//loadOrGenChunkRange(x - ax, z + az, 0, 0);
-		//loadOrGenChunkRange(x + ax, z + az, 0, 0);
-		//loadOrGenChunkRange(x - ax, z - az, 0, 0);
 		loadOrGenChunkRange(x - ax, z, 0, 0);
 		loadOrGenChunkRange(x, z - ax, 0, 0);
 		loadOrGenChunkRange(x + ax, z, 0, 0);
@@ -219,7 +213,6 @@ std::shared_ptr<Chunk> FlexibleWorld::loadOrGenChunkRange(int x, int z, int xOff
 	bool genCenter, genLeft, genRight, genTop, genBottom, genLTop, genRTop, genLBottom, genRBottom;
 	auto centerFc = loadChunkImpl(x, z, genCenter);
 	if (centerFc->generated) {
-		//std::cout << "cached" << std::endl;
 		return centerFc->chunk;
 	}
 	int dx = computeGridX(x);
@@ -281,7 +274,6 @@ std::shared_ptr<Chunk> FlexibleWorld::loadOrGenChunkRange(int x, int z, int xOff
 		bottomFc->generated = true;
 		rightBottomFc->generated = true;
 
-		std::cout << "loaded: x=" << x << " z=" << z << std::endl;
 		return centerFc->chunk;
 	}
 	return nullptr;
@@ -297,10 +289,8 @@ void FlexibleWorld::updateNeighborChunks() {
 		for (auto nc : neighbor) {
 			nc->setVisible(true);
 			visibleChunks++;
-			std::cout << "chunk: " << nc->getXOffset() << ", " << nc->getZOffset() << std::endl;
 		}
 	}
-	std::cout << "--- " << visibleChunks << " ---" << std::endl;
 }
 int FlexibleWorld::computeGridX(int x) const {
 	int ox = x;
