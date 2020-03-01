@@ -87,7 +87,6 @@ private:
 	int worldYSize;
 	int chunkXSize;
 	int chunkZSize;
-	int chunkAllocateScale;
 	int viewRange;
 	glm::vec3 viewPosition;
 	std::vector<std::shared_ptr<detail::FlexibleChunk> > chunkVec;

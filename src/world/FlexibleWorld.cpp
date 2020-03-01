@@ -153,7 +153,6 @@ FlexibleWorld::FlexibleWorld(ofShader & shader, int worldYSize)
    chunkZSize(32),
    viewRange(64),
    viewPosition(0,0,0),
-   chunkAllocateScale(2),
    chunkVec(),
    shader(shader),
    lightTable(128,128,128),
