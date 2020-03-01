@@ -2,11 +2,11 @@
 #include "ofxPlanet.h"
 
 ofApp::ofApp()
-    : planet(nullptr), biome(nullptr), shader(), camera(), cameraAngle() {}
+    : world(nullptr), biome(nullptr), shader(), camera(), cameraAngle() {}
 
 //--------------------------------------------------------------
 void ofApp::setup() {
-        //シェーダー読み込み
+		// load shader
         shader.setupShaderFromSource(GL_VERTEX_SHADER,
                                      R"(
 #version 410
@@ -47,7 +47,7 @@ void main (void) {
 )");
         shader.bindDefaults();
         shader.linkProgram();
-        // ブロック定義ファイルの読み込み
+		// load block define files.
         auto texBuf = ofBufferFromFile("textures.json");
         auto blockBuf = ofBufferFromFile("blocks.json");
         ofxPlanet::TextureInfoCollection tic;
@@ -57,10 +57,12 @@ void main (void) {
         ofxPlanet::BlockPack::load(bic)->select();
         ofxPlanet::TexturePack::load(tic)->select();
         ofxPlanet::TexturePack::getCurrent()->resolve();
-        //ワールド生成
-        this->planet = std::make_shared<ofxPlanet::Planet>(shader);
+		// generate world
+        this->world = ofxPlanet::FixedWorld::create(shader, glm::ivec3(128,64,128));
         this->biome = std::make_shared<MyBiome>();
-        planet->generate(glm::vec3(128, 64, 128), biome);
+		ofxPlanet::BlockTable bt(128, 64, 128);
+		biome->generate(bt);
+		world->load(bt);
 }
 
 //--------------------------------------------------------------
@@ -68,8 +70,8 @@ void ofApp::update() {}
 
 //--------------------------------------------------------------
 void ofApp::draw() {
-        // カメラを更新
-        auto w = planet->getWorld();
+		// update camera
+		auto w = this->world;
         const int wsx = w->getXSize();
         const int wsy = w->getYSize();
         const int wsz = w->getZSize();
@@ -85,6 +87,9 @@ void ofApp::draw() {
             glm::vec3(hfwsx + (hfwsx * cx), wsy, hfwsz + (hfwsz * cz)) * 2);
         camera.setLookAt(glm::vec3(wsx / 2, 0, wsz / 2) * 2);
         camera.rehash();
+
+		auto viewPos = camera.getPosition();
+		world->setViewPosition(viewPos / 2);
         this->cameraAngle += 0.01f;
         // シェーダーを更新
         camera.rehash();
@@ -93,11 +98,10 @@ void ofApp::draw() {
                                                  camera.getViewMatrix()));
         shader.end();
 
-        glEnable(GL_DEPTH_TEST);
-        glEnable(GL_CULL_FACE);
-        glCullFace(GL_BACK);
-        planet->drawToBuffer();
-        planet->render();
+		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_BACK);
+		this->world->getChunk()->draw();
 }
 
 //--------------------------------------------------------------

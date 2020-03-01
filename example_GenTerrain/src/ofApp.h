@@ -32,6 +32,6 @@ class ofApp : public ofBaseApp {
         ofShader shader;
         Camera camera;
         float cameraAngle;
-        std::shared_ptr<ofxPlanet::Planet> planet;
+        std::shared_ptr<ofxPlanet::FixedWorld> world;
         std::shared_ptr<MyBiome> biome;
 };
