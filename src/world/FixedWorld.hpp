@@ -1,6 +1,6 @@
 #pragma once
-#ifndef WORLD_WORLD_HPP
-#define WORLD_WORLD_HPP
+#ifndef WORLD_FIXEDWORLD_HPP
+#define WORLD_FIXEDWORLD_HPP
 #include <ofFbo.h>
 
 #include <array>
@@ -14,16 +14,16 @@
 namespace ofxPlanet {
 
 class Camera;
-class World;
+class FixedWorld;
 /**
  * WorldPart is part from world.
  */
 class WorldPart {
        public:
-        explicit WorldPart(const std::shared_ptr<World>& world,
+        explicit WorldPart(const std::shared_ptr<FixedWorld>& world,
                            glm::ivec3 offset);
 
-        std::shared_ptr<World> world;
+        std::shared_ptr<FixedWorld> world;
         glm::ivec3 offset;
 };
 /**
@@ -40,9 +40,9 @@ class Entity;
 class Block;
 class Chunk;
 /**
- * World is three dimenstional world composed cube.
+ * FixedWorld is three dimenstional world composed cube.
  */
-class World : public IWorld {
+class FixedWorld : public IWorld {
        public:
 		// Utility
         /**
@@ -51,7 +51,7 @@ class World : public IWorld {
          * @param size
          * @return
          */
-        static std::shared_ptr<World> create(ofShader& shader,
+        static std::shared_ptr<FixedWorld> create(ofShader& shader,
                                              const glm::ivec3& size);
 
         /**
@@ -62,7 +62,7 @@ class World : public IWorld {
          * @param zSize
          * @return
          */
-        static std::shared_ptr<World> create(ofShader& shader, int xSize,
+        static std::shared_ptr<FixedWorld> create(ofShader& shader, int xSize,
                                              int ySize, int zSize);
 
 		// IWorld
@@ -225,8 +225,8 @@ class World : public IWorld {
         void setViewRange(int viewRange);
 
        private:
-        explicit World(ofShader& shader, const glm::ivec3& size);
-        explicit World(ofShader& shader, int xSize, int ySize, int zSize);
+        explicit FixedWorld(ofShader& shader, const glm::ivec3& size);
+        explicit FixedWorld(ofShader& shader, int xSize, int ySize, int zSize);
 		void updateNeighborChunks();
 
         std::vector<std::vector<std::vector<std::shared_ptr<Block> > > > blocks;

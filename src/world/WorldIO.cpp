@@ -11,7 +11,7 @@
 #include "BlockPack.hpp"
 #include "Planet.hpp"
 #include "TexturePack.hpp"
-#include "World.hpp"
+#include "FixedWorld.hpp"
 #include "picojson/picojson.h"
 
 #define _CRT_SECURE_NO_WARNINGS
@@ -29,7 +29,7 @@ float Progress::getValue() const { return this->value; }
 bool Progress::isDone() const { return this->value >= 1.0f; }
 // WorldIO
 AsyncOperation WorldIO::saveJson(const std::string& outputFile,
-                                 const std::shared_ptr<World>& world) {
+                                 const std::shared_ptr<FixedWorld>& world) {
         auto ret = std::make_shared<Progress>();
         if (!world) {
                 ret->setValue(1.0f);
@@ -126,7 +126,7 @@ AsyncOperation WorldIO::saveJson(const std::string& outputFile,
 }
 
 AsyncOperation WorldIO::saveObj(const std::string& outputDir,
-                                const std::shared_ptr<World>& world) {
+                                const std::shared_ptr<FixedWorld>& world) {
         auto ret = std::make_shared<Progress>();
         auto w = world;
         std::thread(std::bind(&WorldIO::saveObjAsync, ret, outputDir, world))
@@ -135,7 +135,7 @@ AsyncOperation WorldIO::saveObj(const std::string& outputDir,
 }
 
 AsyncOperation WorldIO::saveObj(const std::string& outputDir,
-                                const std::shared_ptr<World>& world,
+                                const std::shared_ptr<FixedWorld>& world,
                                 int splitCount) {
         // intialize buffer for create a file name.
         char buf[64];
@@ -209,7 +209,7 @@ glm::vec3 WorldIO::asVec3(int x, int y, int z) { return glm::vec3(x, y, z); }
 
 void WorldIO::saveObjAsync(std::shared_ptr<Progress> progress,
                            const std::string& outputDir,
-                           const std::shared_ptr<World>& world) {
+                           const std::shared_ptr<FixedWorld>& world) {
         using namespace objb;
         // remove already exists file.
         auto outputPath =
@@ -353,7 +353,7 @@ void WorldIO::genTopPlane(const std::string& outputDir,
                           objb::ObjBuilder& ob, objb::MtlBuilder& mb,
                           glm::ivec3 worldPos, glm::ivec3 objPos,
                           glm::vec3 size, glm::vec3 offset,
-                          const std::shared_ptr<World>& world) {
+                          const std::shared_ptr<FixedWorld>& world) {
         using namespace objb;
         char buf[256];
         std::memset(buf, '\0', 256);
@@ -412,7 +412,7 @@ void WorldIO::genBottomPlane(const std::string& outputDir,
                              objb::ObjBuilder& ob, objb::MtlBuilder& mb,
                              glm::ivec3 worldPos, glm::ivec3 objPos,
                              glm::vec3 size, glm::vec3 offset,
-                             const std::shared_ptr<World>& world) {
+                             const std::shared_ptr<FixedWorld>& world) {
         using namespace objb;
         char buf[256];
         std::memset(buf, '\0', 256);
@@ -471,7 +471,7 @@ void WorldIO::genLeftPlane(const std::string& outputDir,
                            objb::ObjBuilder& ob, objb::MtlBuilder& mb,
                            glm::ivec3 worldPos, glm::ivec3 objPos,
                            glm::vec3 size, glm::vec3 offset,
-                           const std::shared_ptr<World>& world) {
+                           const std::shared_ptr<FixedWorld>& world) {
         using namespace objb;
         char buf[256];
         std::memset(buf, '\0', 256);
@@ -530,7 +530,7 @@ void WorldIO::genRightPlane(const std::string& outputDir,
                             objb::ObjBuilder& ob, objb::MtlBuilder& mb,
                             glm::ivec3 worldPos, glm::ivec3 objPos,
                             glm::vec3 size, glm::vec3 offset,
-                            const std::shared_ptr<World>& world) {
+                            const std::shared_ptr<FixedWorld>& world) {
         using namespace objb;
         char buf[256];
         std::memset(buf, '\0', 256);
@@ -589,7 +589,7 @@ void WorldIO::genFrontPlane(const std::string& outputDir,
                             objb::ObjBuilder& ob, objb::MtlBuilder& mb,
                             glm::ivec3 worldPos, glm::ivec3 objPos,
                             glm::vec3 size, glm::vec3 offset,
-                            const std::shared_ptr<World>& world) {
+                            const std::shared_ptr<FixedWorld>& world) {
         using namespace objb;
         char buf[256];
         std::memset(buf, '\0', 256);
@@ -648,7 +648,7 @@ void WorldIO::genBackPlane(const std::string& outputDir,
                            objb::ObjBuilder& ob, objb::MtlBuilder& mb,
                            glm::ivec3 worldPos, glm::ivec3 objPos,
                            glm::vec3 size, glm::vec3 offset,
-                           const std::shared_ptr<World>& world) {
+                           const std::shared_ptr<FixedWorld>& world) {
         using namespace objb;
         char buf[256];
         std::memset(buf, '\0', 256);

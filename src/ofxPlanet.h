@@ -10,7 +10,7 @@
 #include "world/TexturePack.hpp"
 #include "world/UniformLayout.hpp"
 #include "world/VertexLayout.hpp"
-#include "world/World.hpp"
+#include "world/FixedWorld.hpp"
 #include "world/FlexibleWorld.hpp"
 #include "world/WorldIO.hpp"
 #include "world/biome/BasicBiome.hpp"

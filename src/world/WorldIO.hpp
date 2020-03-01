@@ -11,7 +11,7 @@
 #include "objb/ObjBuilder.hpp"
 
 namespace ofxPlanet {
-class World;
+class FixedWorld;
 class Planet;
 /**
  * Progress is progress for background generation process.
@@ -52,7 +52,7 @@ class WorldIO {
          * @return
          */
         static AsyncOperation saveJson(const std::string& outputFile,
-                                       const std::shared_ptr<World>& world);
+                                       const std::shared_ptr<FixedWorld>& world);
         /**
          * generate as Obj.
          * @param outputDir
@@ -60,7 +60,7 @@ class WorldIO {
          * @return
          */
         static AsyncOperation saveObj(const std::string& outputDir,
-                                      const std::shared_ptr<World>& world);
+                                      const std::shared_ptr<FixedWorld>& world);
         /**
          * generate as Obj.
          * @param outputDir
@@ -68,7 +68,7 @@ class WorldIO {
          * @return
          */
         static AsyncOperation saveObj(const std::string& outputDir,
-                                      const std::shared_ptr<World>& world,
+                                      const std::shared_ptr<FixedWorld>& world,
                                       int splitCount);
         /**
          * generate as Bmp.
@@ -104,44 +104,44 @@ class WorldIO {
 
         static void saveObjAsync(std::shared_ptr<Progress> progress,
                                  const std::string& outputDir,
-                                 const std::shared_ptr<World>& world);
+                                 const std::shared_ptr<FixedWorld>& world);
 
         static void genTopPlane(const std::string& outputDir,
                                 std::vector<std::string>& texVec,
                                 objb::ObjBuilder& ob, objb::MtlBuilder& mb,
                                 glm::ivec3 worldPos, glm::ivec3 objPos,
                                 glm::vec3 size, glm::vec3 offset,
-                                const std::shared_ptr<World>& world);
+                                const std::shared_ptr<FixedWorld>& world);
         static void genBottomPlane(const std::string& outputDir,
                                    std::vector<std::string>& texVec,
                                    objb::ObjBuilder& ob, objb::MtlBuilder& mb,
                                    glm::ivec3 worldPos, glm::ivec3 objPos,
                                    glm::vec3 size, glm::vec3 offset,
-                                   const std::shared_ptr<World>& world);
+                                   const std::shared_ptr<FixedWorld>& world);
         static void genLeftPlane(const std::string& outputDir,
                                  std::vector<std::string>& texVec,
                                  objb::ObjBuilder& ob, objb::MtlBuilder& mb,
                                  glm::ivec3 worldPos, glm::ivec3 objPos,
                                  glm::vec3 size, glm::vec3 offset,
-                                 const std::shared_ptr<World>& world);
+                                 const std::shared_ptr<FixedWorld>& world);
         static void genRightPlane(const std::string& outputDir,
                                   std::vector<std::string>& texVec,
                                   objb::ObjBuilder& ob, objb::MtlBuilder& mb,
                                   glm::ivec3 worldPos, glm::ivec3 objPos,
                                   glm::vec3 size, glm::vec3 offset,
-                                  const std::shared_ptr<World>& world);
+                                  const std::shared_ptr<FixedWorld>& world);
         static void genFrontPlane(const std::string& outputDir,
                                   std::vector<std::string>& texVec,
                                   objb::ObjBuilder& ob, objb::MtlBuilder& mb,
                                   glm::ivec3 worldPos, glm::ivec3 objPos,
                                   glm::vec3 size, glm::vec3 offset,
-                                  const std::shared_ptr<World>& world);
+                                  const std::shared_ptr<FixedWorld>& world);
         static void genBackPlane(const std::string& outputDir,
                                  std::vector<std::string>& texVec,
                                  objb::ObjBuilder& ob, objb::MtlBuilder& mb,
                                  glm::ivec3 worldPos, glm::ivec3 objPos,
                                  glm::vec3 size, glm::vec3 offset,
-                                 const std::shared_ptr<World>& world);
+                                 const std::shared_ptr<FixedWorld>& world);
 
         WorldIO() = delete;
         ~WorldIO() = delete;
