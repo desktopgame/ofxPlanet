@@ -396,7 +396,7 @@ FixedWorld::FixedWorld(ofShader& shader, int xSize, int ySize, int zSize)
       zSize(zSize),
       chunkLoadStyle(ChunkLoadStyle::All),
       viewPosition(),
-      viewRange(1),
+      viewRange(64),
       currentChunk(nullptr),
       chunk(Chunk::create(*this, 0, 0, xSize, zSize)),
       shader(shader),

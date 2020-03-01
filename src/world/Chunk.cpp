@@ -177,6 +177,9 @@ void Chunk::hide() {
 }
 
 void Chunk::tidy() {
+	if (world.getChunkLoadStyle() != ChunkLoadStyle::VisibleChunk) {
+		return;
+	}
 	if (!this->visible) {
 		deleteRenderer();
 	}
