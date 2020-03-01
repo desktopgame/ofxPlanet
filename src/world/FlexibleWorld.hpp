@@ -33,16 +33,6 @@ public:
 }
 
 /**
- * FlexibleChunkOffset.
- */
-struct FlexibleChunkOffset {
-	explicit FlexibleChunkOffset(int x, int z);
-	explicit FlexibleChunkOffset();
-	int x;
-	int z;
-};
-	
-/**
  * FlexibleWorld is extensible in dynamic.
  * use this class, if want world generate system like minecraft.
  */
@@ -81,7 +71,6 @@ private:
 	std::shared_ptr<detail::FlexibleChunk> loadChunkImpl(int x, int z, bool & isCreatedNewChunk);
 	std::shared_ptr<Chunk> loadOrGenChunkImpl(int x, int z, int xOffset, int zOffset);
 	std::shared_ptr<Chunk> loadOrGenChunkRange(int x, int z, int xOffset, int zOffset);
-	FlexibleChunkOffset computeChunkOffset(int x, int z) const;
 	int computeChunkOffsetX(int x) const;
 	int computeChunkOffsetZ(int z) const;
 	void updateNeighborChunks();

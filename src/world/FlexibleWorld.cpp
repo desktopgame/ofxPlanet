@@ -28,11 +28,6 @@ FlexibleChunk::FlexibleChunk(IWorld & world, int xOffset, int zOffset, int xSize
 	}
 }
 }
-// FlexibleChunkOffset
-FlexibleChunkOffset::FlexibleChunkOffset(int x, int z) : x(x), z(z) {
-}
-FlexibleChunkOffset::FlexibleChunkOffset() : FlexibleChunkOffset(0,0) {
-}
 // Utility
 FlexibleWorld::Instance FlexibleWorld::create(ofShader & shader, int worldYSize) {
 	return Instance(new FlexibleWorld(shader, worldYSize));
@@ -154,10 +149,11 @@ FlexibleWorld::FlexibleWorld(ofShader & shader, int worldYSize)
    biome(nullptr) {
 }
 std::shared_ptr<detail::FlexibleChunk> FlexibleWorld::findChunkImpl(int x, int z) const {
-	auto offset = computeChunkOffset(x, z);
+	int offsetX = computeChunkOffsetX(x);
+	int offsetZ = computeChunkOffsetZ(z);
 	for (auto fc : chunkVec) {
 		if (fc->chunk->isContains(x, 0, z) || 
-			(fc->chunk->getXOffset() == offset.x && fc->chunk->getZOffset() == offset.z)) {
+			(fc->chunk->getXOffset() == offsetX && fc->chunk->getZOffset() == offsetZ)) {
 			return fc;
 		}
 	}
@@ -170,8 +166,9 @@ std::shared_ptr<detail::FlexibleChunk> FlexibleWorld::loadChunkImpl(int x, int z
 		return fc;
 	}
 	isCreatedNewChunk = true;
-	auto offset = computeChunkOffset(x, z);
-	fc = std::make_shared< detail::FlexibleChunk>(*this, offset.x, offset.z, chunkXSize, chunkZSize);
+	int offsetX = computeChunkOffsetX(x);
+	int offsetZ = computeChunkOffsetZ(z);
+	fc = std::make_shared< detail::FlexibleChunk>(*this, offsetX, offsetZ, chunkXSize, chunkZSize);
 	this->chunkVec.emplace_back(fc);
 	return fc;
 }
@@ -262,9 +259,6 @@ std::shared_ptr<Chunk> FlexibleWorld::loadOrGenChunkRange(int x, int z, int xOff
 		return centerFc->chunk;
 	}
 	return nullptr;
-}
-FlexibleChunkOffset FlexibleWorld::computeChunkOffset(int x, int z) const {
-	return FlexibleChunkOffset(computeChunkOffsetX(x), computeChunkOffsetZ(z));
 }
 int FlexibleWorld::computeChunkOffsetX(int x) const {
 	int xOffset = (x / chunkXSize) * chunkXSize;
