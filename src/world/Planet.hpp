@@ -11,7 +11,6 @@ namespace ofxPlanet {
 
 class WorldGenerateService;
 class World;
-class FlexibleWorld;
 class Biome;
 class Camera;
 /**
@@ -41,7 +40,7 @@ class Planet {
          * returns world.
          * @return
          */
-        std::shared_ptr<FlexibleWorld> getWorld() const;
+        std::shared_ptr<World> getWorld() const;
 
         /**
          * returns blockTable.
@@ -52,7 +51,7 @@ class Planet {
        private:
         ofShader& shader;
         BlockTable blockTable;
-        std::shared_ptr<FlexibleWorld> world;
+        std::shared_ptr<World> world;
 };
 }  // namespace ofxPlanet
 #endif

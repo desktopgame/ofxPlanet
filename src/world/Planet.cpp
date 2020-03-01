@@ -1,7 +1,7 @@
 #include "Planet.hpp"
 
 #include "World.hpp"
-#include "FlexibleWorld.hpp"
+#include "World.hpp"
 #include "biome/Biome.hpp"
 namespace ofxPlanet {
 
@@ -18,7 +18,7 @@ void Planet::generate(glm::vec3 size, std::shared_ptr<Biome> biome) {
 }
 
 void Planet::allocate(glm::ivec3 size) {
-		this->world = FlexibleWorld::create(shader, 64);
+		this->world = World::create(shader, 64);
 }
 
 void Planet::update() {
@@ -27,6 +27,6 @@ void Planet::update() {
         }
 }
 
-std::shared_ptr<FlexibleWorld> Planet::getWorld() const { return world; }
+std::shared_ptr<World> Planet::getWorld() const { return world; }
 BlockTable Planet::getBlockTable() const { return blockTable; }
 }  // namespace ofxPlanet

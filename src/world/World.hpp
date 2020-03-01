@@ -14,13 +14,13 @@ class Biome;
 class Sector;
 
 /**
- * FlexibleWorld is extensible in dynamic.
+ * World is extensible in dynamic.
  * use this class, if want world generate system like minecraft.
  */
-class FlexibleWorld : public IWorld {
+class World : public IWorld {
 public:
-	using Instance = std::shared_ptr<FlexibleWorld>;
-	using Reference = std::weak_ptr<FlexibleWorld>;
+	using Instance = std::shared_ptr<World>;
+	using Reference = std::weak_ptr<World>;
 	static Instance create(ofShader& shader, int worldYSize);
 	// IWorld
 	void computeBrightness();
@@ -34,7 +34,7 @@ public:
 	ChunkLoadStyle getChunkLoadStyle() const;
 	std::shared_ptr<Chunk> getCurrentChunk();
 
-	// FlexibleWorld
+	// World
 	void invalidateBrightness();
 	void setViewPosition(const glm::vec3& viewPosition);
 	void setBiome(std::shared_ptr<Biome> biome);
@@ -48,7 +48,7 @@ public:
 	void draw();
 
 private:
-	FlexibleWorld(ofShader& shader, int worldYSize);
+	World(ofShader& shader, int worldYSize);
 	std::shared_ptr<Sector> findChunkImpl(int x, int z) const;
 	std::shared_ptr<Sector> loadChunkImpl(int x, int z, bool & isCreatedNewChunk);
 	std::shared_ptr<Chunk> loadOrGenChunkImpl(int x, int z, int xOffset, int zOffset);

@@ -1,4 +1,4 @@
-#include "FlexibleWorld.hpp"
+#include "World.hpp"
 #include "Chunk.hpp"
 #include "biome/Biome.hpp"
 #include "BlockTable.hpp"
@@ -12,19 +12,19 @@
 
 namespace ofxPlanet {
 // Utility
-FlexibleWorld::Instance FlexibleWorld::create(ofShader & shader, int worldYSize) {
-	return Instance(new FlexibleWorld(shader, worldYSize));
+World::Instance World::create(ofShader & shader, int worldYSize) {
+	return Instance(new World(shader, worldYSize));
 }
 // IWorld
-void FlexibleWorld::computeBrightness() {
+void World::computeBrightness() {
 	for (auto sector : this->chunkVec) {
 		sector->computeBrightness();
 	}
 }
-int FlexibleWorld::getYSize() const {
+int World::getYSize() const {
 	return this->worldYSize;
 }
-std::shared_ptr<Block> FlexibleWorld::getBlock(int x, int y, int z) const {
+std::shared_ptr<Block> World::getBlock(int x, int y, int z) const {
 	for (auto fc : this->chunkVec) {
 		auto chunk = fc->getChunk();
 		if (chunk->isContains(x, y, z)) {
@@ -35,7 +35,7 @@ std::shared_ptr<Block> FlexibleWorld::getBlock(int x, int y, int z) const {
 	}
 	return nullptr;
 }
-bool FlexibleWorld::isFilled(int x, int y, int z) const {
+bool World::isFilled(int x, int y, int z) const {
 	if (y < 0) {
 		return false;
 	}
@@ -45,7 +45,7 @@ bool FlexibleWorld::isFilled(int x, int y, int z) const {
 	}
 	return block->getShape() == BlockShape::Block;
 }
-int FlexibleWorld::getBrightness(int x, int y, int z) const {
+int World::getBrightness(int x, int y, int z) const {
 	for (auto fc : this->chunkVec) {
 		auto chunk = fc->getChunk();
 		if (chunk->isContains(x, y, z)) {
@@ -56,28 +56,28 @@ int FlexibleWorld::getBrightness(int x, int y, int z) const {
 	}
 	return 15;
 }
-ofShader & FlexibleWorld::getShader() {
+ofShader & World::getShader() {
 	return this->shader;
 }
-glm::vec3 FlexibleWorld::getViewPosition() const {
+glm::vec3 World::getViewPosition() const {
 	return this->viewPosition;
 }
-int FlexibleWorld::getViewRange() const {
+int World::getViewRange() const {
 	return this->viewRange;
 }
-ChunkLoadStyle FlexibleWorld::getChunkLoadStyle() const {
+ChunkLoadStyle World::getChunkLoadStyle() const {
 	return ChunkLoadStyle::VisibleChunk;
 }
-std::shared_ptr<Chunk> FlexibleWorld::getCurrentChunk() {
+std::shared_ptr<Chunk> World::getCurrentChunk() {
 	return this->currentChunk;
 }
 // World
-void FlexibleWorld::invalidateBrightness() {
+void World::invalidateBrightness() {
 	for (auto sector : this->chunkVec) {
 		sector->invalidateBrightness();
 	}
 }
-void FlexibleWorld::setViewPosition(const glm::vec3 & viewPosition) {
+void World::setViewPosition(const glm::vec3 & viewPosition) {
 	this->viewPosition = viewPosition;
 	Chunk::Instance newChunk = nullptr;
 	for (auto fc : chunkVec) {
@@ -99,44 +99,44 @@ void FlexibleWorld::setViewPosition(const glm::vec3 & viewPosition) {
 		for (auto fc : chunkVec) fc->getChunk()->tidy();
 	}
 }
-void FlexibleWorld::setBiome(std::shared_ptr<Biome> biome) {
+void World::setBiome(std::shared_ptr<Biome> biome) {
 	this->biome = biome;
 }
-std::shared_ptr<Biome> FlexibleWorld::getBiome() const {
+std::shared_ptr<Biome> World::getBiome() const {
 	return this->biome;
 }
-void FlexibleWorld::setLoadRange(int loadRange) {
+void World::setLoadRange(int loadRange) {
 	this->loadRange = loadRange;
 }
-int FlexibleWorld::getLoadRange() const {
+int World::getLoadRange() const {
 	return this->loadRange;
 }
-std::shared_ptr<Chunk> FlexibleWorld::findChunk(int x, int z) const {
+std::shared_ptr<Chunk> World::findChunk(int x, int z) const {
 	auto fc = findChunkImpl(x, z);
 	if (fc == nullptr) {
 		return nullptr;
 	}
 	return fc->getChunk();
 }
-std::shared_ptr<Chunk> FlexibleWorld::loadChunk(int x, int z) {
+std::shared_ptr<Chunk> World::loadChunk(int x, int z) {
 	bool _;
 	return loadChunk(x, z, _);
 }
-std::shared_ptr<Chunk> FlexibleWorld::loadChunk(int x, int z, bool & isCreatedNewChunk) {
+std::shared_ptr<Chunk> World::loadChunk(int x, int z, bool & isCreatedNewChunk) {
 	auto fc = loadChunkImpl(x, z, isCreatedNewChunk);
 	chunkVec.emplace_back(fc);
 	return fc->getChunk();
 }
-std::shared_ptr<Chunk> FlexibleWorld::loadOrGenChunk(int x, int z) {
+std::shared_ptr<Chunk> World::loadOrGenChunk(int x, int z) {
 	return loadOrGenChunkImpl(x, z, 0, 0);
 }
-void FlexibleWorld::draw() {
+void World::draw() {
 	for (auto fc : chunkVec) {
 		fc->getChunk()->draw();
 	}
 }
 // private
-FlexibleWorld::FlexibleWorld(ofShader & shader, int worldYSize) 
+World::World(ofShader & shader, int worldYSize) 
  : worldYSize(worldYSize),
    chunkXSize(32),
    chunkZSize(32),
@@ -148,7 +148,7 @@ FlexibleWorld::FlexibleWorld(ofShader & shader, int worldYSize)
    currentChunk(nullptr),
    biome(nullptr) {
 }
-std::shared_ptr<Sector> FlexibleWorld::findChunkImpl(int x, int z) const {
+std::shared_ptr<Sector> World::findChunkImpl(int x, int z) const {
 	int offsetX = computeChunkOffsetX(x);
 	int offsetZ = computeChunkOffsetZ(z);
 	for (auto fc : chunkVec) {
@@ -160,7 +160,7 @@ std::shared_ptr<Sector> FlexibleWorld::findChunkImpl(int x, int z) const {
 	}
 	return nullptr;
 }
-std::shared_ptr<Sector> FlexibleWorld::loadChunkImpl(int x, int z, bool & isCreatedNewChunk) {
+std::shared_ptr<Sector> World::loadChunkImpl(int x, int z, bool & isCreatedNewChunk) {
 	isCreatedNewChunk = false;
 	auto fc = findChunkImpl(x, z);
 	if (fc) {
@@ -173,7 +173,7 @@ std::shared_ptr<Sector> FlexibleWorld::loadChunkImpl(int x, int z, bool & isCrea
 	this->chunkVec.emplace_back(fc);
 	return fc;
 }
-std::shared_ptr<Chunk> FlexibleWorld::loadOrGenChunkImpl(int x, int z, int xOffset, int zOffset) {
+std::shared_ptr<Chunk> World::loadOrGenChunkImpl(int x, int z, int xOffset, int zOffset) {
 	int offsetX = this->loadRange;
 	int offsetZ = this->loadRange;
 	for (int addX = offsetX; addX > 0; addX--) {
@@ -192,7 +192,7 @@ std::shared_ptr<Chunk> FlexibleWorld::loadOrGenChunkImpl(int x, int z, int xOffs
 	}
 	return loadOrGenChunkRange(x, z, 0, 0);
 }
-std::shared_ptr<Chunk> FlexibleWorld::loadOrGenChunkRange(int x, int z, int xOffset, int zOffset) {
+std::shared_ptr<Chunk> World::loadOrGenChunkRange(int x, int z, int xOffset, int zOffset) {
 	bool genCenter, genLeft, genRight, genTop, genBottom, genLTop, genRTop, genLBottom, genRBottom;
 	auto centerFc = loadChunkImpl(x, z, genCenter);
 	if (centerFc->isGenerated()) {
@@ -261,7 +261,7 @@ std::shared_ptr<Chunk> FlexibleWorld::loadOrGenChunkRange(int x, int z, int xOff
 	}
 	return nullptr;
 }
-int FlexibleWorld::computeChunkOffsetX(int x) const {
+int World::computeChunkOffsetX(int x) const {
 	int xOffset = (x / chunkXSize) * chunkXSize;
 	if (x < 0) {
 		int a = ((x % chunkXSize) / chunkXSize) - 1;
@@ -269,7 +269,7 @@ int FlexibleWorld::computeChunkOffsetX(int x) const {
 	}
 	return xOffset;
 }
-int FlexibleWorld::computeChunkOffsetZ(int z) const {
+int World::computeChunkOffsetZ(int z) const {
 	int zOffset = (z / chunkZSize) * chunkZSize;
 	if (z < 0) {
 		int a = ((z % chunkZSize) / chunkZSize) - 1;
@@ -277,7 +277,7 @@ int FlexibleWorld::computeChunkOffsetZ(int z) const {
 	}
 	return zOffset;
 }
-void FlexibleWorld::updateNeighborChunks() {
+void World::updateNeighborChunks() {
 	int visibleChunks = 0;
 	for (auto fc : chunkVec)fc->getChunk()->hide();
 	if (this->currentChunk == nullptr) {
@@ -292,7 +292,7 @@ void FlexibleWorld::updateNeighborChunks() {
 		}
 	}
 }
-int FlexibleWorld::computeGridX(int x) const {
+int World::computeGridX(int x) const {
 	int ox = x;
 	int dx = 0;
 	if (x >= 0) {
@@ -304,7 +304,7 @@ int FlexibleWorld::computeGridX(int x) const {
 	}
 	return dx;
 }
-int FlexibleWorld::computeGridZ(int z) const {
+int World::computeGridZ(int z) const {
 	int oz = z;
 	int dz = 0;
 
