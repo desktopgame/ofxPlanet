@@ -85,7 +85,7 @@ void World::setViewPosition(const glm::vec3 & viewPosition) {
 		if (!sector->isGenerated()) {
 			continue;
 		}
-		newChunk = chunk->lookup(this->viewPosition);
+		newChunk = chunk->lookup(glm::vec3(1,0,1) * this->viewPosition);
 		if (newChunk) {
 			break;
 		}
