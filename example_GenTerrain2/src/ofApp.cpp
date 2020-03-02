@@ -65,6 +65,9 @@ void main (void) {
 		world->getChunk()->split(32);
 		world->setChunkLoadStyle(ofxPlanet::ChunkLoadStyle::VisibleChunk);
 		world->load(bt);
+		int tmp = fpsCon.upKey.keycode;
+		fpsCon.upKey.keycode = fpsCon.downKey.keycode;
+		fpsCon.downKey.keycode = tmp;
 		fpsCon.transform.position = glm::vec3(64, 128, 64);
 		fpsCon.rotationAxis.y = 1;
 		ofxFirstPersonController::lockMouseCursor();
