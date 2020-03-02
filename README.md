@@ -27,7 +27,7 @@ Dependencies
 
 Compatibility
 ------------
-* of_v0.10.1_vs2017_release
+* of_v0.11.0_vs2017_release
 * Windows10
 
 Known issues
@@ -56,3 +56,10 @@ implemented split loading for chunk
 
 ### Version 1.1.2 (2020/02/24):
 minor fix
+
+### Version 1.2(2020/03/02):
+* implemented infinite world.
+* the old version World class is renamed to FixedWorld.
+* removed Planet class.
+* removed license file at source folder.
+  * for this issue. [issue#1](https://github.com/desktopgame/ofxPlanet/issues/1)

@@ -55,3 +55,10 @@ Version history
 
 ### Version 1.1.2 (2020/02/24):
 軽微な修正
+
+### Version 1.2(2020/03/02):
+* 無限のワールドを実装
+* 以前の有限なワールドクラスは FixedWorld にリネーム
+* Planetクラスを削除
+* ソースフォルダのライセンスファイルを削除
+  * このissueで報告された問題です。 [issue#1](https://github.com/desktopgame/ofxPlanet/issues/1)
