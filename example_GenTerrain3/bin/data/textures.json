@@ -1,0 +1,129 @@
+{
+  "baseDirectory": "image/block",
+  "textures": [
+    {
+      "baseFileName": "DoorTopBlock",
+      "mappingRule": {
+        "all": "Side",
+        "front": "Front",
+        "back": "Back"
+      },
+      "reference": "LDoorTopBlock"
+    },
+    {
+      "baseFileName": "DoorBottomBlock",
+      "mappingRule": {
+        "all": "Side",
+        "front": "Front",
+        "back": "Front"
+      },
+      "reference": "LDoorBottomBlock"
+    },
+    {
+      "baseFileName": "DoorTopBlock",
+      "mappingRule": {
+        "all": "Side",
+        "front": "Back",
+        "back": "Front"
+      },
+      "reference": "RDoorTopBlock"
+    },
+    {
+      "baseFileName": "DoorBottomBlock",
+      "mappingRule": {
+        "all": "Side",
+        "front": "Front",
+        "back": "Front"
+      },
+      "reference": "RDoorBottomBlock"
+    },
+    {
+      "baseFileName": "DebugBlock",
+      "mappingRule": {
+        "all": "Side"
+      },
+      "reference": "DebugBlock"
+    },
+    {
+      "baseFileName": "DirtBlock",
+      "mappingRule": {
+        "all": "Side"
+      },
+      "reference": "DirtBlock"
+    },
+    {
+      "baseFileName": "WaterBlock",
+      "mappingRule": {
+        "all": "Side",
+        "top": "Top"
+      },
+      "reference": "WaterBlock"
+    },
+    {
+      "baseFileName": "GlassBlock",
+      "mappingRule": {
+        "all": "Side"
+      },
+      "reference": "GlassBlock"
+    },
+    {
+      "baseFileName": "WoodBlock",
+      "mappingRule": {
+        "all": "Side"
+      },
+      "reference": "WoodBlock"
+    },
+    {
+      "baseFileName": "SmoothWoodBlock",
+      "mappingRule": {
+        "all": "Side"
+      },
+      "reference": "SmoothWoodBlock"
+    },
+    {
+      "baseFileName": "LeafBlock",
+      "mappingRule": {
+        "all": "Side"
+      },
+      "reference": "LeafBlock"
+    },
+    {
+      "baseFileName": "MoonStoneBlock",
+      "mappingRule": {
+        "all": "Side",
+        "top": "Top"
+      },
+      "reference": "MoonStoneBlock"
+    },
+    {
+      "baseFileName": "GrassDirtBlock",
+      "mappingRule": {
+        "all": "Side",
+        "top": "Top",
+        "bottom": "Bottom"
+      },
+      "reference": "GrassDirtBlock"
+    },
+    {
+      "baseFileName": "SandBlock",
+      "mappingRule": {
+        "all": "Side"
+      },
+      "reference": "SandBlock"
+    },
+    {
+      "baseFileName": "StoneBlock",
+      "mappingRule": {
+        "all": "Side"
+      },
+      "reference": "StoneBlock"
+    },
+    {
+      "baseFileName": "HardStoneBlock",
+      "mappingRule": {
+        "all": "Side"
+      },
+      "reference": "HardStoneBlock"
+    }
+  ]
+}
