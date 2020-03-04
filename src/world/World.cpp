@@ -17,7 +17,7 @@ World::Instance World::create(ofShader & shader, int worldYSize) {
 }
 // IWorld
 void World::computeBrightness() {
-	for (auto sector : this->chunkVec) {
+	for (auto sector : this->sectorVec) {
 		sector->computeBrightness();
 	}
 }
@@ -25,7 +25,7 @@ int World::getYSize() const {
 	return this->worldYSize;
 }
 std::shared_ptr<Block> World::getBlock(int x, int y, int z) const {
-	for (auto sector : this->chunkVec) {
+	for (auto sector : this->sectorVec) {
 		auto chunk = sector->getChunk();
 		if (chunk->isContains(x, y, z)) {
 			x -= chunk->getXOffset();
@@ -46,7 +46,7 @@ bool World::isFilled(int x, int y, int z) const {
 	return block->getShape() == BlockShape::Block;
 }
 int World::getBrightness(int x, int y, int z) const {
-	for (auto sector : this->chunkVec) {
+	for (auto sector : this->sectorVec) {
 		auto chunk = sector->getChunk();
 		if (chunk->isContains(x, y, z)) {
 			x -= chunk->getXOffset();
@@ -73,14 +73,14 @@ std::shared_ptr<Chunk> World::getCurrentChunk() {
 }
 // World
 void World::invalidateBrightness() {
-	for (auto sector : this->chunkVec) {
+	for (auto sector : this->sectorVec) {
 		sector->invalidateBrightness();
 	}
 }
 void World::setViewPosition(const glm::vec3 & viewPosition) {
 	this->viewPosition = viewPosition;
 	Chunk::Instance newChunk = nullptr;
-	for (auto sector : chunkVec) {
+	for (auto sector : sectorVec) {
 		auto chunk = sector->getChunk();
 		if (!sector->isGenerated()) {
 			continue;
@@ -96,7 +96,7 @@ void World::setViewPosition(const glm::vec3 & viewPosition) {
 	if (this->currentChunk != newChunk) {
 		this->currentChunk = newChunk;
 		this->updateNeighborChunks();
-		for (auto sector : chunkVec) sector->getChunk()->tidy();
+		for (auto sector : sectorVec) sector->getChunk()->tidy();
 	}
 }
 void World::setBiome(std::shared_ptr<Biome> biome) {
@@ -124,14 +124,14 @@ std::shared_ptr<Chunk> World::loadChunk(int x, int z) {
 }
 std::shared_ptr<Chunk> World::loadChunk(int x, int z, bool & isCreatedNewChunk) {
 	auto sector = loadChunkImpl(x, z, isCreatedNewChunk);
-	chunkVec.emplace_back(sector);
+	sectorVec.emplace_back(sector);
 	return sector->getChunk();
 }
 std::shared_ptr<Chunk> World::loadOrGenChunk(int x, int z) {
 	return loadOrGenChunkImpl(x, z, 0, 0);
 }
 void World::draw() {
-	for (auto sector : chunkVec) {
+	for (auto sector : sectorVec) {
 		sector->getChunk()->draw();
 	}
 }
@@ -143,7 +143,7 @@ World::World(ofShader & shader, int worldYSize)
    viewRange(64),
    loadRange(96),
    viewPosition(0,0,0),
-   chunkVec(),
+   sectorVec(),
    shader(shader),
    currentChunk(nullptr),
    biome(nullptr) {
@@ -151,7 +151,7 @@ World::World(ofShader & shader, int worldYSize)
 std::shared_ptr<Sector> World::findChunkImpl(int x, int z) const {
 	int offsetX = computeChunkOffsetX(x);
 	int offsetZ = computeChunkOffsetZ(z);
-	for (auto sector : chunkVec) {
+	for (auto sector : sectorVec) {
 		auto chunk = sector->getChunk();
 		if (chunk->isContains(x, 0, z) ||
 			(chunk->getXOffset() == offsetX && chunk->getZOffset() == offsetZ)) {
@@ -170,7 +170,7 @@ std::shared_ptr<Sector> World::loadChunkImpl(int x, int z, bool & isCreatedNewCh
 	int offsetX = computeChunkOffsetX(x);
 	int offsetZ = computeChunkOffsetZ(z);
 	sector = std::make_shared< Sector>(*this, offsetX, offsetZ, chunkXSize, chunkZSize);
-	this->chunkVec.emplace_back(sector);
+	this->sectorVec.emplace_back(sector);
 	return sector;
 }
 std::shared_ptr<Chunk> World::loadOrGenChunkImpl(int x, int z, int xOffset, int zOffset) {
@@ -279,11 +279,11 @@ int World::computeChunkOffsetZ(int z) const {
 }
 void World::updateNeighborChunks() {
 	int visibleChunks = 0;
-	for (auto sector : chunkVec)sector->getChunk()->hide();
+	for (auto sector : sectorVec)sector->getChunk()->hide();
 	if (this->currentChunk == nullptr) {
 		return;
 	}
-	for (auto sector : chunkVec) {
+	for (auto sector : sectorVec) {
 		auto chunk = sector->getChunk();
 		auto neighbor = chunk->getNeighbor(this->currentChunk, this->viewRange);
 		for (auto nc : neighbor) {

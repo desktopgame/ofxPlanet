@@ -65,7 +65,7 @@ private:
 	int viewRange;
 	int loadRange;
 	glm::vec3 viewPosition;
-	std::vector<std::shared_ptr<Sector> > chunkVec;
+	std::vector<std::shared_ptr<Sector> > sectorVec;
 	ofShader& shader;
 	std::shared_ptr<Chunk> currentChunk;
 	std::shared_ptr<Biome> biome;
