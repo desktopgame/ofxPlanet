@@ -124,7 +124,6 @@ std::shared_ptr<Chunk> World::loadChunk(int x, int z) {
 }
 std::shared_ptr<Chunk> World::loadChunk(int x, int z, bool & isCreatedNewChunk) {
 	auto sector = loadChunkImpl(x, z, isCreatedNewChunk);
-	sectorVec.emplace_back(sector);
 	return sector->getChunk();
 }
 std::shared_ptr<Chunk> World::loadOrGenChunk(int x, int z) {
