@@ -36,7 +36,7 @@ bool Sector::isFilled(int x, int y, int z) const {
 	bool overNegative = x < 0 || y < 0 || z < 0;
 	bool overPositive = x >= chunk->getXSize() || y >= world.getYSize() || z >= chunk->getZSize();
 	if (overNegative || overPositive) {
-		auto block = world.getBlock(x, y, z);
+		auto block = world.getBlock(x+chunk->getXOffset(), y, z+chunk->getZOffset());
 		if (block == nullptr) {
 			return false;
 		}
