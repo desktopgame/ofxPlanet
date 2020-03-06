@@ -224,8 +224,6 @@ void Chunk::deleteRenderer() {
 }
 void Chunk::batch() {
         renderer->clear();
-		Timer timer;
-		timer.start();
 		auto sector = world.getSector(xOffset, zOffset);
         for (int x = xOffset; x < xOffset + xSize; x++) {
                 for (int z = zOffset; z < zOffset + zSize; z++) {
@@ -251,12 +249,7 @@ void Chunk::batch() {
                         }
                 }
         }
-		timer.end();
-		std::cout << "batch:" << timer.str() << std::endl;
-		timer.start();
         renderer->update();
-		timer.end();
-		std::cout << "gl:" << timer.str() << std::endl;
 }
 void Chunk::rehashAll() {
         if (this->type == ChunkType::Single) {
