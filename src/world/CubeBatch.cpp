@@ -19,14 +19,12 @@ CubeBatch::CubeBatch(ofShader& shader,
       vbo() {
         for (int b = LightTable::BRIGHTNESS_MIN;
              b < LightTable::BRIGHTNESS_MAX + 1; b++) {
+				glGenBuffers(6, vbo[b]);
                 for (int i = 0; i < static_cast<int>(PlaneType::Count); i++) {
                         std::vector<float> v;
-                        GLuint buf;
-                        glGenBuffers(1, &buf);
                         planes[b][i] = std::make_shared<Plane>(
                             shader, static_cast<PlaneType>(i), size);
                         posVec[b][i] = v;
-                        vbo[b][i] = buf;
                 }
         }
 }
@@ -34,10 +32,7 @@ CubeBatch::CubeBatch(ofShader& shader,
 CubeBatch::~CubeBatch() {
         for (int b = LightTable::BRIGHTNESS_MIN;
              b < LightTable::BRIGHTNESS_MAX + 1; b++) {
-                for (int i = 0; i < static_cast<int>(PlaneType::Count); i++) {
-                        GLuint buf = vbo[b][i];
-                        glDeleteBuffers(1, &buf);
-                }
+				glDeleteBuffers(6, vbo[b]);
         }
 }
 

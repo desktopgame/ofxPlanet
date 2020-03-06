@@ -23,7 +23,7 @@ class CubeBatch : public GraphicsBatch {
                                       static_cast<int>(PlaneType::Count)>;
         using PosVec = std::vector<float>;
         using PosArray = std::array<PosVec, static_cast<int>(PlaneType::Count)>;
-        using VboArray = std::array<GLuint, static_cast<int>(PlaneType::Count)>;
+        using VboArray = GLuint[6];
         explicit CubeBatch(ofShader& shader,
                            const glm::vec3& size, int direction);
         ~CubeBatch();
