@@ -43,6 +43,8 @@ public:
 	int getLoadRange() const;
 	void setVisibleChunkCount(int visibleChunkCount);
 	int getVisibleChunkCount() const;
+	std::shared_ptr<Sector> getSectorAt(int index) const;
+	int getSectorCount() const;
 	std::shared_ptr<Chunk> findChunk(int x, int z) const;
 	std::shared_ptr<Chunk> loadChunk(int x, int z);
 	std::shared_ptr<Chunk> loadChunk(int x, int z, bool& isCreatedNewChunk);

@@ -117,6 +117,12 @@ void World::setVisibleChunkCount(int visibleChunkCount) {
 int World::getVisibleChunkCount() const {
 	return this->visibleChunkCount;
 }
+std::shared_ptr<Sector> World::getSectorAt(int index) const {
+	return this->sectorVec.at(index);
+}
+int World::getSectorCount() const {
+	return static_cast<int>(sectorVec.size());
+}
 std::shared_ptr<Chunk> World::findChunk(int x, int z) const {
 	auto sector = findChunkImpl(x, z);
 	if (sector == nullptr) {
