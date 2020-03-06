@@ -33,7 +33,6 @@ void GraphicsRenderer::clear() {
         for (auto& kv : map) {
                 kv.second->clear();
         }
-        map.clear();
 }
 void GraphicsRenderer::update() {
         for (auto& kv : map) {
