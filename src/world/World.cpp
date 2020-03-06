@@ -111,6 +111,12 @@ void World::setLoadRange(int loadRange) {
 int World::getLoadRange() const {
 	return this->loadRange;
 }
+void World::setVisibleChunkCount(int visibleChunkCount) {
+	this->visibleChunkCount = visibleChunkCount;
+}
+int World::getVisibleChunkCount() const {
+	return this->visibleChunkCount;
+}
 std::shared_ptr<Chunk> World::findChunk(int x, int z) const {
 	auto sector = findChunkImpl(x, z);
 	if (sector == nullptr) {
@@ -141,6 +147,7 @@ World::World(ofShader & shader, int worldYSize)
    chunkZSize(32),
    viewRange(64),
    loadRange(96),
+   visibleChunkCount(6),
    viewPosition(0,0,0),
    sectorVec(),
    shader(shader),
@@ -289,6 +296,9 @@ void World::updateNeighborChunks() {
 			nc->setVisible(true);
 			visibleChunks++;
 		}
+	}
+	if (visibleChunks < this->visibleChunkCount) {
+		loadOrGenChunk(viewPosition.x, viewPosition.z);
 	}
 }
 int World::computeGridX(int x) const {

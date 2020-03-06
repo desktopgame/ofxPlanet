@@ -41,6 +41,8 @@ public:
 	std::shared_ptr<Biome> getBiome() const;
 	void setLoadRange(int loadRange);
 	int getLoadRange() const;
+	void setVisibleChunkCount(int visibleChunkCount);
+	int getVisibleChunkCount() const;
 	std::shared_ptr<Chunk> findChunk(int x, int z) const;
 	std::shared_ptr<Chunk> loadChunk(int x, int z);
 	std::shared_ptr<Chunk> loadChunk(int x, int z, bool& isCreatedNewChunk);
@@ -64,6 +66,7 @@ private:
 	int chunkZSize;
 	int viewRange;
 	int loadRange;
+	int visibleChunkCount;
 	glm::vec3 viewPosition;
 	std::vector<std::shared_ptr<Sector> > sectorVec;
 	ofShader& shader;
