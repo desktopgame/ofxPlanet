@@ -75,6 +75,7 @@ class FixedWorld : public IWorld {
 		glm::vec3 getViewPosition() const;
 		int getViewRange() const;
 		ChunkLoadStyle getChunkLoadStyle() const;
+		std::shared_ptr<Sector> getSector(int xOffset, int zOffset) const;
 		std::shared_ptr<Chunk> getCurrentChunk();
 
         /**

@@ -1,6 +1,7 @@
 #include "Sector.hpp"
 #include "IWorld.hpp"
 #include "Chunk.hpp"
+#include "Block.hpp"
 
 namespace ofxPlanet {
 Sector::Sector(IWorld & world, int xOffset, int zOffset, int xSize, int zSize)
@@ -28,6 +29,24 @@ void Sector::setBlock(int x, int y, int z, std::shared_ptr<Block> block) {
 }
 std::shared_ptr<Block> Sector::getBlock(int x, int y, int z) const {
 	return table[x][y][z];
+}
+bool Sector::isFilled(int x, int y, int z) const {
+	int xo = chunk->getXOffset();
+	int zo = chunk->getZOffset();
+	bool overNegative = x < 0 || y < 0 || z < 0;
+	bool overPositive = x >= chunk->getXSize() || y >= world.getYSize() || z >= chunk->getZSize();
+	if (overNegative || overPositive) {
+		auto block = world.getBlock(x, y, z);
+		if (block == nullptr) {
+			return false;
+		}
+		return block->getShape() == BlockShape::Block;
+	}
+	auto block = getBlock(x, y, z);
+	if (block == nullptr) {
+		return false;
+	}
+	return block->getShape() == BlockShape::Block;
 }
 std::shared_ptr<Chunk> Sector::getChunk() const {
 	return this->chunk;

@@ -68,6 +68,15 @@ int World::getViewRange() const {
 ChunkLoadStyle World::getChunkLoadStyle() const {
 	return ChunkLoadStyle::VisibleChunk;
 }
+std::shared_ptr<Sector> World::getSector(int xOffset, int zOffset) const {
+	for (auto sector : this->sectorVec) {
+		auto chunk = sector->getChunk();
+		if (chunk->getXOffset() == xOffset && chunk->getZOffset() == zOffset) {
+			return sector;
+		}
+	}
+	return nullptr;
+}
 std::shared_ptr<Chunk> World::getCurrentChunk() {
 	return this->currentChunk;
 }

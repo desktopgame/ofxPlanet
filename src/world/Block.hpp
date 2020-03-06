@@ -11,6 +11,7 @@
 namespace ofxPlanet {
 
 class BlockRenderer;
+class IAreaBounds;
 /**
  * @param shape
  * @return
@@ -31,15 +32,14 @@ class Block {
         virtual ~Block() = default;
         /**
          * write position data to renderer.
-         * @param world
+         * @param areaBounds
          * @param brightness
          * @param renderer
-         * @parma x
-         * @param y
-         * @param z
+         * @parma modelPosition
+         * @param viewPosition
          */
-        void batch(const IWorld& world, BlockRenderer& renderer, int brightness,
-                   int x, int y, int z);
+        void batch(const IAreaBounds& areaBounds, BlockRenderer& renderer, int brightness,
+                   const glm::ivec3& modelPosition, const glm::ivec3& viewPosition);
         /**
          * returns TextureSet for rendering this block.
          * @return

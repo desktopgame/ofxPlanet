@@ -4,6 +4,7 @@
 #include <vector>
 #include <memory>
 #include "LightTable.hpp"
+#include "IAreaBounds.hpp"
 
 namespace ofxPlanet {
 class IWorld;
@@ -12,12 +13,13 @@ class Chunk;
 /**
  * Sector.
  */
-class Sector {
+class Sector : public IAreaBounds {
 public:
 	explicit Sector(IWorld& world, int xOffset, int zOffset, int xSize, int zSize);
 
 	void setBlock(int x, int y, int z, std::shared_ptr<Block> block);
 	std::shared_ptr<Block> getBlock(int x, int y, int z) const;
+	bool isFilled(int x, int y, int z) const;
 	std::shared_ptr<Chunk> getChunk() const;
 	LightTable& getLightTable();
 	const LightTable& getLightTable() const;

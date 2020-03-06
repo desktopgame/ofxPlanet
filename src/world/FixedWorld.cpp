@@ -96,6 +96,11 @@ int FixedWorld::getViewRange() const { return this->viewRange; }
 
 ChunkLoadStyle FixedWorld::getChunkLoadStyle() const { return this->chunkLoadStyle; }
 
+std::shared_ptr<Sector> FixedWorld::getSector(int xOffset, int zOffset) const {
+	//TODO:Œã‚ÅŽÀ‘•‚·‚é
+	return nullptr;
+}
+
 std::shared_ptr<Chunk> FixedWorld::getCurrentChunk() {
 	if (this->currentChunk == nullptr) {
 		this->viewPosition.x = std::max(

@@ -6,6 +6,8 @@
 #include "Block.hpp"
 #include "Chunk.hpp"
 #include "World.hpp"
+#include "Timer.hpp"
+#include "Sector.hpp"
 
 namespace ofxPlanet {
 Chunk::~Chunk() { deleteRenderer(); }
@@ -222,19 +224,39 @@ void Chunk::deleteRenderer() {
 }
 void Chunk::batch() {
         renderer->clear();
+		Timer timer;
+		timer.start();
+		auto sector = world.getSector(xOffset, zOffset);
         for (int x = xOffset; x < xOffset + xSize; x++) {
                 for (int z = zOffset; z < zOffset + zSize; z++) {
                         for (int y = 0; y < world.getYSize(); y++) {
-                                auto block = world.getBlock(x, y, z);
-                                if (block != nullptr) {
-										int brightness = this->world.getBrightness(x,y,z);
-                                        block->batch(this->world, *renderer,
-                                                     brightness, x, y, z);
-                                }
+								if (sector) {
+									int nx = x - xOffset;
+									int nz = z - zOffset;
+									auto block = sector->getBlock(nx, y, nz);
+									if (!block) {
+										continue;
+									}
+									int brightness = sector->getLightTable().getLight(nx, y, nz);
+									block->batch(*sector.get(), *renderer,brightness, glm::ivec3(nx,y,nz), glm::ivec3(x, y, z));
+								} else {
+									auto block = world.getBlock(x, y, z);
+									if (!block) {
+										continue;
+									}
+									int brightness = this->world.getBrightness(x, y, z);
+									block->batch(this->world, *renderer,
+										brightness, glm::ivec3(x, y, z), glm::ivec3(x, y, z));
+								}
                         }
                 }
         }
+		timer.end();
+		std::cout << "batch:" << timer.str() << std::endl;
+		timer.start();
         renderer->update();
+		timer.end();
+		std::cout << "gl:" << timer.str() << std::endl;
 }
 void Chunk::rehashAll() {
         if (this->type == ChunkType::Single) {

@@ -6,6 +6,7 @@
 #include "Texture.hpp"
 #include "TexturePack.hpp"
 #include "World.hpp"
+#include "IAreaBounds.hpp"
 namespace ofxPlanet {
 Block::Block(BlockShape shape, const std::string& name,
              const std::string& textureReference, int id)
@@ -14,8 +15,8 @@ Block::Block(BlockShape shape, const std::string& name,
       textureReference(textureReference),
       id(id),
       textureSetIndex(-1) {}
-void Block::batch(const IWorld& world, BlockRenderer& renderer, int brightness,
-                  int x, int y, int z) {
+void Block::batch(const IAreaBounds& areaBounds, BlockRenderer& renderer, int brightness,
+		const glm::ivec3& modelPosition, const glm::ivec3& viewPosition) {
         TextureSet set = getTextureSet();
         std::reference_wrapper<GraphicsRenderer> target =
             renderer.getCubeRenderer();
@@ -32,29 +33,28 @@ void Block::batch(const IWorld& world, BlockRenderer& renderer, int brightness,
         } else if (this->shape == BlockShape::BottomSlab) {
                 target = renderer.getBottomSlabRenderer();
         }
-        if (!world.isFilled(x - 1, y, z)) {
+        if (!areaBounds.isFilled(modelPosition.x - 1, modelPosition.y, modelPosition.z)) {
                 target.get().putLeft(set.getLeftImage()->getName(), brightness,
-                                     x, y, z);
+                                     viewPosition.x, viewPosition.y, viewPosition.z);
         }
-        if (!world.isFilled(x + 1, y, z)) {
+        if (!areaBounds.isFilled(modelPosition.x + 1, modelPosition.y, modelPosition.z)) {
                 target.get().putRight(set.getRightImage()->getName(),
-                                      brightness, x, y, z);
+                                      brightness, viewPosition.x, viewPosition.y, viewPosition.z);
         }
-        if (!world.isFilled(x, y, z - 1)) {
+        if (!areaBounds.isFilled(modelPosition.x, modelPosition.y, modelPosition.z - 1)) {
                 target.get().putBack(set.getBackImage()->getName(), brightness,
-                                     x, y, z);
+					viewPosition.x, viewPosition.y, viewPosition.z);
         }
-        if (!world.isFilled(x, y, z + 1)) {
+        if (!areaBounds.isFilled(modelPosition.x, modelPosition.y, modelPosition.z + 1)) {
                 target.get().putFront(set.getFrontImage()->getName(),
-                                      brightness, x, y, z);
+                                      brightness, viewPosition.x, viewPosition.y, viewPosition.z);
         }
-        if (!world.isFilled(x, y + 1, z)) {
-                target.get().putTop(set.getTopImage()->getName(), brightness, x,
-                                    y, z);
+        if (!areaBounds.isFilled(modelPosition.x, modelPosition.y + 1, modelPosition.z)) {
+                target.get().putTop(set.getTopImage()->getName(), brightness, viewPosition.x, viewPosition.y, viewPosition.z);
         }
-        if (!world.isFilled(x, y - 1, z)) {
+        if (!areaBounds.isFilled(modelPosition.x, modelPosition.y - 1, modelPosition.z)) {
                 target.get().putBottom(set.getBottomImage()->getName(),
-                                       brightness, x, y, z);
+                                       brightness, viewPosition.x, viewPosition.y, viewPosition.z);
         }
 }
 
