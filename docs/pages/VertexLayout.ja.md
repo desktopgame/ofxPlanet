@@ -3,15 +3,15 @@
 
 ## Attribute Variables
 ### Vertex
-Vertex は形状の頂点です。属性インデックスは0で、 型は "vec3" です。
+Vertex は形状の頂点です。属性インデックスは0で、 型は "vec3" です。  
 これはopenFrameworksのデフォルトバインディングを使用しています。
 
 ### TexCoord
-TexCoord はテクスチャのUV座標です。 属性インデックスは3で、型は "vec2" です。
+TexCoord はテクスチャのUV座標です。 属性インデックスは3で、型は "vec2" です。  
 これはopenFrameworksのデフォルトバインディングを使用しています。
 
 ### Position
-Position は形状の位置です。 属性インデックスは4で、型は"ivec3"です。
+Position は形状の位置です。 属性インデックスは4で、型は"ivec3"です。  
 この変数が必要なのは、インスタンシング描画のためです。
 
 ## Uniform Variables
