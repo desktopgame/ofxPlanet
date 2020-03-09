@@ -1,4 +1,4 @@
-# 頂点レイアウト
+# Vertex Layout(ja)
 このページはofxPlanetのシェーダをカスタマイズするためのドキュメントです。
 
 ## Attribute Variables
