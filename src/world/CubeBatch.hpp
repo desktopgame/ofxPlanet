@@ -11,6 +11,7 @@
 #include "GraphicsBatch.hpp"
 #include "LightTable.hpp"
 #include "Plane.hpp"
+#include "GraphicsRenderer.hpp"
 namespace ofxPlanet {
 class World;
 class Camera;
@@ -21,27 +22,27 @@ class CubeBatch : public GraphicsBatch {
        public:
         using PlaneArray = std::array<std::shared_ptr<Plane>,
                                       static_cast<int>(PlaneType::Count)>;
-        using PosVec = std::vector<float>;
+        using PosVec = std::vector<PositionType>;
         using PosArray = std::array<PosVec, static_cast<int>(PlaneType::Count)>;
         using VboArray = GLuint[6];
         explicit CubeBatch(ofShader& shader,
                            const glm::vec3& size, int direction);
         ~CubeBatch();
 
-        void putFront(int brightness, int x, int y, int z) override;
-        void putBack(int brightness, int x, int y, int z) override;
-        void putLeft(int brightness, int x, int y, int z) override;
-        void putRight(int brightness, int x, int y, int z) override;
-        void putTop(int brightness, int x, int y, int z) override;
-        void putBottom(int brightness, int x, int y, int z) override;
+        void putFront(int brightness, PositionType x, PositionType y, PositionType z) override;
+        void putBack(int brightness, PositionType x, PositionType y, PositionType z) override;
+        void putLeft(int brightness, PositionType x, PositionType y, PositionType z) override;
+        void putRight(int brightness, PositionType x, PositionType y, PositionType z) override;
+        void putTop(int brightness, PositionType x, PositionType y, PositionType z) override;
+        void putBottom(int brightness, PositionType x, PositionType y, PositionType z) override;
         void clear() override;
         void update() override;
         void render(GLuint texture) override;
 
        private:
-        void put(PlaneType type, int brightness, int x, int y, int z);
+        void put(PlaneType type, int brightness, PositionType x, PositionType y, PositionType z);
         void updatePlane(PlaneType type, int brightness);
-        std::vector<float>& getPosVec(PlaneType type, int brightness);
+        std::vector<PositionType>& getPosVec(PlaneType type, int brightness);
         glm::vec3 size;
         int direction;
 

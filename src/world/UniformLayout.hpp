@@ -6,6 +6,7 @@ namespace ofxPlanet {
 class UniformLayout {
        public:
         static std::string BRIGHTNESSS_NAME;
+		static std::string MODELMATRIX_NAME;
 
        private:
         UniformLayout() = delete;

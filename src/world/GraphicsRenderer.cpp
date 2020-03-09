@@ -5,28 +5,28 @@
 namespace ofxPlanet {
 GraphicsRenderer::GraphicsRenderer(ofShader& shader)
     : shader(shader), map() {}
-void GraphicsRenderer::putFront(GLuint texture, int brightness, int x, int y,
-                                int z) {
+void GraphicsRenderer::putFront(GLuint texture, int brightness, PositionType x, PositionType y,
+	PositionType z) {
         ref(texture)->putFront(brightness, x, y, z);
 }
-void GraphicsRenderer::putBack(GLuint texture, int brightness, int x, int y,
-                               int z) {
+void GraphicsRenderer::putBack(GLuint texture, int brightness, PositionType x, PositionType y,
+	PositionType z) {
         ref(texture)->putBack(brightness, x, y, z);
 }
-void GraphicsRenderer::putLeft(GLuint texture, int brightness, int x, int y,
-                               int z) {
+void GraphicsRenderer::putLeft(GLuint texture, int brightness, PositionType x, PositionType y,
+	PositionType z) {
         ref(texture)->putLeft(brightness, x, y, z);
 }
-void GraphicsRenderer::putRight(GLuint texture, int brightness, int x, int y,
-                                int z) {
+void GraphicsRenderer::putRight(GLuint texture, int brightness, PositionType x, PositionType y,
+	PositionType z) {
         ref(texture)->putRight(brightness, x, y, z);
 }
-void GraphicsRenderer::putTop(GLuint texture, int brightness, int x, int y,
-                              int z) {
+void GraphicsRenderer::putTop(GLuint texture, int brightness, PositionType x, PositionType y,
+	PositionType z) {
         ref(texture)->putTop(brightness, x, y, z);
 }
-void GraphicsRenderer::putBottom(GLuint texture, int brightness, int x, int y,
-                                 int z) {
+void GraphicsRenderer::putBottom(GLuint texture, int brightness, PositionType x, PositionType y,
+	PositionType z) {
         ref(texture)->putBottom(brightness, x, y, z);
 }
 void GraphicsRenderer::clear() {

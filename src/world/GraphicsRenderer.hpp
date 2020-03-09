@@ -9,6 +9,7 @@
 namespace ofxPlanet {
 class World;
 class GraphicsBatch;
+using PositionType = GLbyte;
 /**
  * GraphicsRenderer is wrapper for GraphicsBatch.
  */
@@ -25,7 +26,7 @@ class GraphicsRenderer {
          * @param y
          * @param z
          */
-        void putFront(GLuint texture, int brightness, int x, int y, int z);
+        void putFront(GLuint texture, int brightness, PositionType x, PositionType y, PositionType z);
         /**
          * add position to GraphicsBatch.
          * @param texture
@@ -34,7 +35,7 @@ class GraphicsRenderer {
          * @param y
          * @param z
          */
-        void putBack(GLuint texture, int brightness, int x, int y, int z);
+        void putBack(GLuint texture, int brightness, PositionType x, PositionType y, PositionType z);
         /**
          * add position to GraphicsBatch.
          * @param texture
@@ -43,7 +44,7 @@ class GraphicsRenderer {
          * @param y
          * @param z
          */
-        void putLeft(GLuint texture, int brightness, int x, int y, int z);
+        void putLeft(GLuint texture, int brightness, PositionType x, PositionType y, PositionType z);
         /**
          * add position to GraphicsBatch.
          * @param texture
@@ -52,7 +53,7 @@ class GraphicsRenderer {
          * @param y
          * @param z
          */
-        void putRight(GLuint texture, int brightness, int x, int y, int z);
+        void putRight(GLuint texture, int brightness, PositionType x, PositionType y, PositionType z);
         /**
          * add position to GraphicsBatch.
          * @param texture
@@ -61,7 +62,7 @@ class GraphicsRenderer {
          * @param y
          * @param z
          */
-        void putTop(GLuint texture, int brightness, int x, int y, int z);
+        void putTop(GLuint texture, int brightness, PositionType x, PositionType y, PositionType z);
         /**
          * add position to GraphicsBatch.
          * @param texture
@@ -70,7 +71,7 @@ class GraphicsRenderer {
          * @param y
          * @param z
          */
-        void putBottom(GLuint texture, int brightness, int x, int y, int z);
+        void putBottom(GLuint texture, int brightness, PositionType x, PositionType y, PositionType z);
 
         /**
          * clear all vertex.

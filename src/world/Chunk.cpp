@@ -2,12 +2,14 @@
 
 #include <ofGraphics.h>
 #include <iostream>
+#include <glm/gtc/matrix_transform.hpp>
 
 #include "Block.hpp"
 #include "Chunk.hpp"
 #include "World.hpp"
 #include "Timer.hpp"
 #include "Sector.hpp"
+#include "UniformLayout.hpp"
 
 namespace ofxPlanet {
 Chunk::~Chunk() { deleteRenderer(); }
@@ -62,6 +64,12 @@ void Chunk::draw() {
 					this->changedToVisible = false;
 				}
                 if (this->renderer != nullptr) {
+					   auto& shader = world.getShader();
+					   shader.begin();
+					   float oX = this->xSize * 2.0f;
+					   float oZ = this->zSize * 2.0f;
+					   shader.setUniformMatrix4f(UniformLayout::MODELMATRIX_NAME, glm::translate(glm::mat4(1.0f), glm::vec3(xOffset*2.0f, 0, zOffset*2.0f)));
+					   shader.end();
                        renderer->render();
                 }
         } else {
@@ -228,15 +236,15 @@ void Chunk::batch() {
         for (int x = xOffset; x < xOffset + xSize; x++) {
                 for (int z = zOffset; z < zOffset + zSize; z++) {
                         for (int y = 0; y < world.getYSize(); y++) {
+								int nx = x - xOffset;
+								int nz = z - zOffset;
 								if (sector) {
-									int nx = x - xOffset;
-									int nz = z - zOffset;
 									auto block = sector->getBlock(nx, y, nz);
 									if (!block) {
 										continue;
 									}
 									int brightness = sector->getLightTable().getLight(nx, y, nz);
-									block->batch(*sector.get(), *renderer,brightness, glm::ivec3(nx,y,nz), glm::ivec3(x, y, z));
+									block->batch(*sector.get(), *renderer,brightness, glm::ivec3(nx,y,nz), glm::ivec3(nx, y,nz));
 								} else {
 									auto block = world.getBlock(x, y, z);
 									if (!block) {
@@ -244,7 +252,7 @@ void Chunk::batch() {
 									}
 									int brightness = this->world.getBrightness(x, y, z);
 									block->batch(this->world, *renderer,
-										brightness, glm::ivec3(x, y, z), glm::ivec3(x, y, z));
+										brightness, glm::ivec3(nx, y, nz), glm::ivec3(nx, y, nz));
 								}
                         }
                 }
