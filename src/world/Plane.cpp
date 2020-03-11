@@ -10,20 +10,20 @@ glm::vec3 Plane::RIGHT_NORMAL = glm::vec3(1, 0, 0);
 glm::vec3 Plane::FRONT_NORMAL = glm::vec3(0, 0, 1);
 glm::vec3 Plane::BACK_NORMAL = glm::vec3(0, 0, -1);
 
+#define vertexBuf (this->buffer[0])
+#define texcoordBuf (this->buffer[1])
+#define indexBuf (this->buffer[2])
+
 Plane::Plane(ofShader& shader, PlaneType type, const glm::vec3 size)
-    : shader(shader), type(type), size(size) {
+	: shader(shader), type(type), size(size),vao(), buffer{0,0,0} {
         glGenVertexArrays(1, &vao);
-        glGenBuffers(1, &vertexBuf);
-        glGenBuffers(1, &texcoordBuf);
-        glGenBuffers(1, &indexBuf);
+		glGenBuffers(3, buffer);
         setupOfVbo(type, size);
 }
 
 Plane::~Plane() {
         glDeleteVertexArrays(1, &vao);
-        glDeleteBuffers(1, &vertexBuf);
-        glDeleteBuffers(1, &texcoordBuf);
-        glDeleteBuffers(1, &indexBuf);
+		glDeleteBuffers(3, buffer);
 }
 
 GLuint Plane::getVAO() const { return vao; }
@@ -191,3 +191,7 @@ std::vector<float> Plane::createBottomUV() {
         return std::vector<float>{0, 0, 1, 0, 1, 1, 0, 1};
 }
 }  // namespace ofxPlanet
+
+#undef vertexBuf
+#undef texcoordBuf
+#undef indexBuf
