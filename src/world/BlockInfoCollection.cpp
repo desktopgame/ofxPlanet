@@ -1,40 +1,34 @@
 #include "BlockInfoCollection.hpp"
 
-#include "picojson/picojson.h"
+#include <ofJson.h>
 
 namespace ofxPlanet {
 BlockInfoCollection::BlockInfoCollection() : blockInfoVec() {}
 std::string BlockInfoCollection::serialize() const {
-        picojson::object rootO;
-        picojson::array blocksA;
+		ofJson rootO;
+		ofJson blocksA;
         for (auto blockInfo : blockInfoVec) {
-                picojson::object blockO;
-                blockO["texture"] = picojson::value(blockInfo.textue);
-                blockO["reference"] = picojson::value(blockInfo.reference);
-                blockO["shape"] = picojson::value(blockInfo.shape);
-                blocksA.push_back(picojson::value(blockO));
+				ofJson blockO;
+                blockO["texture"] = blockInfo.textue;
+                blockO["reference"] = blockInfo.reference;
+                blockO["shape"] = blockInfo.shape;
+				blocksA.push_back(blockO);
         }
-        rootO["blocks"] = picojson::value(blocksA);
-        return picojson::value(rootO).serialize(true);
+        rootO["blocks"] = blocksA;
+		return rootO.dump();
 }
 void BlockInfoCollection::deserialize(const std::string& json) {
-        picojson::value root;
-        const std::string err = picojson::parse(root, json);
-        if (err.empty() == false) {
-                std::cerr << err << std::endl;
-                return;
-        }
-        auto rootO = root.get<picojson::object>();
+        ofJson root = ofJson::parse(json);
+		auto rootO = root;
         auto blocksV = rootO["blocks"];
-        auto blocksA = blocksV.get<picojson::array>();
+		auto blocksA = blocksV;
         auto blocksIter = blocksA.begin();
         while (blocksIter != blocksA.end()) {
                 BlockInfo bi;
                 auto blockV = *blocksIter;
-                auto blockO = blockV.get<picojson::object>();
+                auto blockO = blockV;
                 auto textureV = blockO["texture"];
                 auto referenceV = blockO["reference"];
-                //
                 std::string shape("Block");
                 if (blockO.count("shape")) {
                         shape = blockO["shape"].get<std::string>();

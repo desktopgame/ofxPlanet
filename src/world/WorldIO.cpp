@@ -11,7 +11,7 @@
 #include "BlockPack.hpp"
 #include "TexturePack.hpp"
 #include "FixedWorld.hpp"
-#include "picojson/picojson.h"
+#include <ofJson.h>
 
 #define _CRT_SECURE_NO_WARNINGS
 
@@ -38,9 +38,9 @@ AsyncOperation WorldIO::saveJson(const std::string& outputFile,
                 auto outputPath = ofFilePath::join(
                     ofFilePath::getCurrentExeDir(), outputFile);
                 ofFile::removeFile(outputPath);
-                picojson::object rootO;
-                picojson::array blocksA;
-                picojson::object worldSizeO;
+                ofJson rootO;
+				ofJson blocksA;
+				ofJson worldSizeO;
                 std::stringstream ss;
                 int xs = world->getXSize();
                 int ys = world->getYSize();
@@ -91,31 +91,23 @@ AsyncOperation WorldIO::saveJson(const std::string& outputFile,
                                         if (blockXP && blockXN && blockYP &&
                                             blockYN && blockZP && blockZN) {
                                         } else {
-                                                picojson::object blockO;
-                                                blockO["x"] = picojson::value(
-                                                    static_cast<double>(x));
-                                                blockO["y"] = picojson::value(
-                                                    static_cast<double>(y));
-                                                blockO["z"] = picojson::value(
-                                                    static_cast<double>(z));
-                                                blockO["block"] =
-                                                    picojson::value(
-                                                        block->getName());
+												ofJson blockO;
+                                                blockO["x"] = static_cast<double>(x);
+                                                blockO["y"] = static_cast<double>(y);
+                                                blockO["z"] = static_cast<double>(z);
+                                                blockO["block"] =block->getName();
                                                 blocksA.emplace_back(blockO);
                                         }
                                         ret->setValue(sumf(x, y, z) / all);
                                 }
                         }
                 }
-                worldSizeO["x"] =
-                    picojson::value(static_cast<double>(world->getXSize()));
-                worldSizeO["y"] =
-                    picojson::value(static_cast<double>(world->getYSize()));
-                worldSizeO["z"] =
-                    picojson::value(static_cast<double>(world->getZSize()));
-                rootO["cell"] = picojson::value(blocksA);
-                rootO["worldSize"] = picojson::value(worldSizeO);
-                ss << picojson::value(rootO) << std::endl;
+                worldSizeO["x"] = static_cast<double>(world->getXSize());
+                worldSizeO["y"] = static_cast<double>(world->getYSize());
+                worldSizeO["z"] = static_cast<double>(world->getZSize());
+                rootO["cell"] = blocksA;
+                rootO["worldSize"] = worldSizeO;
+                ss << rootO.dump() << std::endl;
                 std::ofstream ofs(outputPath);
                 ofs << ss.str();
                 ofs.close();

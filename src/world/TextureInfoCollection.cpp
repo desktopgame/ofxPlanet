@@ -3,87 +3,74 @@
 #include <ofFileUtils.h>
 #include <ofUtils.h>
 
-#include "picojson/picojson.h"
+#include <ofJson.h>
 
 namespace ofxPlanet {
 TextureInfoCollection::TextureInfoCollection(const std::string& baseDirectory)
     : baseDirectory(baseDirectory), textureInfoVec() {}
 TextureInfoCollection::TextureInfoCollection() : TextureInfoCollection(".") {}
 std::string TextureInfoCollection::serialize() const {
-        picojson::object rootO;
-        picojson::array texturesA;
+        ofJson rootO;
+        ofJson texturesA;
         for (auto texInfo : textureInfoVec) {
-                picojson::object textureO;
-                picojson::object mappingRuleO;
-                textureO["baseFileName"] =
-                    picojson::value(texInfo.baseFileName);
-                textureO["reference"] = picojson::value(texInfo.reference);
+                ofJson textureO;
+                ofJson mappingRuleO;
+                textureO["baseFileName"] = texInfo.baseFileName;
+                textureO["reference"] = texInfo.reference;
                 if (texInfo.mappingRule.all.hasValue()) {
-                        mappingRuleO["all"] =
-                            picojson::value(texInfo.mappingRule.all.getValue());
+                        mappingRuleO["all"] = texInfo.mappingRule.all.getValue();
                 }
                 // front, back
                 if (texInfo.mappingRule.front.hasValue()) {
-                        mappingRuleO["front"] = picojson::value(
-                            texInfo.mappingRule.front.getValue());
+                        mappingRuleO["front"] = texInfo.mappingRule.front.getValue();
                 }
                 if (texInfo.mappingRule.back.hasValue()) {
-                        mappingRuleO["back"] = picojson::value(
-                            texInfo.mappingRule.back.getValue());
+                        mappingRuleO["back"] = texInfo.mappingRule.back.getValue();
                 }
                 // left, right
                 if (texInfo.mappingRule.left.hasValue()) {
-                        mappingRuleO["left"] = picojson::value(
-                            texInfo.mappingRule.left.getValue());
+                        mappingRuleO["left"] = texInfo.mappingRule.left.getValue();
                 }
                 if (texInfo.mappingRule.right.hasValue()) {
-                        mappingRuleO["right"] = picojson::value(
-                            texInfo.mappingRule.right.getValue());
+                        mappingRuleO["right"] = texInfo.mappingRule.right.getValue();
                 }
                 // top, bottom
                 if (texInfo.mappingRule.top.hasValue()) {
-                        mappingRuleO["top"] =
-                            picojson::value(texInfo.mappingRule.top.getValue());
+                        mappingRuleO["top"] = texInfo.mappingRule.top.getValue();
                 }
                 if (texInfo.mappingRule.bottom.hasValue()) {
-                        mappingRuleO["bottom"] = picojson::value(
-                            texInfo.mappingRule.bottom.getValue());
+                        mappingRuleO["bottom"] = texInfo.mappingRule.bottom.getValue();
                 }
-                textureO["mappingRule"] = picojson::value(mappingRuleO);
-                texturesA.push_back(picojson::value(textureO));
+                textureO["mappingRule"] = mappingRuleO;
+                texturesA.push_back(textureO);
         }
-        rootO["textures"] = picojson::value(texturesA);
-        rootO["baseDirectory"] = picojson::value(this->baseDirectory);
-        return picojson::value(rootO).serialize(true);
+        rootO["textures"] = texturesA;
+        rootO["baseDirectory"] = this->baseDirectory;
+        return rootO.dump();
 }
 void TextureInfoCollection::deserialize(const std::string& json) {
-        picojson::value root;
-        const std::string err = picojson::parse(root, json);
-        if (err.empty() == false) {
-                std::cerr << err << std::endl;
-                return;
-        }
-        auto rootO = root.get<picojson::object>();
+		ofJson root = ofJson::parse(json);
+		auto rootO = root;
         auto texturesV = rootO["textures"];
-        auto texturesO = texturesV.get<picojson::array>();
+        auto texturesO = texturesV;
         auto baseDirV = rootO["baseDirectory"];
 
         auto texturesIter = texturesO.begin();
         while (texturesIter != texturesO.end()) {
                 TextureInfo info;
                 auto textureV = *texturesIter;
-                auto textureO = textureV.get<picojson::object>();
+                auto textureO = textureV;
                 auto baseFileNameV = textureO["baseFileName"];
                 auto referenceV = textureO["reference"];
                 auto mappingRuleV = textureO["mappingRule"];
-                auto mappingRuleO = mappingRuleV.get<picojson::object>();
+                auto mappingRuleO = mappingRuleV;
                 info.baseFileName = baseFileNameV.get<std::string>();
                 info.reference = referenceV.get<std::string>();
-                auto mappingRuleIter = mappingRuleO.begin();
-                while (mappingRuleIter != mappingRuleO.end()) {
+				auto mappingRuleIter = mappingRuleO.items().begin();
+                while (mappingRuleIter != mappingRuleO.items().end()) {
                         auto kv = *mappingRuleIter;
-                        auto key = kv.first;
-                        auto val = kv.second;
+						auto key = kv.key();
+						auto val = kv.value();
                         auto valS = val.get<std::string>();
                         if (key == "all") {
                                 info.mappingRule.all.setValue(valS);
