@@ -7,44 +7,8 @@ ofApp::ofApp()
 //--------------------------------------------------------------
 void ofApp::setup() {
 		// load shader
-        shader.setupShaderFromSource(GL_VERTEX_SHADER,
-                                     R"(
-#version 410
-#extension GL_ARB_explicit_attrib_location : require
-#extension GL_ARB_explicit_uniform_location : require
-/*
-0: position
-1: color
-2: normal
-3: texcoord
-*/
-layout(location=0) in vec3 aVertex;
-layout(location=3) in vec2 aUV;
-layout(location=4) in vec3 aPosition;
-uniform mat4 uMVPMatrix;
-out vec4 position;
-out vec2 uv;
-void main(void) {
-  position = uMVPMatrix * vec4(aVertex+aPosition, 1);
-  uv = aUV;
-  gl_Position = position;
-})");
-        shader.setupShaderFromSource(GL_FRAGMENT_SHADER,
-                                     R"(
-#version 410
-#extension GL_ARB_explicit_attrib_location : require
-#extension GL_ARB_explicit_uniform_location : require
-out vec4 outputC;
-uniform sampler2D uTexture;
-uniform float uBrightness;
-in vec2 uv;
-void main (void) {
-  vec3 black = vec3(0, 0, 0);
-  vec4 diffuse = texture(uTexture, uv);
-  vec3 color = mix(diffuse.rgb, black, uBrightness);
-  outputC = vec4(color.rgb, diffuse.a);
-}
-)");
+        shader.setupShaderFromSource(GL_VERTEX_SHADER, ofxPlanet::Shaders::STANDARD_VERTEX_SHADER);
+        shader.setupShaderFromSource(GL_FRAGMENT_SHADER, ofxPlanet::Shaders::STANDARD_FRAGMENT_SHADER);
         shader.bindDefaults();
         shader.linkProgram();
 		// load block define files.
@@ -83,21 +47,19 @@ void ofApp::draw() {
         auto cx = std::cos(cameraAngle);
         auto cz = std::sin(cameraAngle);
         camera.setScreenSize(glm::vec2(ofGetWidth(), ofGetHeight()));
-        camera.setPosition(
-            glm::vec3(hfwsx + (hfwsx * cx), wsy, hfwsz + (hfwsz * cz)) * 2);
+        camera.setPosition(glm::vec3((cx * 64.0f)-64.0f,128,(cz*64.0f) - 64.0f));
         camera.setLookAt(glm::vec3(wsx / 2, 0, wsz / 2) * 2);
         camera.rehash();
 
-		auto viewPos = camera.getPosition();
-		world->setViewPosition(viewPos / 2);
         this->cameraAngle += 0.01f;
         // シェーダーを更新
         camera.rehash();
         shader.begin();
-        shader.setUniformMatrix4f("uMVPMatrix", (camera.getProjectionMatrix() *
-                                                 camera.getViewMatrix()));
+        shader.setUniformMatrix4f(ofxPlanet::Shaders::STANDARD_UNIFORM_VIEWMATRIX_NAME,camera.getViewMatrix());
+		shader.setUniformMatrix4f(ofxPlanet::Shaders::STANDARD_UNIFORM_PROJECTIONMATRIX_NAME, camera.getProjectionMatrix());
         shader.end();
 
+		ofSetOrientation(OF_ORIENTATION_DEFAULT, false);
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_CULL_FACE);
 		glCullFace(GL_BACK);
