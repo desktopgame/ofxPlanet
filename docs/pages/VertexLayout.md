@@ -24,5 +24,5 @@ ModelMatrix is using for saving memory.
 should be this variable is defined "uModelMatrix", type is "mat4" in GLSL.
 
 ### Texture
-ModelMatrix is using for saving memory.  
+Texture is using for saving memory.  
 should be this variable is defined "uTexture", type is "sampler2D" in GLSL.
