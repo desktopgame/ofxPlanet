@@ -7,6 +7,7 @@ class UniformLayout {
        public:
         static std::string BRIGHTNESSS_NAME;
 		static std::string MODELMATRIX_NAME;
+		static std::string TEXTURE_NAME;
 
        private:
         UniformLayout() = delete;

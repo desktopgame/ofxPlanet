@@ -91,6 +91,7 @@ void CubeBatch::render(GLuint texture) {
              b < LightTable::BRIGHTNESS_MAX + 1; b++) {
                 float f = LightTable::computeShaderBrightness(b);
                 shader.begin();
+				shader.setUniform1i(UniformLayout::TEXTURE_NAME, 0);
                 shader.setUniform1f(UniformLayout::BRIGHTNESSS_NAME, f);
                 auto& planeA = this->planes[b];
                 for (int i = 0; i < static_cast<int>(PlaneType::Count); i++) {
