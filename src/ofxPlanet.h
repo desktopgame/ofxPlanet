@@ -14,4 +14,5 @@
 #include "world/WorldIO.hpp"
 #include "world/biome/BasicBiome.hpp"
 #include "world/biome/Biome.hpp"
+#include "world/Shaders.hpp"
 #endif
