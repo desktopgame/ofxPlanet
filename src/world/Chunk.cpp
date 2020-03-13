@@ -252,7 +252,7 @@ void Chunk::batch() {
 									}
 									int brightness = this->world.getBrightness(x, y, z);
 									block->batch(this->world, *renderer,
-										brightness, glm::ivec3(nx, y, nz), glm::ivec3(nx, y, nz));
+										brightness, glm::ivec3(x, y, z), glm::ivec3(nx, y, nz));
 								}
                         }
                 }
