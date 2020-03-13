@@ -160,7 +160,7 @@ World::World(ofShader & shader, int worldYSize)
  : worldYSize(worldYSize),
    chunkXSize(32),
    chunkZSize(32),
-   viewRange(128),
+   viewRange(64),
    loadRange(128),
    visibleChunkCount(6),
    viewPosition(0,0,0),
