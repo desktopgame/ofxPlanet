@@ -62,3 +62,10 @@ Version history
 * Planetクラスを削除
 * ソースフォルダのライセンスファイルを削除
   * このissueで報告された問題です。 [issue#1](https://github.com/desktopgame/ofxPlanet/issues/1)
+
+### Version 1.2.1(2020/03/13):
+* picojsonへの依存が削除されました。
+    * ブロック/テクスチャの読み込みは ofJson によって再実装されました。
+* concurrentqueueへの依存が削除されました。
+* 位置バッファを float から byte へ変更しました。
+    * これに伴い、新しい変数 uModelMatrix が GLSL に追加されました。

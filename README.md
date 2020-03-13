@@ -63,3 +63,10 @@ minor fix
 * removed Planet class.
 * removed license file at source folder.
   * for this issue. [issue#1](https://github.com/desktopgame/ofxPlanet/issues/1)
+
+### Version 1.2.1(2020/03/13):
+* removed dependencies to picojson.
+    * was re implemented Block/Texture loading by ofJson.
+* removed dependencies to concurrentqueue.
+* position buffer was changed data type from float to byte.
+    * also accompanied this, added new uniform variable is uModelMatrix to GLSL.
