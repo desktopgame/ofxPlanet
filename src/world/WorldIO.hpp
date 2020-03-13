@@ -7,8 +7,8 @@
 #include <memory>
 #include <string>
 
-#include "objb/MtlBuilder.hpp"
-#include "objb/ObjBuilder.hpp"
+#include "util/MtlBuilder.hpp"
+#include "util/ObjBuilder.hpp"
 
 namespace ofxPlanet {
 class FixedWorld;
