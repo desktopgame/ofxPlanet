@@ -6,7 +6,6 @@
 #include <vector>
 
 namespace ofxPlanet {
-namespace objb {
 /**
  * MtlElement is material information.
  */
@@ -47,6 +46,5 @@ class MtlBuilder {
        private:
         std::vector<MtlElement*> elements;
 };
-}  // namespace objb
 }  // namespace ofxPlanet
 #endif

@@ -180,7 +180,6 @@ glm::vec3 WorldIO::asVec3(int x, int y, int z) { return glm::vec3(x, y, z); }
 void WorldIO::saveObjAsync(std::shared_ptr<Progress> progress,
                            const std::string& outputDir,
                            const std::shared_ptr<FixedWorld>& world) {
-        using namespace objb;
         // remove already exists file.
         auto outputPath =
             ofFilePath::join(ofFilePath::getCurrentExeDir(),
@@ -320,11 +319,10 @@ void WorldIO::saveObjAsync(std::shared_ptr<Progress> progress,
 // private
 void WorldIO::genTopPlane(const std::string& outputDir,
                           std::vector<std::string>& texVec,
-                          objb::ObjBuilder& ob, objb::MtlBuilder& mb,
+                          ObjBuilder& ob, MtlBuilder& mb,
                           glm::ivec3 worldPos, glm::ivec3 objPos,
                           glm::vec3 size, glm::vec3 offset,
                           const std::shared_ptr<FixedWorld>& world) {
-        using namespace objb;
         char buf[256];
         std::memset(buf, '\0', 256);
         std::sprintf(buf, "plane%d%d%d_Top", objPos.x, objPos.y, objPos.z);
@@ -379,11 +377,10 @@ void WorldIO::genTopPlane(const std::string& outputDir,
 
 void WorldIO::genBottomPlane(const std::string& outputDir,
                              std::vector<std::string>& texVec,
-                             objb::ObjBuilder& ob, objb::MtlBuilder& mb,
+                             ObjBuilder& ob, MtlBuilder& mb,
                              glm::ivec3 worldPos, glm::ivec3 objPos,
                              glm::vec3 size, glm::vec3 offset,
                              const std::shared_ptr<FixedWorld>& world) {
-        using namespace objb;
         char buf[256];
         std::memset(buf, '\0', 256);
         std::sprintf(buf, "plane%d%d%d_Bottom", objPos.x, objPos.y, objPos.z);
@@ -438,11 +435,10 @@ void WorldIO::genBottomPlane(const std::string& outputDir,
 
 void WorldIO::genLeftPlane(const std::string& outputDir,
                            std::vector<std::string>& texVec,
-                           objb::ObjBuilder& ob, objb::MtlBuilder& mb,
+                           ObjBuilder& ob, MtlBuilder& mb,
                            glm::ivec3 worldPos, glm::ivec3 objPos,
                            glm::vec3 size, glm::vec3 offset,
                            const std::shared_ptr<FixedWorld>& world) {
-        using namespace objb;
         char buf[256];
         std::memset(buf, '\0', 256);
         std::sprintf(buf, "plane%d%d%d_Left", objPos.x, objPos.y, objPos.z);
@@ -497,11 +493,10 @@ void WorldIO::genLeftPlane(const std::string& outputDir,
 
 void WorldIO::genRightPlane(const std::string& outputDir,
                             std::vector<std::string>& texVec,
-                            objb::ObjBuilder& ob, objb::MtlBuilder& mb,
+                            ObjBuilder& ob, MtlBuilder& mb,
                             glm::ivec3 worldPos, glm::ivec3 objPos,
                             glm::vec3 size, glm::vec3 offset,
                             const std::shared_ptr<FixedWorld>& world) {
-        using namespace objb;
         char buf[256];
         std::memset(buf, '\0', 256);
         std::sprintf(buf, "plane%d%d%d_Right", objPos.x, objPos.y, objPos.z);
@@ -556,11 +551,10 @@ void WorldIO::genRightPlane(const std::string& outputDir,
 
 void WorldIO::genFrontPlane(const std::string& outputDir,
                             std::vector<std::string>& texVec,
-                            objb::ObjBuilder& ob, objb::MtlBuilder& mb,
+                            ObjBuilder& ob, MtlBuilder& mb,
                             glm::ivec3 worldPos, glm::ivec3 objPos,
                             glm::vec3 size, glm::vec3 offset,
                             const std::shared_ptr<FixedWorld>& world) {
-        using namespace objb;
         char buf[256];
         std::memset(buf, '\0', 256);
         std::sprintf(buf, "plane%d%d%d_Front", objPos.x, objPos.y, objPos.z);
@@ -615,11 +609,10 @@ void WorldIO::genFrontPlane(const std::string& outputDir,
 
 void WorldIO::genBackPlane(const std::string& outputDir,
                            std::vector<std::string>& texVec,
-                           objb::ObjBuilder& ob, objb::MtlBuilder& mb,
+                           ObjBuilder& ob, MtlBuilder& mb,
                            glm::ivec3 worldPos, glm::ivec3 objPos,
                            glm::vec3 size, glm::vec3 offset,
                            const std::shared_ptr<FixedWorld>& world) {
-        using namespace objb;
         char buf[256];
         std::memset(buf, '\0', 256);
         std::sprintf(buf, "plane%d%d%d_Back", objPos.x, objPos.y, objPos.z);

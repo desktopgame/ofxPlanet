@@ -5,7 +5,6 @@
 #include <sstream>
 
 namespace ofxPlanet {
-namespace objb {
 // ObjIndex
 ObjIndex::ObjIndex(int index, IndexMode mode)
     : index(index), mode(mode), valid(true) {}
@@ -196,5 +195,4 @@ int ObjBuilder::resolveTexcoordIndex(std::vector<int>& cache, int modelIndex,
                static_cast<int>(models[modelIndex]->texcoords.size()) +
                localTexcoordIndex + static_cast<int>(this->texcoords.size());
 }
-}  // namespace objb
 }  // namespace ofxPlanet

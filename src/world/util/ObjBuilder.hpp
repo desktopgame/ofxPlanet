@@ -7,7 +7,6 @@
 #include <vector>
 
 namespace ofxPlanet {
-namespace objb {
 /**
  * IndexMode.
  */
@@ -295,6 +294,5 @@ inline void ObjBuilder::writeImpl(StreamType& stream, int index,
                 stream << std::endl;
         }
 }
-}  // namespace objb
 }  // namespace ofxPlanet
 #endif

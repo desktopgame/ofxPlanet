@@ -3,7 +3,6 @@
 #include <sstream>
 
 namespace ofxPlanet {
-namespace objb {
 // MtlElement
 MtlElement::MtlElement(const std::string& name)
     : name(name),
@@ -85,5 +84,4 @@ std::string MtlBuilder::toString() const {
         ss << std::endl;
         return ss.str();
 }
-}  // namespace objb
 }  // namespace ofxPlanet
