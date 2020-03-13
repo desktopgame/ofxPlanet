@@ -4,18 +4,17 @@
 #include <string>
 #include <vector>
 namespace ofxPlanet {
-namespace csvr {
 constexpr char separator = ',';
 constexpr char newline = '\n';
 
-using Line = std::vector<std::string>;
-using Table = std::vector<Line>;
+using CSVLine = std::vector<std::string>;
+using CSVTable = std::vector<CSVLine>;
 /**
- * Parser.
+ * CSVParser.
  */
-class Parser {
+class CSVParser {
        public:
-        explicit Parser();
+        explicit CSVParser();
 
         /**
          * @param source
@@ -26,23 +25,22 @@ class Parser {
          * @param index
          * @return
          */
-        Table& getTableAt(int index);
+        CSVTable& getTableAt(int index);
 
         /**
          * @param index
          * @return
          */
-        const Table& getTableAt(int index) const;
+        const CSVTable& getTableAt(int index) const;
         /**
          * @return
          */
         int getTableCount() const;
 
        private:
-        static int parse(int start, const std::string& source, Table& table);
+        static int parse(int start, const std::string& source, CSVTable& table);
         static bool isNullOrEmpty(const std::string& str);
-        std::vector<Table> tables;
+        std::vector<CSVTable> tables;
 };
-}  // namespace csvr
 }  // namespace ofxPlanet
 #endif

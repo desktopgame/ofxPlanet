@@ -1,4 +1,4 @@
-#include "parser.hpp"
+#include "CSVParser.hpp"
 
 #include <cctype>
 #include <iostream>
@@ -6,12 +6,11 @@
 #include <stdexcept>
 
 namespace ofxPlanet {
-namespace csvr {
-Parser::Parser() : tables() {}
-void Parser::parse(const std::string& source) {
+CSVParser::CSVParser() : tables() {}
+void CSVParser::parse(const std::string& source) {
         int start = 0;
         while (true) {
-                Table table;
+                CSVTable table;
                 int read = parse(start, source, table);
                 if (start >= static_cast<int>(source.size())) {
                         break;
@@ -20,15 +19,15 @@ void Parser::parse(const std::string& source) {
                 this->tables.emplace_back(table);
         }
 }
-Table& Parser::getTableAt(int index) { return tables.at(index); }
-const Table& Parser::getTableAt(int index) const { return tables.at(index); }
-int Parser::getTableCount() const { return static_cast<int>(tables.size()); }
+CSVTable& CSVParser::getTableAt(int index) { return tables.at(index); }
+const CSVTable& CSVParser::getTableAt(int index) const { return tables.at(index); }
+int CSVParser::getTableCount() const { return static_cast<int>(tables.size()); }
 
-int Parser::parse(int start, const std::string& source, Table& table) {
+int CSVParser::parse(int start, const std::string& source, CSVTable& table) {
         int len = static_cast<int>(source.size());
         int read = 0;
         int columns = 0;
-        Line line;
+        CSVLine line;
         std::stringstream sbuf;
         for (int i = start; i < len; i++) {
                 char c = source.at(i);
@@ -59,7 +58,7 @@ int Parser::parse(int start, const std::string& source, Table& table) {
         }
         return read;
 }
-bool Parser::isNullOrEmpty(const std::string& str) {
+bool CSVParser::isNullOrEmpty(const std::string& str) {
         if (str.empty()) {
                 return true;
         }
@@ -70,5 +69,4 @@ bool Parser::isNullOrEmpty(const std::string& str) {
         }
         return true;
 }
-}  // namespace csvr
 }  // namespace ofxPlanet

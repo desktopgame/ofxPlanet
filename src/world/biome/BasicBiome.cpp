@@ -8,7 +8,7 @@
 #include "../BlockPack.hpp"
 #include "../Math.hpp"
 #include "../World.hpp"
-#include "../util/Parser.hpp"
+#include "../util/CSVParser.hpp"
 #include "../engine/Generator.hpp"
 
 namespace ofxPlanet {
@@ -120,7 +120,7 @@ void BasicBiome::registerStruct(const std::string& name, const MultiBlock& mb) {
 void BasicBiome::registerStruct(const std::string& name,
                                 const std::string& csvr) {
         MultiBlock mb;
-        csvr::Parser parser;
+        CSVParser parser;
         parser.parse(csvr);
         for (int i = 0; i < parser.getTableCount(); i++) {
                 auto& table = parser.getTableAt(i);
