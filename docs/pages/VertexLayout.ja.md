@@ -18,7 +18,12 @@ Position は形状の位置です。 属性インデックスは4で、型は"iv
 ### Brightness
 Brightness はライティングに使用します。  
 GLSLにおいて "uBrightness" という名前の "float" 型変数で定義される必要があります。
+
 ### ModelMatrix
 ModelMatrix はメモリ節約のために使用します。  
 GLSLにおいて "uModelMatrix" という名前の "mat4" 型変数で定義される必要があります。
+
+### Texture
+ModelMatrix はメモリ節約のために使用します。  
+GLSLにおいて "uTexture" という名前の "sampler2D" 型変数で定義される必要があります。
 

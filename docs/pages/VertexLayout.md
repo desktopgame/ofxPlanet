@@ -18,7 +18,11 @@ reason of use this variable is ofxPlanet is using "instanced draw".
 ### Brightness
 Brightness is using for lighting.  
 should be this variable is defined "uBrightness", type is "float" in GLSL.
+
 ### ModelMatrix
 ModelMatrix is using for saving memory.  
 should be this variable is defined "uModelMatrix", type is "mat4" in GLSL.
 
+### Texture
+ModelMatrix is using for saving memory.  
+should be this variable is defined "uTexture", type is "sampler2D" in GLSL.
