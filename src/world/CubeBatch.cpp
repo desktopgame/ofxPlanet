@@ -114,9 +114,6 @@ void CubeBatch::put(PlaneType type, int brightness, PositionType x, PositionType
         glm::vec3 offset = ((baseSize - (this->size * 2.0f)) / 2.0f) *
                            static_cast<float>(direction);
         pos += offset;
-		if (pos.x > 127 || pos.z > 127) {
-			std::cout << pos.x << " " << pos.y << " " << pos.z << std::endl;
-		}
         getPosVec(type, brightness).emplace_back(static_cast<GLbyte>(pos.x));
         getPosVec(type, brightness).emplace_back(static_cast<GLbyte>(pos.y));
         getPosVec(type, brightness).emplace_back(static_cast<GLbyte>(pos.z));
