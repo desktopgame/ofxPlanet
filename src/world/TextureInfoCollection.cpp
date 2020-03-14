@@ -49,7 +49,8 @@ std::string TextureInfoCollection::serialize() const {
         return rootO.dump();
 }
 void TextureInfoCollection::deserialize(const std::string& json) {
-		ofJson root = ofJson::parse(json);
+		ofJson root;
+		std::stringstream(json) >> root;
 		auto rootO = root;
         auto texturesV = rootO["textures"];
         auto texturesO = texturesV;

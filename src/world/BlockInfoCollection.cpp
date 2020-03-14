@@ -18,7 +18,8 @@ std::string BlockInfoCollection::serialize() const {
 		return rootO.dump();
 }
 void BlockInfoCollection::deserialize(const std::string& json) {
-        ofJson root = ofJson::parse(json);
+		ofJson root;
+		std::stringstream(json) >> root;
 		auto rootO = root;
         auto blocksV = rootO["blocks"];
 		auto blocksA = blocksV;
