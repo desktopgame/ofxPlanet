@@ -84,7 +84,7 @@ class Plane {
         ofShader& shader;
         glm::vec3 size;
         GLuint vao;
-		GLuint buffer[3];
+        GLuint buffer[3];
 };
 }  // namespace ofxPlanet
 #endif  // !SHADER_PLANE_HPP

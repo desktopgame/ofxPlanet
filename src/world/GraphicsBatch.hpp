@@ -4,6 +4,7 @@
 #include <ofShader.h>
 
 #include <glm/glm.hpp>
+
 #include "GraphicsRenderer.hpp"
 
 namespace ofxPlanet {
@@ -22,7 +23,8 @@ class GraphicsBatch {
          * @param y
          * @param z
          */
-        virtual void putFront(int brightness, PositionType x, PositionType y, PositionType z) = 0;
+        virtual void putFront(int brightness, PositionType x, PositionType y,
+                              PositionType z) = 0;
         /**
          * add position for specific side.
          * @param brightness
@@ -30,7 +32,8 @@ class GraphicsBatch {
          * @param y
          * @param z
          */
-        virtual void putBack(int brightness, PositionType x, PositionType y, PositionType z) = 0;
+        virtual void putBack(int brightness, PositionType x, PositionType y,
+                             PositionType z) = 0;
         /**
          * add position for specific side.
          * @param brightness
@@ -38,7 +41,8 @@ class GraphicsBatch {
          * @param y
          * @param z
          */
-        virtual void putLeft(int brightness, PositionType x, PositionType y, PositionType z) = 0;
+        virtual void putLeft(int brightness, PositionType x, PositionType y,
+                             PositionType z) = 0;
         /**
          * add position for specific side.
          * @param brightness
@@ -46,7 +50,8 @@ class GraphicsBatch {
          * @param y
          * @param z
          */
-        virtual void putRight(int brightness, PositionType x, PositionType y, PositionType z) = 0;
+        virtual void putRight(int brightness, PositionType x, PositionType y,
+                              PositionType z) = 0;
         /**
          * add position for specific side.
          * @param brightness
@@ -54,7 +59,8 @@ class GraphicsBatch {
          * @param y
          * @param z
          */
-        virtual void putTop(int brightness, PositionType x, PositionType y, PositionType z) = 0;
+        virtual void putTop(int brightness, PositionType x, PositionType y,
+                            PositionType z) = 0;
         /**
          * add position for specific side.
          * @param brightness
@@ -62,7 +68,8 @@ class GraphicsBatch {
          * @param y
          * @param z
          */
-        virtual void putBottom(int brightness, PositionType x, PositionType y, PositionType z) = 0;
+        virtual void putBottom(int brightness, PositionType x, PositionType y,
+                               PositionType z) = 0;
         /**
          * clear all vertex.
          */

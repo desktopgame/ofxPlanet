@@ -1,20 +1,21 @@
 #include "Chunk.hpp"
 
 #include <ofGraphics.h>
-#include <iostream>
+
 #include <glm/gtc/matrix_transform.hpp>
+#include <iostream>
 
 #include "Block.hpp"
 #include "Chunk.hpp"
-#include "World.hpp"
-#include "Timer.hpp"
 #include "Sector.hpp"
+#include "Timer.hpp"
 #include "UniformLayout.hpp"
+#include "World.hpp"
 
 namespace ofxPlanet {
 Chunk::~Chunk() { deleteRenderer(); }
-Chunk::Instance Chunk::create(IWorld& world, int xOffset, int zOffset, int xSize,
-                              int zSize) {
+Chunk::Instance Chunk::create(IWorld& world, int xOffset, int zOffset,
+                              int xSize, int zSize) {
         return Instance(
             new Chunk(Reference(), world, xOffset, zOffset, xSize, zSize));
 }
@@ -56,21 +57,25 @@ void Chunk::rehash() {
 }
 void Chunk::draw() {
         rehash();
-		tidy();
+        tidy();
         if (this->type == ChunkType::Single) {
-				if (changedToVisible) {
-					this->allocateRenderer();
-					this->batch();
-					this->changedToVisible = false;
-				}
+                if (changedToVisible) {
+                        this->allocateRenderer();
+                        this->batch();
+                        this->changedToVisible = false;
+                }
                 if (this->renderer != nullptr) {
-					   auto& shader = world.getShader();
-					   shader.begin();
-					   float oX = this->xSize * 2.0f;
-					   float oZ = this->zSize * 2.0f;
-					   shader.setUniformMatrix4f(UniformLayout::MODELMATRIX_NAME, glm::translate(glm::mat4(1.0f), glm::vec3(xOffset*2.0f, 0, zOffset*2.0f)));
-					   shader.end();
-                       renderer->render();
+                        auto& shader = world.getShader();
+                        shader.begin();
+                        float oX = this->xSize * 2.0f;
+                        float oZ = this->zSize * 2.0f;
+                        shader.setUniformMatrix4f(
+                            UniformLayout::MODELMATRIX_NAME,
+                            glm::translate(
+                                glm::mat4(1.0f),
+                                glm::vec3(xOffset * 2.0f, 0, zOffset * 2.0f)));
+                        shader.end();
+                        renderer->render();
                 }
         } else {
                 for (auto subchunk : subchunks) {
@@ -132,70 +137,66 @@ Chunk::Instance Chunk::lookup(int x, int y, int z) const {
 Chunk::Instance Chunk::lookup(const glm::ivec3& pos) const {
         return lookup(pos.x, pos.y, pos.z);
 }
-std::vector<Chunk::Instance> Chunk::getNeighbor(const Instance & chunk, int viewRange) const {
-	std::vector<Chunk::Instance> v;
-	int diffX = std::abs(std::min(chunk->xOffset, this->xOffset) - std::max(chunk->xOffset, this->xOffset));
-	int diffZ = std::abs(std::min(chunk->zOffset, this->zOffset) - std::max(chunk->zOffset, this->zOffset));
-	bool isIncludedViewRange = (diffX + diffZ) < viewRange;
-	if (isIncludedViewRange) {
-		v.emplace_back(std::const_pointer_cast<Chunk>(shared_from_this()));
-	}
-	for (auto subchunk : subchunks) {
-		auto cv = subchunk->getNeighbor(chunk, viewRange);
-		for (auto ce : cv) {
-			v.emplace_back(ce);
-		}
-	}
-	return v;
+std::vector<Chunk::Instance> Chunk::getNeighbor(const Instance& chunk,
+                                                int viewRange) const {
+        std::vector<Chunk::Instance> v;
+        int diffX = std::abs(std::min(chunk->xOffset, this->xOffset) -
+                             std::max(chunk->xOffset, this->xOffset));
+        int diffZ = std::abs(std::min(chunk->zOffset, this->zOffset) -
+                             std::max(chunk->zOffset, this->zOffset));
+        bool isIncludedViewRange = (diffX + diffZ) < viewRange;
+        if (isIncludedViewRange) {
+                v.emplace_back(
+                    std::const_pointer_cast<Chunk>(shared_from_this()));
+        }
+        for (auto subchunk : subchunks) {
+                auto cv = subchunk->getNeighbor(chunk, viewRange);
+                for (auto ce : cv) {
+                        v.emplace_back(ce);
+                }
+        }
+        return v;
 }
 Chunk::Instance Chunk::getSubChunk(int index) const {
-	return subchunks.at(index);
+        return subchunks.at(index);
 }
 int Chunk::getSubChunkCount() const {
-	return static_cast<int>(subchunks.size());
+        return static_cast<int>(subchunks.size());
 }
-int Chunk::getXOffset() const {
-	return this->xOffset;
-}
-int Chunk::getZOffset() const {
-	return this->zOffset;
-}
-int Chunk::getXSize() const {
-	return this->xSize;
-}
-int Chunk::getZSize() const {
-	return this->zSize;
-}
+int Chunk::getXOffset() const { return this->xOffset; }
+int Chunk::getZOffset() const { return this->zOffset; }
+int Chunk::getXSize() const { return this->xSize; }
+int Chunk::getZSize() const { return this->zSize; }
 
 void Chunk::setVisible(bool visible) {
-	if (!this->visible && visible) {
-		this->changedToVisible = true;
-	}
-	this->visible = visible;
+        if (!this->visible && visible) {
+                this->changedToVisible = true;
+        }
+        this->visible = visible;
 }
 
-bool Chunk::isVisible() const {
-	return this->visible;
-}
+bool Chunk::isVisible() const { return this->visible; }
 
 void Chunk::show() {
-	Chunk::setVisibleRecursive(std::const_pointer_cast<Chunk>(shared_from_this()), true);
+        Chunk::setVisibleRecursive(
+            std::const_pointer_cast<Chunk>(shared_from_this()), true);
 }
 
 void Chunk::hide() {
-	Chunk::setVisibleRecursive(std::const_pointer_cast<Chunk>(shared_from_this()), false);
+        Chunk::setVisibleRecursive(
+            std::const_pointer_cast<Chunk>(shared_from_this()), false);
 }
 
 void Chunk::tidy() {
-	if (world.getChunkLoadStyle() != ChunkLoadStyle::VisibleChunk) {
-		return;
-	}
-	if (!this->visible) {
-		deleteRenderer();
-	}
-	for (auto subchunk : this->subchunks) {
-		subchunk->tidy();
-	}
+        if (world.getChunkLoadStyle() != ChunkLoadStyle::VisibleChunk) {
+                return;
+        }
+        if (!this->visible) {
+                deleteRenderer();
+        }
+        for (auto subchunk : this->subchunks) {
+                subchunk->tidy();
+        }
 }
 
 // private
@@ -203,7 +204,7 @@ Chunk::Chunk(Reference parent, IWorld& world, int xOffset, int zOffset,
              int xSize, int zSize)
     : type(ChunkType::Single),
       invalid(true),
-	  visible(false),
+      visible(false),
       changedToVisible(false),
       world(world),
       renderer(new BlockRenderer(world.getShader())),
@@ -214,10 +215,10 @@ Chunk::Chunk(Reference parent, IWorld& world, int xOffset, int zOffset,
       parent(parent),
       subchunks() {}
 void Chunk::setVisibleRecursive(Instance chunk, bool visible) {
-	chunk->setVisible(visible);
-	for (auto subchunk : chunk->subchunks) {
-		setVisibleRecursive(subchunk, visible);
-	}
+        chunk->setVisible(visible);
+        for (auto subchunk : chunk->subchunks) {
+                setVisibleRecursive(subchunk, visible);
+        }
 }
 void Chunk::allocateRenderer() {
         if (this->renderer == nullptr) {
@@ -232,28 +233,37 @@ void Chunk::deleteRenderer() {
 }
 void Chunk::batch() {
         renderer->clear();
-		auto sector = world.getSector(xOffset, zOffset);
+        auto sector = world.getSector(xOffset, zOffset);
         for (int x = xOffset; x < xOffset + xSize; x++) {
                 for (int z = zOffset; z < zOffset + zSize; z++) {
                         for (int y = 0; y < world.getYSize(); y++) {
-								int nx = x - xOffset;
-								int nz = z - zOffset;
-								if (sector) {
-									auto block = sector->getBlock(nx, y, nz);
-									if (!block) {
-										continue;
-									}
-									int brightness = sector->getLightTable().getLight(nx, y, nz);
-									block->batch(*sector.get(), *renderer,brightness, glm::ivec3(nx,y,nz), glm::ivec3(nx, y,nz));
-								} else {
-									auto block = world.getBlock(x, y, z);
-									if (!block) {
-										continue;
-									}
-									int brightness = this->world.getBrightness(x, y, z);
-									block->batch(this->world, *renderer,
-										brightness, glm::ivec3(x, y, z), glm::ivec3(nx, y, nz));
-								}
+                                int nx = x - xOffset;
+                                int nz = z - zOffset;
+                                if (sector) {
+                                        auto block =
+                                            sector->getBlock(nx, y, nz);
+                                        if (!block) {
+                                                continue;
+                                        }
+                                        int brightness =
+                                            sector->getLightTable().getLight(
+                                                nx, y, nz);
+                                        block->batch(*sector.get(), *renderer,
+                                                     brightness,
+                                                     glm::ivec3(nx, y, nz),
+                                                     glm::ivec3(nx, y, nz));
+                                } else {
+                                        auto block = world.getBlock(x, y, z);
+                                        if (!block) {
+                                                continue;
+                                        }
+                                        int brightness =
+                                            this->world.getBrightness(x, y, z);
+                                        block->batch(this->world, *renderer,
+                                                     brightness,
+                                                     glm::ivec3(x, y, z),
+                                                     glm::ivec3(nx, y, nz));
+                                }
                         }
                 }
         }
@@ -271,13 +281,13 @@ void Chunk::rehashAll() {
 void Chunk::rehashVisible() {
         this->invalid = false;
         if (this->type == ChunkType::Single) {
-				if (!isVisible()) {
-					deleteRenderer();
-					return;
-				}
+                if (!isVisible()) {
+                        deleteRenderer();
+                        return;
+                }
                 this->allocateRenderer();
                 this->batch();
-				this->changedToVisible = false;
+                this->changedToVisible = false;
         } else {
                 for (auto subchunk : subchunks) {
                         subchunk->rehashVisible();

@@ -1,9 +1,8 @@
 #include "TextureInfoCollection.hpp"
 
 #include <ofFileUtils.h>
-#include <ofUtils.h>
-
 #include <ofJson.h>
+#include <ofUtils.h>
 
 namespace ofxPlanet {
 TextureInfoCollection::TextureInfoCollection(const std::string& baseDirectory)
@@ -18,28 +17,35 @@ std::string TextureInfoCollection::serialize() const {
                 textureO["baseFileName"] = texInfo.baseFileName;
                 textureO["reference"] = texInfo.reference;
                 if (texInfo.mappingRule.all.hasValue()) {
-                        mappingRuleO["all"] = texInfo.mappingRule.all.getValue();
+                        mappingRuleO["all"] =
+                            texInfo.mappingRule.all.getValue();
                 }
                 // front, back
                 if (texInfo.mappingRule.front.hasValue()) {
-                        mappingRuleO["front"] = texInfo.mappingRule.front.getValue();
+                        mappingRuleO["front"] =
+                            texInfo.mappingRule.front.getValue();
                 }
                 if (texInfo.mappingRule.back.hasValue()) {
-                        mappingRuleO["back"] = texInfo.mappingRule.back.getValue();
+                        mappingRuleO["back"] =
+                            texInfo.mappingRule.back.getValue();
                 }
                 // left, right
                 if (texInfo.mappingRule.left.hasValue()) {
-                        mappingRuleO["left"] = texInfo.mappingRule.left.getValue();
+                        mappingRuleO["left"] =
+                            texInfo.mappingRule.left.getValue();
                 }
                 if (texInfo.mappingRule.right.hasValue()) {
-                        mappingRuleO["right"] = texInfo.mappingRule.right.getValue();
+                        mappingRuleO["right"] =
+                            texInfo.mappingRule.right.getValue();
                 }
                 // top, bottom
                 if (texInfo.mappingRule.top.hasValue()) {
-                        mappingRuleO["top"] = texInfo.mappingRule.top.getValue();
+                        mappingRuleO["top"] =
+                            texInfo.mappingRule.top.getValue();
                 }
                 if (texInfo.mappingRule.bottom.hasValue()) {
-                        mappingRuleO["bottom"] = texInfo.mappingRule.bottom.getValue();
+                        mappingRuleO["bottom"] =
+                            texInfo.mappingRule.bottom.getValue();
                 }
                 textureO["mappingRule"] = mappingRuleO;
                 texturesA.push_back(textureO);
@@ -49,9 +55,9 @@ std::string TextureInfoCollection::serialize() const {
         return rootO.dump();
 }
 void TextureInfoCollection::deserialize(const std::string& json) {
-		ofJson root;
-		std::stringstream(json) >> root;
-		auto rootO = root;
+        ofJson root;
+        std::stringstream(json) >> root;
+        auto rootO = root;
         auto texturesV = rootO["textures"];
         auto texturesO = texturesV;
         auto baseDirV = rootO["baseDirectory"];
@@ -67,11 +73,11 @@ void TextureInfoCollection::deserialize(const std::string& json) {
                 auto mappingRuleO = mappingRuleV;
                 info.baseFileName = baseFileNameV.get<std::string>();
                 info.reference = referenceV.get<std::string>();
-				auto mappingRuleIter = mappingRuleO.items().begin();
+                auto mappingRuleIter = mappingRuleO.items().begin();
                 while (mappingRuleIter != mappingRuleO.items().end()) {
                         auto kv = *mappingRuleIter;
-						auto key = kv.key();
-						auto val = kv.value();
+                        auto key = kv.key();
+                        auto val = kv.value();
                         auto valS = val.get<std::string>();
                         if (key == "all") {
                                 info.mappingRule.all.setValue(valS);

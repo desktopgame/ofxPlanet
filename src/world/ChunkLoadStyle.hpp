@@ -5,8 +5,8 @@ namespace ofxPlanet {
  * ChunkLoadStyle.
  */
 enum class ChunkLoadStyle {
-	All,
-	VisibleChunk,
+        All,
+        VisibleChunk,
 };
-}
+}  // namespace ofxPlanet
 #endif

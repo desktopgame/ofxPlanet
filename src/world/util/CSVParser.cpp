@@ -20,7 +20,9 @@ void CSVParser::parse(const std::string& source) {
         }
 }
 CSVTable& CSVParser::getTableAt(int index) { return tables.at(index); }
-const CSVTable& CSVParser::getTableAt(int index) const { return tables.at(index); }
+const CSVTable& CSVParser::getTableAt(int index) const {
+        return tables.at(index);
+}
 int CSVParser::getTableCount() const { return static_cast<int>(tables.size()); }
 
 int CSVParser::parse(int start, const std::string& source, CSVTable& table) {

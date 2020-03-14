@@ -8,8 +8,8 @@
 #include "../BlockPack.hpp"
 #include "../Math.hpp"
 #include "../World.hpp"
-#include "../util/CSVParser.hpp"
 #include "../engine/Generator.hpp"
+#include "../util/CSVParser.hpp"
 
 namespace ofxPlanet {
 

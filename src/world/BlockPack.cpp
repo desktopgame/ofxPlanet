@@ -45,9 +45,9 @@ int BlockPack::getBlockIndexForName(const std::string& name) const {
         return -1;
 }
 std::shared_ptr<Block> BlockPack::getBlock(int index) const {
-		if (index < 0) {
-			return nullptr;
-		}
+        if (index < 0) {
+                return nullptr;
+        }
         return this->blockVec.at(index);
 }
 std::shared_ptr<Block> BlockPack::getBlock(const std::string& name) const {

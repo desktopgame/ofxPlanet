@@ -4,14 +4,15 @@
 
 namespace ofxPlanet {
 class Shaders {
-public:
-	static const std::string STANDARD_VERTEX_SHADER;
-	static const std::string STANDARD_FRAGMENT_SHADER;
-	static const std::string STANDARD_UNIFORM_VIEWMATRIX_NAME;
-	static const std::string STANDARD_UNIFORM_PROJECTIONMATRIX_NAME;
-private:
-	Shaders() = delete;
-	~Shaders() = delete;
+       public:
+        static const std::string STANDARD_VERTEX_SHADER;
+        static const std::string STANDARD_FRAGMENT_SHADER;
+        static const std::string STANDARD_UNIFORM_VIEWMATRIX_NAME;
+        static const std::string STANDARD_UNIFORM_PROJECTIONMATRIX_NAME;
+
+       private:
+        Shaders() = delete;
+        ~Shaders() = delete;
 };
-}
+}  // namespace ofxPlanet
 #endif

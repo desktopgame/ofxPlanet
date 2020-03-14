@@ -3,10 +3,10 @@
 #include <glm/glm.hpp>
 
 #include "BlockRenderer.hpp"
+#include "IAreaBounds.hpp"
 #include "Texture.hpp"
 #include "TexturePack.hpp"
 #include "World.hpp"
-#include "IAreaBounds.hpp"
 namespace ofxPlanet {
 Block::Block(BlockShape shape, const std::string& name,
              const std::string& textureReference, int id)
@@ -15,8 +15,9 @@ Block::Block(BlockShape shape, const std::string& name,
       textureReference(textureReference),
       id(id),
       textureSetIndex(-1) {}
-void Block::batch(const IAreaBounds& areaBounds, BlockRenderer& renderer, int brightness,
-		const glm::ivec3& modelPosition, const glm::ivec3& viewPosition) {
+void Block::batch(const IAreaBounds& areaBounds, BlockRenderer& renderer,
+                  int brightness, const glm::ivec3& modelPosition,
+                  const glm::ivec3& viewPosition) {
         TextureSet set = getTextureSet();
         std::reference_wrapper<GraphicsRenderer> target =
             renderer.getCubeRenderer();
@@ -33,28 +34,41 @@ void Block::batch(const IAreaBounds& areaBounds, BlockRenderer& renderer, int br
         } else if (this->shape == BlockShape::BottomSlab) {
                 target = renderer.getBottomSlabRenderer();
         }
-        if (!areaBounds.isFilled(modelPosition.x - 1, modelPosition.y, modelPosition.z)) {
+        if (!areaBounds.isFilled(modelPosition.x - 1, modelPosition.y,
+                                 modelPosition.z)) {
                 target.get().putLeft(set.getLeftImage()->getName(), brightness,
-                                     viewPosition.x, viewPosition.y, viewPosition.z);
+                                     viewPosition.x, viewPosition.y,
+                                     viewPosition.z);
         }
-        if (!areaBounds.isFilled(modelPosition.x + 1, modelPosition.y, modelPosition.z)) {
+        if (!areaBounds.isFilled(modelPosition.x + 1, modelPosition.y,
+                                 modelPosition.z)) {
                 target.get().putRight(set.getRightImage()->getName(),
-                                      brightness, viewPosition.x, viewPosition.y, viewPosition.z);
+                                      brightness, viewPosition.x,
+                                      viewPosition.y, viewPosition.z);
         }
-        if (!areaBounds.isFilled(modelPosition.x, modelPosition.y, modelPosition.z - 1)) {
+        if (!areaBounds.isFilled(modelPosition.x, modelPosition.y,
+                                 modelPosition.z - 1)) {
                 target.get().putBack(set.getBackImage()->getName(), brightness,
-					viewPosition.x, viewPosition.y, viewPosition.z);
+                                     viewPosition.x, viewPosition.y,
+                                     viewPosition.z);
         }
-        if (!areaBounds.isFilled(modelPosition.x, modelPosition.y, modelPosition.z + 1)) {
+        if (!areaBounds.isFilled(modelPosition.x, modelPosition.y,
+                                 modelPosition.z + 1)) {
                 target.get().putFront(set.getFrontImage()->getName(),
-                                      brightness, viewPosition.x, viewPosition.y, viewPosition.z);
+                                      brightness, viewPosition.x,
+                                      viewPosition.y, viewPosition.z);
         }
-        if (!areaBounds.isFilled(modelPosition.x, modelPosition.y + 1, modelPosition.z)) {
-                target.get().putTop(set.getTopImage()->getName(), brightness, viewPosition.x, viewPosition.y, viewPosition.z);
+        if (!areaBounds.isFilled(modelPosition.x, modelPosition.y + 1,
+                                 modelPosition.z)) {
+                target.get().putTop(set.getTopImage()->getName(), brightness,
+                                    viewPosition.x, viewPosition.y,
+                                    viewPosition.z);
         }
-        if (!areaBounds.isFilled(modelPosition.x, modelPosition.y - 1, modelPosition.z)) {
+        if (!areaBounds.isFilled(modelPosition.x, modelPosition.y - 1,
+                                 modelPosition.z)) {
                 target.get().putBottom(set.getBottomImage()->getName(),
-                                       brightness, viewPosition.x, viewPosition.y, viewPosition.z);
+                                       brightness, viewPosition.x,
+                                       viewPosition.y, viewPosition.z);
         }
 }
 

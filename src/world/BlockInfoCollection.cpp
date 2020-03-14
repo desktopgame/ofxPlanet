@@ -5,24 +5,24 @@
 namespace ofxPlanet {
 BlockInfoCollection::BlockInfoCollection() : blockInfoVec() {}
 std::string BlockInfoCollection::serialize() const {
-		ofJson rootO;
-		ofJson blocksA;
+        ofJson rootO;
+        ofJson blocksA;
         for (auto blockInfo : blockInfoVec) {
-				ofJson blockO;
+                ofJson blockO;
                 blockO["texture"] = blockInfo.textue;
                 blockO["reference"] = blockInfo.reference;
                 blockO["shape"] = blockInfo.shape;
-				blocksA.push_back(blockO);
+                blocksA.push_back(blockO);
         }
         rootO["blocks"] = blocksA;
-		return rootO.dump();
+        return rootO.dump();
 }
 void BlockInfoCollection::deserialize(const std::string& json) {
-		ofJson root;
-		std::stringstream(json) >> root;
-		auto rootO = root;
+        ofJson root;
+        std::stringstream(json) >> root;
+        auto rootO = root;
         auto blocksV = rootO["blocks"];
-		auto blocksA = blocksV;
+        auto blocksA = blocksV;
         auto blocksIter = blocksA.begin();
         while (blocksIter != blocksA.end()) {
                 BlockInfo bi;

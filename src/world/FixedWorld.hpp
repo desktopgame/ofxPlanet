@@ -9,8 +9,8 @@
 
 #include "BlockRenderer.hpp"
 #include "BlockTable.hpp"
-#include "LightTable.hpp"
 #include "IWorld.hpp"
+#include "LightTable.hpp"
 namespace ofxPlanet {
 
 class Camera;
@@ -44,7 +44,7 @@ class Chunk;
  */
 class FixedWorld : public IWorld {
        public:
-		// Utility
+        // Utility
         /**
          * returns a new world.
          * @param shader
@@ -52,7 +52,7 @@ class FixedWorld : public IWorld {
          * @return
          */
         static std::shared_ptr<FixedWorld> create(ofShader& shader,
-                                             const glm::ivec3& size);
+                                                  const glm::ivec3& size);
 
         /**
          * returns a new world.
@@ -63,20 +63,20 @@ class FixedWorld : public IWorld {
          * @return
          */
         static std::shared_ptr<FixedWorld> create(ofShader& shader, int xSize,
-                                             int ySize, int zSize);
+                                                  int ySize, int zSize);
 
-		// IWorld
-		void computeBrightness();
-		int getYSize() const;
-		std::shared_ptr<Block> getBlock(int x, int y, int z) const;
-		bool isFilled(int x, int y, int z) const;
-		int getBrightness(int x, int y, int z) const;
-		ofShader& getShader();
-		glm::vec3 getViewPosition() const;
-		int getViewRange() const;
-		ChunkLoadStyle getChunkLoadStyle() const;
-		std::shared_ptr<Sector> getSector(int xOffset, int zOffset) const;
-		std::shared_ptr<Chunk> getCurrentChunk();
+        // IWorld
+        void computeBrightness();
+        int getYSize() const;
+        std::shared_ptr<Block> getBlock(int x, int y, int z) const;
+        bool isFilled(int x, int y, int z) const;
+        int getBrightness(int x, int y, int z) const;
+        ofShader& getShader();
+        glm::vec3 getViewPosition() const;
+        int getViewRange() const;
+        ChunkLoadStyle getChunkLoadStyle() const;
+        std::shared_ptr<Sector> getSector(int xOffset, int zOffset) const;
+        std::shared_ptr<Chunk> getCurrentChunk();
 
         /**
          * overwrite blocks by specified table.
@@ -125,7 +125,7 @@ class FixedWorld : public IWorld {
          * @return block
          */
         void setBlock(int x, int y, int z, std::shared_ptr<Block> block);
-        
+
         /**
          * returns a block for specific position.
          * @param pos
@@ -228,7 +228,7 @@ class FixedWorld : public IWorld {
        private:
         explicit FixedWorld(ofShader& shader, const glm::ivec3& size);
         explicit FixedWorld(ofShader& shader, int xSize, int ySize, int zSize);
-		void updateNeighborChunks();
+        void updateNeighborChunks();
 
         std::vector<std::vector<std::vector<std::shared_ptr<Block> > > > blocks;
         int xSize, ySize, zSize;

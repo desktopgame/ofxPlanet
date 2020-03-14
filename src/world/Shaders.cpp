@@ -33,5 +33,6 @@ void main (void) {
 }
 )";
 const std::string Shaders::STANDARD_UNIFORM_VIEWMATRIX_NAME = "uViewMatrix";
-const std::string Shaders::STANDARD_UNIFORM_PROJECTIONMATRIX_NAME = "uProjectionMatrix";
-}
+const std::string Shaders::STANDARD_UNIFORM_PROJECTIONMATRIX_NAME =
+    "uProjectionMatrix";
+}  // namespace ofxPlanet

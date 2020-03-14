@@ -6,8 +6,8 @@
 #include <unordered_map>
 
 #include "BlockShape.hpp"
-#include "TextureSet.hpp"
 #include "IWorld.hpp"
+#include "TextureSet.hpp"
 namespace ofxPlanet {
 
 class BlockRenderer;
@@ -38,8 +38,9 @@ class Block {
          * @parma modelPosition
          * @param viewPosition
          */
-        void batch(const IAreaBounds& areaBounds, BlockRenderer& renderer, int brightness,
-                   const glm::ivec3& modelPosition, const glm::ivec3& viewPosition);
+        void batch(const IAreaBounds& areaBounds, BlockRenderer& renderer,
+                   int brightness, const glm::ivec3& modelPosition,
+                   const glm::ivec3& viewPosition);
         /**
          * returns TextureSet for rendering this block.
          * @return

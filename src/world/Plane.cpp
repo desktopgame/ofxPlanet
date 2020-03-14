@@ -15,15 +15,15 @@ glm::vec3 Plane::BACK_NORMAL = glm::vec3(0, 0, -1);
 #define indexBuf (this->buffer[2])
 
 Plane::Plane(ofShader& shader, PlaneType type, const glm::vec3 size)
-	: shader(shader), type(type), size(size),vao(), buffer{0,0,0} {
+    : shader(shader), type(type), size(size), vao(), buffer{0, 0, 0} {
         glGenVertexArrays(1, &vao);
-		glGenBuffers(3, buffer);
+        glGenBuffers(3, buffer);
         setupOfVbo(type, size);
 }
 
 Plane::~Plane() {
         glDeleteVertexArrays(1, &vao);
-		glDeleteBuffers(3, buffer);
+        glDeleteBuffers(3, buffer);
 }
 
 GLuint Plane::getVAO() const { return vao; }

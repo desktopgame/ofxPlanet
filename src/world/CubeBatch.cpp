@@ -8,8 +8,7 @@
 #include "UniformLayout.hpp"
 #include "VertexLayout.hpp"
 namespace ofxPlanet {
-CubeBatch::CubeBatch(ofShader& shader,
-                     const glm::vec3& size, int direction)
+CubeBatch::CubeBatch(ofShader& shader, const glm::vec3& size, int direction)
     : GraphicsBatch(shader),
       isInvalid(true),
       size(size),
@@ -19,7 +18,7 @@ CubeBatch::CubeBatch(ofShader& shader,
       vbo() {
         for (int b = LightTable::BRIGHTNESS_MIN;
              b < LightTable::BRIGHTNESS_MAX + 1; b++) {
-				glGenBuffers(6, vbo[b]);
+                glGenBuffers(6, vbo[b]);
                 for (int i = 0; i < static_cast<int>(PlaneType::Count); i++) {
                         std::vector<PositionType> v;
                         planes[b][i] = std::make_shared<Plane>(
@@ -32,31 +31,37 @@ CubeBatch::CubeBatch(ofShader& shader,
 CubeBatch::~CubeBatch() {
         for (int b = LightTable::BRIGHTNESS_MIN;
              b < LightTable::BRIGHTNESS_MAX + 1; b++) {
-				glDeleteBuffers(6, vbo[b]);
+                glDeleteBuffers(6, vbo[b]);
         }
 }
 
-void CubeBatch::putFront(int brightness, PositionType x, PositionType y, PositionType z) {
+void CubeBatch::putFront(int brightness, PositionType x, PositionType y,
+                         PositionType z) {
         put(PlaneType::Front, brightness, x, y, z);
 }
 
-void CubeBatch::putBack(int brightness, PositionType x, PositionType y, PositionType z) {
+void CubeBatch::putBack(int brightness, PositionType x, PositionType y,
+                        PositionType z) {
         put(PlaneType::Back, brightness, x, y, z);
 }
 
-void CubeBatch::putLeft(int brightness, PositionType x, PositionType y, PositionType z) {
+void CubeBatch::putLeft(int brightness, PositionType x, PositionType y,
+                        PositionType z) {
         put(PlaneType::Left, brightness, x, y, z);
 }
 
-void CubeBatch::putRight(int brightness, PositionType x, PositionType y, PositionType z) {
+void CubeBatch::putRight(int brightness, PositionType x, PositionType y,
+                         PositionType z) {
         put(PlaneType::Right, brightness, x, y, z);
 }
 
-void CubeBatch::putTop(int brightness, PositionType x, PositionType y, PositionType z) {
+void CubeBatch::putTop(int brightness, PositionType x, PositionType y,
+                       PositionType z) {
         put(PlaneType::Top, brightness, x, y, z);
 }
 
-void CubeBatch::putBottom(int brightness, PositionType x, PositionType y, PositionType z) {
+void CubeBatch::putBottom(int brightness, PositionType x, PositionType y,
+                          PositionType z) {
         put(PlaneType::Bottom, brightness, x, y, z);
 }
 
@@ -91,7 +96,7 @@ void CubeBatch::render(GLuint texture) {
              b < LightTable::BRIGHTNESS_MAX + 1; b++) {
                 float f = LightTable::computeShaderBrightness(b);
                 shader.begin();
-				shader.setUniform1i(UniformLayout::TEXTURE_NAME, 0);
+                shader.setUniform1i(UniformLayout::TEXTURE_NAME, 0);
                 shader.setUniform1f(UniformLayout::BRIGHTNESSS_NAME, f);
                 auto& planeA = this->planes[b];
                 for (int i = 0; i < static_cast<int>(PlaneType::Count); i++) {
@@ -108,7 +113,8 @@ void CubeBatch::render(GLuint texture) {
 }
 // private
 
-void CubeBatch::put(PlaneType type, int brightness, PositionType x, PositionType y, PositionType z) {
+void CubeBatch::put(PlaneType type, int brightness, PositionType x,
+                    PositionType y, PositionType z) {
         glm::vec3 pos = glm::vec3(x, y, z) * 2.0f;
         glm::vec3 baseSize = sizeFromShape(BlockShape::Block);
         glm::vec3 offset = ((baseSize - (this->size * 2.0f)) / 2.0f) *
@@ -136,8 +142,8 @@ void CubeBatch::updatePlane(PlaneType type, int brightness) {
         GLuint vao = planes[brightness][index]->getVAO();
         glBindVertexArray(vao);
         glBindBuffer(GL_ARRAY_BUFFER, buf);
-        glVertexAttribIPointer(VertexLayout::POSITION_POSITION, 3, GL_BYTE,
-                               0, nullptr);
+        glVertexAttribIPointer(VertexLayout::POSITION_POSITION, 3, GL_BYTE, 0,
+                               nullptr);
         glEnableVertexAttribArray(VertexLayout::POSITION_POSITION);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -148,7 +154,8 @@ void CubeBatch::updatePlane(PlaneType type, int brightness) {
         glBindVertexArray(0);
 }
 
-std::vector<PositionType>& CubeBatch::getPosVec(PlaneType type, int brightness) {
+std::vector<PositionType>& CubeBatch::getPosVec(PlaneType type,
+                                                int brightness) {
         int i = static_cast<int>(type);
         assert(i >= 0 && i < static_cast<int>(PlaneType::Count));
         return posVec.at(brightness).at(i);

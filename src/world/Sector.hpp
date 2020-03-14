@@ -1,10 +1,11 @@
 #pragma once
 #ifndef WORLD_SECTOR_HPP
 #define WORLD_SECTOR_HPP
-#include <vector>
 #include <memory>
-#include "LightTable.hpp"
+#include <vector>
+
 #include "IAreaBounds.hpp"
+#include "LightTable.hpp"
 
 namespace ofxPlanet {
 class IWorld;
@@ -14,35 +15,31 @@ class Chunk;
  * Sector.
  */
 class Sector : public IAreaBounds {
-public:
-	explicit Sector(IWorld& world, int xOffset, int zOffset, int xSize, int zSize);
+       public:
+        explicit Sector(IWorld& world, int xOffset, int zOffset, int xSize,
+                        int zSize);
 
-	void setBlock(int x, int y, int z, std::shared_ptr<Block> block);
-	std::shared_ptr<Block> getBlock(int x, int y, int z) const;
-	bool isFilled(int x, int y, int z) const;
-	std::shared_ptr<Chunk> getChunk() const;
-	LightTable& getLightTable();
-	const LightTable& getLightTable() const;
-	int getTopYForXZ(int x, int z) const;
+        void setBlock(int x, int y, int z, std::shared_ptr<Block> block);
+        std::shared_ptr<Block> getBlock(int x, int y, int z) const;
+        bool isFilled(int x, int y, int z) const;
+        std::shared_ptr<Chunk> getChunk() const;
+        LightTable& getLightTable();
+        const LightTable& getLightTable() const;
+        int getTopYForXZ(int x, int z) const;
 
-	void computeBrightness();
-	void invalidateBrightness();
+        void computeBrightness();
+        void invalidateBrightness();
 
-	void setGenerated(bool b);
-	bool isGenerated() const;
-private:
-	IWorld& world;
-	std::vector<
-		std::vector<
-			std::vector<
-				std::shared_ptr<Block>
-			>
-		>
-	> table;
-	std::shared_ptr<Chunk> chunk;
-	LightTable lightTable;
-	bool generated;
-	bool invalidBrightCache;
+        void setGenerated(bool b);
+        bool isGenerated() const;
+
+       private:
+        IWorld& world;
+        std::vector<std::vector<std::vector<std::shared_ptr<Block> > > > table;
+        std::shared_ptr<Chunk> chunk;
+        LightTable lightTable;
+        bool generated;
+        bool invalidBrightCache;
 };
-}
+}  // namespace ofxPlanet
 #endif

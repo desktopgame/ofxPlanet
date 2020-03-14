@@ -17,16 +17,18 @@
 #include "TexturePack.hpp"
 namespace ofxPlanet {
 
-WorldPart::WorldPart(const std::shared_ptr<FixedWorld>& world, glm::ivec3 offset)
+WorldPart::WorldPart(const std::shared_ptr<FixedWorld>& world,
+                     glm::ivec3 offset)
     : world(world), offset(offset) {}
 // Utility
-std::shared_ptr<FixedWorld> FixedWorld::create(ofShader& shader, const glm::ivec3& size) {
+std::shared_ptr<FixedWorld> FixedWorld::create(ofShader& shader,
+                                               const glm::ivec3& size) {
         return create(shader, size.x, size.y, size.z);
 }
 
-std::shared_ptr<FixedWorld> FixedWorld::create(ofShader& shader, int xSize, int ySize,
-                                     int zSize) {
-		FixedWorld* world = new FixedWorld(shader, xSize, ySize, zSize);
+std::shared_ptr<FixedWorld> FixedWorld::create(ofShader& shader, int xSize,
+                                               int ySize, int zSize) {
+        FixedWorld* world = new FixedWorld(shader, xSize, ySize, zSize);
         std::shared_ptr<FixedWorld> ret = std::shared_ptr<FixedWorld>(world);
         for (int i = 0; i < xSize; i++) {
                 std::vector<std::vector<std::shared_ptr<Block> > > yBlockLine;
@@ -43,49 +45,49 @@ std::shared_ptr<FixedWorld> FixedWorld::create(ofShader& shader, int xSize, int 
 }
 // IWorld
 void FixedWorld::computeBrightness() {
-	if (!this->invalidBrightCache) {
-		return;
-	}
-	for (int x = 0; x < xSize; x++) {
-		for (int y = 0; y < ySize; y++) {
-			for (int z = 0; z < zSize; z++) {
-				auto block = getBlock(x, y, z);
-				this->lightTable.setLight(x, y, z, 0);
-			}
-		}
-	}
-	for (int x = 0; x < xSize; x++) {
-		for (int z = 0; z < zSize; z++) {
-			int y = getTopYForXZ(x, z);
-			int sunpower = 15;
-			this->lightTable.setLight(x, y, z, sunpower--);
-			for (; y >= 0 && sunpower > 0; y--) {
-				auto block = getBlock(x, y, z);
-				if (block != nullptr) {
-					lightTable.setLight(x, y, z,
-						sunpower--);
-				}
-			}
-		}
-	}
-	this->invalidBrightCache = false;
+        if (!this->invalidBrightCache) {
+                return;
+        }
+        for (int x = 0; x < xSize; x++) {
+                for (int y = 0; y < ySize; y++) {
+                        for (int z = 0; z < zSize; z++) {
+                                auto block = getBlock(x, y, z);
+                                this->lightTable.setLight(x, y, z, 0);
+                        }
+                }
+        }
+        for (int x = 0; x < xSize; x++) {
+                for (int z = 0; z < zSize; z++) {
+                        int y = getTopYForXZ(x, z);
+                        int sunpower = 15;
+                        this->lightTable.setLight(x, y, z, sunpower--);
+                        for (; y >= 0 && sunpower > 0; y--) {
+                                auto block = getBlock(x, y, z);
+                                if (block != nullptr) {
+                                        lightTable.setLight(x, y, z,
+                                                            sunpower--);
+                                }
+                        }
+                }
+        }
+        this->invalidBrightCache = false;
 }
 
 int FixedWorld::getYSize() const { return ySize; }
 
 std::shared_ptr<Block> FixedWorld::getBlock(int x, int y, int z) const {
-	return blocks[x][y][z];
+        return blocks[x][y][z];
 }
 
 bool FixedWorld::isFilled(int x, int y, int z) const {
-	if (isEmpty(x, y, z)) {
-		return false;
-	}
-	return getBlock(x, y, z)->getShape() == BlockShape::Block;
+        if (isEmpty(x, y, z)) {
+                return false;
+        }
+        return getBlock(x, y, z)->getShape() == BlockShape::Block;
 }
 
 int FixedWorld::getBrightness(int x, int y, int z) const {
-	return this->lightTable.getLight(x,y,z);
+        return this->lightTable.getLight(x, y, z);
 }
 
 ofShader& FixedWorld::getShader() { return shader; }
@@ -94,28 +96,30 @@ glm::vec3 FixedWorld::getViewPosition() const { return viewPosition; }
 
 int FixedWorld::getViewRange() const { return this->viewRange; }
 
-ChunkLoadStyle FixedWorld::getChunkLoadStyle() const { return this->chunkLoadStyle; }
+ChunkLoadStyle FixedWorld::getChunkLoadStyle() const {
+        return this->chunkLoadStyle;
+}
 
 std::shared_ptr<Sector> FixedWorld::getSector(int xOffset, int zOffset) const {
-	//TODO:Œã‚ÅŽÀ‘•‚·‚é
-	return nullptr;
+        // TODO:Œã‚ÅŽÀ‘•‚·‚é
+        return nullptr;
 }
 
 std::shared_ptr<Chunk> FixedWorld::getCurrentChunk() {
-	if (this->currentChunk == nullptr) {
-		this->viewPosition.x = std::max(
-			0.0f,
-			std::min(static_cast<float>(xSize) - 1, viewPosition.x));
-		this->viewPosition.y = std::max(
-			0.0f,
-			std::min(static_cast<float>(ySize) - 1, viewPosition.y));
-		this->viewPosition.z = std::max(
-			0.0f,
-			std::min(static_cast<float>(zSize) - 1, viewPosition.z));
-		this->currentChunk = chunk->lookup(this->viewPosition);
-		this->updateNeighborChunks();
-	}
-	return this->currentChunk;
+        if (this->currentChunk == nullptr) {
+                this->viewPosition.x = std::max(
+                    0.0f,
+                    std::min(static_cast<float>(xSize) - 1, viewPosition.x));
+                this->viewPosition.y = std::max(
+                    0.0f,
+                    std::min(static_cast<float>(ySize) - 1, viewPosition.y));
+                this->viewPosition.z = std::max(
+                    0.0f,
+                    std::min(static_cast<float>(zSize) - 1, viewPosition.z));
+                this->currentChunk = chunk->lookup(this->viewPosition);
+                this->updateNeighborChunks();
+        }
+        return this->currentChunk;
 }
 
 // World
@@ -154,7 +158,7 @@ void FixedWorld::update() {}
 void FixedWorld::invalidateBrightness() { this->invalidBrightCache = true; }
 
 RaycastResult FixedWorld::raycast(glm::vec3 origin, glm::vec3 direction,
-                             float length, float scale) const {
+                                  float length, float scale) const {
         origin /= scale;
         int x = (Math::floatToInt(origin.x));
         int y = (Math::floatToInt(origin.y));
@@ -327,7 +331,9 @@ glm::vec3 FixedWorld::getPhysicalPosition(int x, int y, int z) const {
 }
 int FixedWorld::getXSize() const { return xSize; }
 int FixedWorld::getZSize() const { return zSize; }
-glm::ivec3 FixedWorld::getSize() const { return glm::ivec3(xSize, ySize, zSize); }
+glm::ivec3 FixedWorld::getSize() const {
+        return glm::ivec3(xSize, ySize, zSize);
+}
 
 std::vector<WorldPart> FixedWorld::split(int splitNum) const {
         int sx = xSize / splitNum;
@@ -335,8 +341,8 @@ std::vector<WorldPart> FixedWorld::split(int splitNum) const {
         std::vector<WorldPart> ret;
         for (int i = 0; i < splitNum; i++) {
                 for (int j = 0; j < splitNum; j++) {
-                        auto w =
-                            FixedWorld::create(shader, glm::ivec3(sx, ySize, sz));
+                        auto w = FixedWorld::create(shader,
+                                                    glm::ivec3(sx, ySize, sz));
                         for (int x = (sx * i); x < (sx * i) + sx; x++) {
                                 for (int y = 0; y < ySize; y++) {
                                         for (int z = (sz * j);
@@ -378,7 +384,7 @@ void FixedWorld::setViewPosition(const glm::vec3& viewPosition) {
             this->chunkLoadStyle == ChunkLoadStyle::VisibleChunk) {
                 this->currentChunk = newChunk;
                 this->chunk->invalidate();
-				this->updateNeighborChunks();
+                this->updateNeighborChunks();
         }
 }
 
@@ -408,11 +414,12 @@ FixedWorld::FixedWorld(ofShader& shader, int xSize, int ySize, int zSize)
       lightTable(xSize, ySize, zSize),
       invalidBrightCache(true) {}
 void FixedWorld::updateNeighborChunks() {
-	this->chunk->hide();
-	auto neighbor = this->chunk->getNeighbor(this->currentChunk, this->viewRange);
-	for (auto nc : neighbor) {
-		nc->setVisible(true);
-	}
+        this->chunk->hide();
+        auto neighbor =
+            this->chunk->getNeighbor(this->currentChunk, this->viewRange);
+        for (auto nc : neighbor) {
+                nc->setVisible(true);
+        }
 }
 RaycastResult::RaycastResult()
     : normal(0, 0, 0), position(0, 0, 0), hit(false) {}

@@ -26,7 +26,8 @@ class GraphicsRenderer {
          * @param y
          * @param z
          */
-        void putFront(GLuint texture, int brightness, PositionType x, PositionType y, PositionType z);
+        void putFront(GLuint texture, int brightness, PositionType x,
+                      PositionType y, PositionType z);
         /**
          * add position to GraphicsBatch.
          * @param texture
@@ -35,7 +36,8 @@ class GraphicsRenderer {
          * @param y
          * @param z
          */
-        void putBack(GLuint texture, int brightness, PositionType x, PositionType y, PositionType z);
+        void putBack(GLuint texture, int brightness, PositionType x,
+                     PositionType y, PositionType z);
         /**
          * add position to GraphicsBatch.
          * @param texture
@@ -44,7 +46,8 @@ class GraphicsRenderer {
          * @param y
          * @param z
          */
-        void putLeft(GLuint texture, int brightness, PositionType x, PositionType y, PositionType z);
+        void putLeft(GLuint texture, int brightness, PositionType x,
+                     PositionType y, PositionType z);
         /**
          * add position to GraphicsBatch.
          * @param texture
@@ -53,7 +56,8 @@ class GraphicsRenderer {
          * @param y
          * @param z
          */
-        void putRight(GLuint texture, int brightness, PositionType x, PositionType y, PositionType z);
+        void putRight(GLuint texture, int brightness, PositionType x,
+                      PositionType y, PositionType z);
         /**
          * add position to GraphicsBatch.
          * @param texture
@@ -62,7 +66,8 @@ class GraphicsRenderer {
          * @param y
          * @param z
          */
-        void putTop(GLuint texture, int brightness, PositionType x, PositionType y, PositionType z);
+        void putTop(GLuint texture, int brightness, PositionType x,
+                    PositionType y, PositionType z);
         /**
          * add position to GraphicsBatch.
          * @param texture
@@ -71,7 +76,8 @@ class GraphicsRenderer {
          * @param y
          * @param z
          */
-        void putBottom(GLuint texture, int brightness, PositionType x, PositionType y, PositionType z);
+        void putBottom(GLuint texture, int brightness, PositionType x,
+                       PositionType y, PositionType z);
 
         /**
          * clear all vertex.
@@ -87,7 +93,8 @@ class GraphicsRenderer {
         void render();
 
        protected:
-        virtual std::shared_ptr<GraphicsBatch> createBatch(ofShader& shader) = 0;
+        virtual std::shared_ptr<GraphicsBatch> createBatch(
+            ofShader& shader) = 0;
 
        private:
         ofShader& shader;

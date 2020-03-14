@@ -50,8 +50,9 @@ class WorldIO {
          * @param world
          * @return
          */
-        static AsyncOperation saveJson(const std::string& outputFile,
-                                       const std::shared_ptr<FixedWorld>& world);
+        static AsyncOperation saveJson(
+            const std::string& outputFile,
+            const std::shared_ptr<FixedWorld>& world);
         /**
          * generate as Obj.
          * @param outputDir
@@ -69,7 +70,6 @@ class WorldIO {
         static AsyncOperation saveObj(const std::string& outputDir,
                                       const std::shared_ptr<FixedWorld>& world,
                                       int splitCount);
-
 
        private:
         template <typename T>

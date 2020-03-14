@@ -1,9 +1,9 @@
 #pragma once
 #include <ofMain.h>
 #include <ofShader.h>
+#include <ofxFirstPersonController.h>
 
 #include "MyBiome.hpp"
-#include <ofxFirstPersonController.h>
 
 namespace ofxPlanet {
 class Planet;
@@ -30,7 +30,7 @@ class ofApp : public ofBaseApp {
 
        private:
         ofShader shader;
-		ofxFirstPersonController::Controller fpsCon;
+        ofxFirstPersonController::Controller fpsCon;
         std::shared_ptr<ofxPlanet::FixedWorld> world;
         std::shared_ptr<MyBiome> biome;
 };
