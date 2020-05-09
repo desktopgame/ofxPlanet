@@ -46,9 +46,19 @@ public:
 	 * @param z
 	 * @return
 	 */
-    T get(int x, int y, int z) const {
+    const T& get(int x, int y, int z) const {
         return vec[x][y][z];
     }
+
+	/**
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @return
+	 */
+	T& get(int x, int y, int z) {
+		return vec[x][y][z];
+	}
 
 	/**
 	 * @param x
