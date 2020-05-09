@@ -52,7 +52,7 @@ void FixedWorld::computeBrightness() {
                 for (int y = 0; y < ySize; y++) {
                         for (int z = 0; z < zSize; z++) {
                                 auto block = getBlock(x, y, z);
-                                this->lightTable.setLight(x, y, z, 0);
+                                this->lightTable.set(x, y, z, 0);
                         }
                 }
         }
@@ -60,11 +60,11 @@ void FixedWorld::computeBrightness() {
                 for (int z = 0; z < zSize; z++) {
                         int y = getTopYForXZ(x, z);
                         int sunpower = 15;
-                        this->lightTable.setLight(x, y, z, sunpower--);
+                        this->lightTable.set(x, y, z, sunpower--);
                         for (; y >= 0 && sunpower > 0; y--) {
                                 auto block = getBlock(x, y, z);
                                 if (block != nullptr) {
-                                        lightTable.setLight(x, y, z,
+                                        lightTable.set(x, y, z,
                                                             sunpower--);
                                 }
                         }
@@ -87,7 +87,7 @@ bool FixedWorld::isFilled(int x, int y, int z) const {
 }
 
 int FixedWorld::getBrightness(int x, int y, int z) const {
-        return this->lightTable.getLight(x, y, z);
+        return this->lightTable.get(x, y, z);
 }
 
 ofShader& FixedWorld::getShader() { return shader; }

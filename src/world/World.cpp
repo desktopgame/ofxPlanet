@@ -52,7 +52,7 @@ int World::getBrightness(int x, int y, int z) const {
                 if (chunk->isContains(x, y, z)) {
                         x -= chunk->getXOffset();
                         z -= chunk->getZOffset();
-                        return sector->getLightTable().getLight(x, y, z);
+                        return sector->getLightTable().get(x, y, z);
                 }
         }
         return 15;

@@ -246,7 +246,7 @@ void Chunk::batch() {
                                                 continue;
                                         }
                                         int brightness =
-                                            sector->getLightTable().getLight(
+                                            sector->getLightTable().get(
                                                 nx, y, nz);
                                         block->batch(*sector.get(), *renderer,
                                                      brightness,

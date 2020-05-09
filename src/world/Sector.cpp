@@ -71,7 +71,7 @@ void Sector::computeBrightness() {
                 for (int y = 0; y < this->world.getYSize(); y++) {
                         for (int z = 0; z < this->chunk->getZSize(); z++) {
                                 auto block = getBlock(x, y, z);
-                                lightTable.setLight(x, y, z, 0);
+                                lightTable.set(x, y, z, 0);
                         }
                 }
         }
@@ -79,11 +79,11 @@ void Sector::computeBrightness() {
                 for (int z = 0; z < this->chunk->getZSize(); z++) {
                         int y = getTopYForXZ(x, z);
                         int sunpower = 15;
-                        lightTable.setLight(x, y, z, sunpower--);
+                        lightTable.set(x, y, z, sunpower--);
                         for (; y >= 0 && sunpower > 0; y--) {
                                 auto block = getBlock(x, y, z);
                                 if (block != nullptr) {
-                                        lightTable.setLight(x, y, z,
+                                        lightTable.set(x, y, z,
                                                             sunpower--);
                                 }
                         }

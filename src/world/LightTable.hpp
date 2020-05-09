@@ -2,42 +2,15 @@
 #ifndef WORLD_LIGHTTABLE_HPP
 #define WORLD_LIGHTTABLE_HPP
 #include <vector>
+#include "Array3D.hpp"
 
 namespace ofxPlanet {
 /**
  * LightTable.
  */
-class LightTable {
+class LightTable : public Array3D<int> {
        public:
         explicit LightTable(int xSize, int ySize, int zSize);
-
-        /**
-         * @param x
-         * @param y
-         * @param z
-         * @param light
-         */
-        void setLight(int x, int y, int z, int light);
-        /**
-         * @param x
-         * @param y
-         * @param z
-         * @return
-         */
-        int getLight(int x, int y, int z) const;
-
-        /**
-         * @return
-         */
-        int getXSize() const;
-        /**
-         * @return
-         */
-        int getYSize() const;
-        /**
-         * @return
-         */
-        int getZSize() const;
 
         /**
          * @param brightness
@@ -61,8 +34,6 @@ class LightTable {
         static constexpr float BLACK = 0.6f;
 
        private:
-        int xSize, ySize, zSize;
-        std::vector<std::vector<std::vector<int> > > vec;
 };
 }  // namespace ofxPlanet
 #endif
