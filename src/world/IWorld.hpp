@@ -82,6 +82,17 @@ class IWorld : public IAreaBounds {
          */
         virtual std::shared_ptr<Chunk> getCurrentChunk() = 0;
 
+		/**
+		 * @param brightness
+		 */
+		virtual void setSunBrightness(int sunBrightness) = 0;
+
+		/**
+		 * @return
+		 */
+		virtual int getSunBrightness() const = 0;
+
+
        private:
 };
 }  // namespace ofxPlanet

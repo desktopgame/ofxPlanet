@@ -78,7 +78,7 @@ void Sector::computeBrightness() {
         for (int x = 0; x < this->chunk->getXSize(); x++) {
                 for (int z = 0; z < this->chunk->getZSize(); z++) {
                         int y = getTopYForXZ(x, z);
-                        int sunpower = 15;
+                        int sunpower = world.getSunBrightness();
                         lightTable.set(x, y, z, sunpower--);
                         for (; y >= 0 && sunpower > 0; y--) {
                                 auto block = getBlock(x, y, z);

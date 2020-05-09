@@ -74,6 +74,12 @@ std::shared_ptr<Sector> World::getSector(int xOffset, int zOffset) const {
         return nullptr;
 }
 std::shared_ptr<Chunk> World::getCurrentChunk() { return this->currentChunk; }
+void World::setSunBrightness(int sunBrightness) {
+	this->sunBrightness = sunBrightness;
+}
+int World::getSunBrightness() const {
+	return this->sunBrightness;
+}
 // World
 void World::invalidateBrightness() {
         for (auto sector : this->sectorVec) {
@@ -150,7 +156,8 @@ World::World(ofShader& shader, int worldYSize)
       sectorVec(),
       shader(shader),
       currentChunk(nullptr),
-      biome(nullptr) {}
+      biome(nullptr),
+      sunBrightness(15) {}
 std::shared_ptr<Sector> World::findChunkImpl(int x, int z) const {
         int offsetX = computeChunkOffsetX(x);
         int offsetZ = computeChunkOffsetZ(z);

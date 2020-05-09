@@ -77,6 +77,8 @@ class FixedWorld : public IWorld {
         ChunkLoadStyle getChunkLoadStyle() const;
         std::shared_ptr<Sector> getSector(int xOffset, int zOffset) const;
         std::shared_ptr<Chunk> getCurrentChunk();
+		void setSunBrightness(int sunBrightness);
+		int getSunBrightness() const;
 
         /**
          * overwrite blocks by specified table.
@@ -229,6 +231,8 @@ class FixedWorld : public IWorld {
         explicit FixedWorld(ofShader& shader, const glm::ivec3& size);
         explicit FixedWorld(ofShader& shader, int xSize, int ySize, int zSize);
         void updateNeighborChunks();
+		void lightDiffusion(int x, int y, int z, int brightness);
+		void lightDiffusion2(int x, int y, int z, int brightness, std::vector<glm::ivec3>& v);
 
         std::vector<std::vector<std::vector<std::shared_ptr<Block> > > > blocks;
         int xSize, ySize, zSize;
@@ -239,6 +243,7 @@ class FixedWorld : public IWorld {
         glm::vec3 viewPosition;
         int viewRange;
         std::shared_ptr<Chunk> currentChunk;
+		int sunBrightness;
 
         bool invalidBrightCache;
 };

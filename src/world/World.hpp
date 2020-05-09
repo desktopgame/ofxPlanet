@@ -36,6 +36,8 @@ class World : public IWorld {
         ChunkLoadStyle getChunkLoadStyle() const;
         std::shared_ptr<Sector> getSector(int xOffset, int zOffset) const;
         std::shared_ptr<Chunk> getCurrentChunk();
+		void setSunBrightness(int sunBrightness);
+		int getSunBrightness() const;
 
         // World
         void invalidateBrightness();
@@ -80,6 +82,7 @@ class World : public IWorld {
         ofShader& shader;
         std::shared_ptr<Chunk> currentChunk;
         std::shared_ptr<Biome> biome;
+		int sunBrightness;
 };
 }  // namespace ofxPlanet
 #endif

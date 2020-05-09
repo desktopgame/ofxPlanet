@@ -59,7 +59,7 @@ void FixedWorld::computeBrightness() {
         for (int x = 0; x < xSize; x++) {
                 for (int z = 0; z < zSize; z++) {
                         int y = getTopYForXZ(x, z);
-                        int sunpower = 15;
+                        int sunpower = getSunBrightness();
                         this->lightTable.set(x, y, z, sunpower--);
                         for (; y >= 0 && sunpower > 0; y--) {
                                 auto block = getBlock(x, y, z);
@@ -70,6 +70,15 @@ void FixedWorld::computeBrightness() {
                         }
                 }
         }
+		for (int x = 0; x < this->getXSize(); x++) {
+			for (int y = 0; y < this->getYSize(); y++) {
+				for (int z = 0; z < this->getZSize(); z++) {
+					auto block = getBlock(x, y, z);
+					if (!block) { continue; }
+					lightDiffusion(x, y, z, block->getBrightness());
+				}
+			}
+		}
         this->invalidBrightCache = false;
 }
 
@@ -120,6 +129,14 @@ std::shared_ptr<Chunk> FixedWorld::getCurrentChunk() {
                 this->updateNeighborChunks();
         }
         return this->currentChunk;
+}
+
+void FixedWorld::setSunBrightness(int sunBrightness) {
+	this->sunBrightness = sunBrightness;
+}
+
+int FixedWorld::getSunBrightness() const {
+	return this->sunBrightness;
 }
 
 // World
@@ -412,7 +429,8 @@ FixedWorld::FixedWorld(ofShader& shader, int xSize, int ySize, int zSize)
       chunk(Chunk::create(*this, 0, 0, xSize, zSize)),
       shader(shader),
       lightTable(xSize, ySize, zSize),
-      invalidBrightCache(true) {}
+      invalidBrightCache(true),
+      sunBrightness(15) {}
 void FixedWorld::updateNeighborChunks() {
         this->chunk->hide();
         auto neighbor =
@@ -420,6 +438,34 @@ void FixedWorld::updateNeighborChunks() {
         for (auto nc : neighbor) {
                 nc->setVisible(true);
         }
+}
+
+void FixedWorld::lightDiffusion(int x, int y, int z, int brightness) {
+	std::vector<glm::ivec3> v;
+	lightDiffusion2(x, y, z, brightness, v);
+}
+void FixedWorld::lightDiffusion2(int x, int y, int z, int brightness, std::vector<glm::ivec3>& v) {
+	if (brightness <= 0) {
+		return;
+	}
+	if (!lightTable.contains(x, y, z)) {
+		return;
+	}
+	glm::ivec3 pos(x, y, z);
+	if (std::find_if(v.begin(), v.end(), [pos](auto e) -> bool {
+		return e.x == pos.x && e.y == pos.y && e.z == pos.z;
+	}) != v.end()) {
+		return;
+	}
+	v.emplace_back(pos);
+	int l = lightTable.get(x, y, z);
+	lightTable.set(x, y, z, std::min(LightTable::BRIGHTNESS_MAX, l + brightness));
+	lightDiffusion2(x + 1, y, z, brightness - 1, v);
+	lightDiffusion2(x, y + 1, z, brightness - 1, v);
+	lightDiffusion2(x, y, z + 1, brightness - 1, v);
+	lightDiffusion2(x - 1, y, z, brightness - 1, v);
+	lightDiffusion2(x, y - 1, z, brightness - 1, v);
+	lightDiffusion2(x, y, z - 1, brightness - 1, v);
 }
 RaycastResult::RaycastResult()
     : normal(0, 0, 0), position(0, 0, 0), hit(false) {}
