@@ -7,55 +7,12 @@
 
 #include "IntVec3Compare.hpp"
 #include "MultiBlock.hpp"
+#include "BlockPrefab.hpp"
+#include "BlockArea.hpp"
 #include "engine/Terrain.hpp"
 
 namespace ofxPlanet {
-/**
- * BlockPrefab is information for generate block to world.
- */
-struct BlockPrefab {
-        explicit BlockPrefab(int id, bool instanced);
-        explicit BlockPrefab();
-        int id;
-        bool instanced;
-};
 
-/**
- * BlockArea is point list for same height and connected on X or Z direction.
- */
-class BlockArea {
-       public:
-        explicit BlockArea();
-
-        /**
-         * add point.
-         * @param point
-         */
-        void addPoint(glm::ivec3 point);
-        /**
-         * returns point from index.
-         * @param i
-         * @return
-         */
-        glm::ivec3 getPoint(int i) const;
-        /**
-         * returns count of points.
-         * @return
-         */
-        int getPointCount() const;
-        /**
-         * returns points.
-         * @return
-         */
-        std::vector<glm::ivec3> getPoints() const;
-        /**
-         * compute a 2D size.
-         */
-        glm::ivec3 compute2DSize() const;
-
-       private:
-        std::vector<glm::ivec3> points;
-};
 /**
  * BlockTable is cotain BlockPrefab in three dimensional array.
  * using as intermediate representation for world generation process.
