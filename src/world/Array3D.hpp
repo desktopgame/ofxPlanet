@@ -51,6 +51,16 @@ public:
     }
 
 	/**
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @return
+	 */
+	bool contains(int x, int y, int z) const {
+		return x >= 0 && y >= 0 && z >= 0 && x < xSize && y < ySize && z < zSize;
+	}
+
+	/**
 	 * @return
 	 */
 	int getXSize() const {
