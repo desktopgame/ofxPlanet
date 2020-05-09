@@ -8,31 +8,10 @@
 namespace ofxPlanet {
 // BlockTable
 BlockTable::BlockTable(int xSize, int ySize, int zSize)
-    : xSize(xSize), ySize(ySize), zSize(zSize), terrain(), vec() {
-        for (int x = 0; x < xSize; x++) {
-                std::vector<std::vector<BlockPrefab>> xline;
-                for (int y = 0; y < ySize; y++) {
-                        std::vector<BlockPrefab> yline;
-                        for (int z = 0; z < zSize; z++) {
-                                yline.emplace_back(BlockPrefab());
-                        }
-                        xline.emplace_back(yline);
-                }
-                vec.emplace_back(xline);
-        }
+    : Array3D<BlockPrefab>(xSize, ySize, zSize, BlockPrefab()), terrain() {
 }
 
-BlockTable::BlockTable() : xSize(-1), ySize(-1), zSize(-1), terrain(), vec() {}
-
-void BlockTable::setBlock(int x, int y, int z, const BlockPrefab& block) {
-        vec[x][y][z] = block;
-}
-
-BlockPrefab& BlockTable::getBlock(int x, int y, int z) { return vec[x][y][z]; }
-
-const BlockPrefab& BlockTable::getBlock(int x, int y, int z) const {
-        return vec.at(x).at(y).at(z);
-}
+BlockTable::BlockTable() : BlockTable(-1,-1,-1) {}
 
 std::vector<std::tuple<glm::ivec3, int>> BlockTable::expandTargets(
     int baseX, int baseY, int baseZ, const MultiBlock& mb) const {
@@ -59,9 +38,9 @@ void BlockTable::expand(int baseX, int baseY, int baseZ, const MultiBlock& mb) {
                 }
                 int id = std::get<1>(point);
                 if (id < 0) {
-                        setBlock(pos.x, pos.y, pos.z, BlockPrefab(-1, false));
+                        set(pos.x, pos.y, pos.z, BlockPrefab(-1, false));
                 } else {
-                        setBlock(pos.x, pos.y, pos.z, BlockPrefab(id, false));
+                        set(pos.x, pos.y, pos.z, BlockPrefab(id, false));
                 }
         }
 }
@@ -74,7 +53,7 @@ bool BlockTable::canExpand(int baseX, int baseY, int baseZ,
                 if (!contains(pos.x, pos.y, pos.z)) {
                         return false;
                 }
-                int oldId = getBlock(pos.x, pos.y, pos.z).id;
+                int oldId = get(pos.x, pos.y, pos.z).id;
                 int newId = std::get<1>(point);
                 if (newId < 0) {
                         continue;
@@ -90,7 +69,7 @@ bool BlockTable::canExpand(int baseX, int baseY, int baseZ,
                                     return std::get<0>(e) == bottom;
                             });
                         if (iter == points.end()) {
-                                if (getBlock(bottom.x, bottom.y, bottom.z).id ==
+                                if (get(bottom.x, bottom.y, bottom.z).id ==
                                     -1) {
                                         return false;
                                 }
@@ -100,15 +79,9 @@ bool BlockTable::canExpand(int baseX, int baseY, int baseZ,
         return true;
 }
 
-bool BlockTable::contains(int x, int y, int z) const {
-        if (x < 0 || y < 0 || z < 0) return false;
-        if (x >= xSize || y >= ySize || z >= zSize) return false;
-        return true;
-}
-
 int BlockTable::getTopYForXZ(int x, int z) const {
         for (int i = ySize - 1; i >= 0; i--) {
-                if (getBlock(x, i, z).id != -1) {
+                if (get(x, i, z).id != -1) {
                         return i;
                 }
         }
@@ -144,7 +117,7 @@ int BlockTable::getStackableHeight(const BlockArea& blockArea) const {
                         auto pos = *iter;
                         pos.y += stack;
                         if (pos.y >= getYSize() ||
-                            getBlock(pos.x, pos.y, pos.z).id != -1) {
+                            get(pos.x, pos.y, pos.z).id != -1) {
                                 exit = true;
                                 break;
                         }
@@ -154,11 +127,6 @@ int BlockTable::getStackableHeight(const BlockArea& blockArea) const {
         return stack;
 }
 
-int BlockTable::getXSize() const { return xSize; }
-
-int BlockTable::getYSize() const { return ySize; }
-
-int BlockTable::getZSize() const { return zSize; }
 void BlockTable::setTerrain(const Terrain terrain) { this->terrain = terrain; }
 Terrain BlockTable::getTerrain() const { return terrain; }
 // private

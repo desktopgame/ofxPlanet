@@ -5,6 +5,7 @@
 #include <tuple>
 #include <vector>
 
+#include "Array3D.hpp"
 #include "IntVec3Compare.hpp"
 #include "MultiBlock.hpp"
 #include "BlockPrefab.hpp"
@@ -17,36 +18,10 @@ namespace ofxPlanet {
  * BlockTable is cotain BlockPrefab in three dimensional array.
  * using as intermediate representation for world generation process.
  */
-class BlockTable {
+class BlockTable : public Array3D<BlockPrefab> {
        public:
         explicit BlockTable(int xSize, int ySize, int zSize);
         BlockTable();
-        /**
-         * overwrite BlockPrefab for specific position.
-         * @param x
-         * @param y
-         * @param z
-         * @param block
-         */
-        void setBlock(int x, int y, int z, const BlockPrefab& block);
-
-        /**
-         * returns BlockPrefab for specific position.
-         * @param x
-         * @param y
-         * @param z
-         * @return
-         */
-        BlockPrefab& getBlock(int x, int y, int z);
-
-        /**
-         * returns BlockPrefab for specific position.
-         * @param x
-         * @param y
-         * @param z
-         * @return
-         */
-        const BlockPrefab& getBlock(int x, int y, int z) const;
 
         /**
          * returns a generation points for specific structure at specific
@@ -79,14 +54,6 @@ class BlockTable {
                        const MultiBlock& mb) const;
 
         /**
-         * return true if included in table a specific position.
-         * @param x
-         * @param y
-         * @param z
-         * @return
-         */
-        bool contains(int x, int y, int z) const;
-        /**
          * returns most high Y point for specific position.
          * @param x
          * @param z
@@ -107,22 +74,6 @@ class BlockTable {
         int getStackableHeight(const BlockArea& blockArea) const;
 
         /**
-         * returns x-axis from table size.
-         * @return
-         */
-        int getXSize() const;
-        /**
-         * returns y-axis from table size.
-         * @return
-         */
-        int getYSize() const;
-        /**
-         * returns z-axis from table size.
-         * @return
-         */
-        int getZSize() const;
-
-        /**
          * overwrite terrain.
          * @param terrain
          */
@@ -140,9 +91,7 @@ class BlockTable {
         void addPos(glm::ivec3 pos, glm::ivec3 newPos,
                     std::set<glm::ivec3, IntVec3Compare>& set,
                     BlockArea& area) const;
-        int xSize, ySize, zSize;
         Terrain terrain;
-        std::vector<std::vector<std::vector<BlockPrefab> > > vec;
 };
 }  // namespace ofxPlanet
 #endif

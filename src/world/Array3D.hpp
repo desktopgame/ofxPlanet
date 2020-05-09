@@ -9,7 +9,7 @@ namespace ofxPlanet {
 template<typename T>
 class Array3D {
 public:
-	using Line = std::vector<T>;
+	using Line = typename std::vector<T>;
 	using Table = std::vector<Line>;
 	using Container = std::vector<Table>;
     explicit Array3D(int xSize, int ySize, int zSize, T defautValue)
@@ -94,56 +94,56 @@ public:
 	/**
 	 * @return
 	 */
-	Container::iterator begin() {
+	typename Container::iterator begin() {
 		return vec.begin();
 	}
 
 	/**
 	 * @return
 	 */
-	Container::iterator end() {
+	typename Container::iterator end() {
 		return vec.end();
 	}
 
 	/**
 	 * @return
 	 */
-	Container::const_iterator cbegin() {
+	typename Container::const_iterator cbegin() {
 		return vec.cbegin();
 	}
 
 	/**
 	 * @return
 	 */
-	Container::const_iterator cend() {
+	typename Container::const_iterator cend() {
 		return vec.cend();
 	}
 
 	/** 
 	 * @return
 	 */
-	Container::iterator rbegin() {
+	typename Container::reverse_iterator rbegin() {
 		return vec.rbegin();
 	}
 
 	/**
 	 * @return
 	 */
-	Container::iterator rend() {
+	typename Container::reverse_iterator rend() {
 		return vec.rend();
 	}
 
 	/**
 	 * @return
 	 */
-	Container::const_iterator crbegin() {
+	typename Container::const_reverse_iterator crbegin() {
 		return vec.crbegin();
 	}
 
 	/**
 	 * @return
 	 */
-	Container::const_iterator crend() {
+	typename Container::const_reverse_iterator crend() {
 		return vec.crend();
 	}
 protected:

@@ -245,17 +245,17 @@ std::shared_ptr<Chunk> World::loadOrGenChunkRange(int x, int z, int xOffset,
                                         leftTopSector->setBlock(
                                             x, y, z,
                                             bp->getBlock(
-                                                bt.getBlock(x, y, z).id));
+                                                bt.get(x, y, z).id));
                                         topSector->setBlock(
                                             x, y, z,
                                             bp->getBlock(
-                                                bt.getBlock((chunkXSize) + x, y,
+                                                bt.get((chunkXSize) + x, y,
                                                             z)
                                                     .id));
                                         rightTopSector->setBlock(
                                             x, y, z,
                                             bp->getBlock(
-                                                bt.getBlock(
+                                                bt.get(
                                                       (chunkXSize * 2) + x, y,
                                                       z)
                                                     .id));
@@ -263,19 +263,19 @@ std::shared_ptr<Chunk> World::loadOrGenChunkRange(int x, int z, int xOffset,
                                         leftSector->setBlock(
                                             x, y, z,
                                             bp->getBlock(
-                                                bt.getBlock(x, y,
+                                                bt.get(x, y,
                                                             z + chunkZSize)
                                                     .id));
                                         centerSector->setBlock(
                                             x, y, z,
                                             bp->getBlock(
-                                                bt.getBlock((chunkXSize) + x, y,
+                                                bt.get((chunkXSize) + x, y,
                                                             z + chunkZSize)
                                                     .id));
                                         rightSector->setBlock(
                                             x, y, z,
                                             bp->getBlock(
-                                                bt.getBlock(
+                                                bt.get(
                                                       (chunkXSize * 2) + x, y,
                                                       z + chunkZSize)
                                                     .id));
@@ -283,21 +283,21 @@ std::shared_ptr<Chunk> World::loadOrGenChunkRange(int x, int z, int xOffset,
                                         leftBottomSector->setBlock(
                                             x, y, z,
                                             bp->getBlock(
-                                                bt.getBlock(
+                                                bt.get(
                                                       x, y,
                                                       z + (chunkZSize * 2))
                                                     .id));
                                         bottomSector->setBlock(
                                             x, y, z,
                                             bp->getBlock(
-                                                bt.getBlock(
+                                                bt.get(
                                                       (chunkXSize) + x, y,
                                                       z + (chunkZSize * 2))
                                                     .id));
                                         rightBottomSector->setBlock(
                                             x, y, z,
                                             bp->getBlock(
-                                                bt.getBlock(
+                                                bt.get(
                                                       (chunkXSize * 2) + x, y,
                                                       z + (chunkZSize * 2))
                                                     .id));

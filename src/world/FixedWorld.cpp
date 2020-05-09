@@ -128,7 +128,7 @@ void FixedWorld::load(const BlockTable& table) {
         for (int x = 0; x < table.getXSize(); x++) {
                 for (int y = 0; y < table.getYSize(); y++) {
                         for (int z = 0; z < table.getZSize(); z++) {
-                                BlockPrefab i = table.getBlock(x, y, z);
+                                BlockPrefab i = table.get(x, y, z);
                                 if (i.id == -1) {
                                         continue;
                                 }
