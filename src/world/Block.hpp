@@ -87,6 +87,16 @@ class Block {
          */
         int getID() const;
 
+		/**
+		 * @param brightness
+		 */
+		void setBrightness(int brightness);
+
+		/**
+		 * @return
+		 */
+		int getBrightness() const;
+
        protected:
        private:
         BlockShape shape;
@@ -94,6 +104,7 @@ class Block {
         std::string name;
         int id;
         int textureSetIndex;
+		int brightness;
 };
 }  // namespace ofxPlanet
 #endif

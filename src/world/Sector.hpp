@@ -3,6 +3,7 @@
 #define WORLD_SECTOR_HPP
 #include <memory>
 #include <vector>
+#include <glm/glm.hpp>
 
 #include "IAreaBounds.hpp"
 #include "LightTable.hpp"
@@ -34,6 +35,8 @@ class Sector : public IAreaBounds {
         bool isGenerated() const;
 
        private:
+		void lightDiffusion(int x, int y, int z, int brightness);
+		void lightDiffusion2(int x, int y, int z, int brightness, std::vector<glm::ivec3>& v);
         IWorld& world;
         std::vector<std::vector<std::vector<std::shared_ptr<Block> > > > table;
         std::shared_ptr<Chunk> chunk;

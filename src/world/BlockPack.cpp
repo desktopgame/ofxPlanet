@@ -14,6 +14,7 @@ std::shared_ptr<BlockPack> BlockPack::load(
                 auto block =
                     std::make_shared<Block>(stringToBlockShape(info.shape),
                                             info.reference, info.textue, i);
+				block->setBrightness(info.brightness);
                 ret->addBlock(block);
         }
         return registerBlockPack(ret);

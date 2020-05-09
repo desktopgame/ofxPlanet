@@ -14,7 +14,8 @@ Block::Block(BlockShape shape, const std::string& name,
       name(name),
       textureReference(textureReference),
       id(id),
-      textureSetIndex(-1) {}
+      textureSetIndex(-1),
+      brightness(0) {}
 void Block::batch(const IAreaBounds& areaBounds, BlockRenderer& renderer,
                   int brightness, const glm::ivec3& modelPosition,
                   const glm::ivec3& viewPosition) {
@@ -133,5 +134,13 @@ BlockShape stringToBlockShape(const std::string& str) {
                 return BlockShape::BottomSlab;
         }
         return BlockShape::Block;
+}
+
+void Block::setBrightness(int brightness) {
+	this->brightness = brightness;
+}
+
+int Block::getBrightness() const {
+	return this->brightness;
 }
 }  // namespace ofxPlanet

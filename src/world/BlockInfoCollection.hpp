@@ -13,6 +13,7 @@ struct BlockInfo {
         std::string textue;
         std::string reference;
         std::string shape;
+		int brightness;
 };
 /**
  * BlockInfoCollection is collection of BlockInfo.

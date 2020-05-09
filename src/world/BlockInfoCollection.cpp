@@ -12,6 +12,7 @@ std::string BlockInfoCollection::serialize() const {
                 blockO["texture"] = blockInfo.textue;
                 blockO["reference"] = blockInfo.reference;
                 blockO["shape"] = blockInfo.shape;
+				blockO["brightness"] = blockInfo.brightness;
                 blocksA.push_back(blockO);
         }
         rootO["blocks"] = blocksA;
@@ -37,6 +38,9 @@ void BlockInfoCollection::deserialize(const std::string& json) {
                 bi.textue = textureV.get<std::string>();
                 bi.reference = referenceV.get<std::string>();
                 bi.shape = shape;
+				if (blockO.contains("brightness")) {
+					bi.brightness = blockO["brightness"].get<int>();
+				}
                 blockInfoVec.emplace_back(bi);
                 ++blocksIter;
         }
@@ -64,5 +68,5 @@ bool BlockInfoCollection::tryGetBlockInfo(const std::string& reference,
 int BlockInfoCollection::getBlockInfoCount() const {
         return static_cast<int>(blockInfoVec.size());
 }
-BlockInfo::BlockInfo() : textue(), reference(), shape() {}
+BlockInfo::BlockInfo() : textue(), reference(), shape(), brightness() {}
 }  // namespace ofxPlanet
