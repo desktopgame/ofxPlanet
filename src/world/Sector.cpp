@@ -78,7 +78,7 @@ void Sector::computeBrightness() {
         for (int x = 0; x < this->chunk->getXSize(); x++) {
                 for (int z = 0; z < this->chunk->getZSize(); z++) {
                         int y = getTopYForXZ(x, z);
-                        int sunpower = world.getSunBrightness();
+						int sunpower = world.getSunBrightness();
                         lightTable.set(x, y, z, sunpower--);
                         for (; y >= 0 && sunpower > 0; y--) {
                                 auto block = getBlock(x, y, z);
@@ -106,30 +106,45 @@ void Sector::setGenerated(bool b) { this->generated = b; }
 bool Sector::isGenerated() const { return this->generated; }
 // private
 void Sector::lightDiffusion(int x, int y, int z, int brightness) {
-	std::vector<glm::ivec3> v;
-	lightDiffusion2(x, y, z, brightness, v);
-}
-void Sector::lightDiffusion2(int x, int y, int z, int brightness, std::vector<glm::ivec3>& v) {
-	if (brightness <= 0) {
-		return;
+	int l = lightTable.get(x, y, z);
+	lightTable.set(x, y, z, std::min(LightTable::BRIGHTNESS_MAX, l + brightness));
+
+	struct Ring {
+		glm::ivec3 a;
+		glm::ivec3 b;
+		glm::ivec3 c;
+		glm::ivec3 d;
+		glm::ivec3 e;
+		glm::ivec3 f;
+		glm::ivec3 g;
+		glm::ivec3 h;
+	};
+	std::vector<Ring> rings;
+	for (int i = 1; i < brightness; i++) {
+		int xp = x + i;
+		int xn = x - i;
+		int yp = y + i;
+		int yn = y - i;
+		int zp = z + i;
+		int zn = z - i;
+
+		Ring ring;
+		ring.a = glm::ivec3(xp, y, zp);
+		ring.b = glm::ivec3(x, y, zp);
+		ring.c = glm::ivec3(xn, y, zp);
+
+		ring.d = glm::ivec3(xp, y, zn);
+		ring.e = glm::ivec3(x, y, zn);
+		ring.f = glm::ivec3(xn, y, zn);
+
+		ring.g = glm::ivec3(xp, y, z);
+		ring.h = glm::ivec3(xn, y, z);
+		rings.emplace_back(ring);
 	}
+}
+void Sector::lightDiffusion2(int x, int y, int z, BlockSide side) {
 	if (!lightTable.contains(x, y, z)) {
 		return;
 	}
-	glm::ivec3 pos(x, y, z);
-	if (std::find_if(v.begin(), v.end(), [pos](auto e) -> bool {
-		return e.x == pos.x && e.y == pos.y && e.z == pos.z;
-	}) != v.end()) {
-		return;
-	}
-	v.emplace_back(pos);
-	int l = lightTable.get(x, y, z);
-	lightTable.set(x, y, z, std::min(LightTable::BRIGHTNESS_MAX, l + brightness));
-	lightDiffusion2(x + 1, y, z, brightness - 1, v);
-	lightDiffusion2(x, y + 1, z, brightness - 1, v);
-	lightDiffusion2(x, y, z + 1, brightness - 1, v);
-	lightDiffusion2(x - 1, y, z, brightness - 1, v);
-	lightDiffusion2(x, y - 1, z, brightness - 1, v);
-	lightDiffusion2(x, y, z - 1, brightness - 1, v);
 }
 }  // namespace ofxPlanet

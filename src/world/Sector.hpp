@@ -7,6 +7,7 @@
 
 #include "IAreaBounds.hpp"
 #include "LightTable.hpp"
+#include "BlockSide.hpp"
 
 namespace ofxPlanet {
 class IWorld;
@@ -36,7 +37,7 @@ class Sector : public IAreaBounds {
 
        private:
 		void lightDiffusion(int x, int y, int z, int brightness);
-		void lightDiffusion2(int x, int y, int z, int brightness, std::vector<glm::ivec3>& v);
+		void lightDiffusion2(int x, int y, int z, BlockSide side);
         IWorld& world;
         std::vector<std::vector<std::vector<std::shared_ptr<Block> > > > table;
         std::shared_ptr<Chunk> chunk;
